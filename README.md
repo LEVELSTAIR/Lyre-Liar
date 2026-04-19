@@ -1,75 +1,63 @@
-# Werewolf (Mafia) — Godot social deduction game
+# Project Werewolf — 2D Multiplayer Platformer
 
-An open-source Godot implementation of the classic social deduction party game Werewolf (also called Mafia). Players are secretly assigned roles and must use discussion, bluffing, and voting to survive.
+[![Godot Engine](https://img.shields.io/badge/Godot-4.6-blue?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Networking](https://img.shields.io/badge/Network-WebRTC-green)](https://webrtc.org)
+[![Physics](https://img.shields.io/badge/Physics-Jolt-orange)](https://github.com/godot-jolt/godot-jolt)
 
-## Overview
+An advanced 2D multiplayer platformer built with **Godot 4.6**, focusing on high-performance synchronization, mobile-first responsive design, and peer-to-peer networking via WebRTC.
 
-Werewolf is a turn-based social game of deception and deduction. Each round alternates between Night (hidden actions) and Day (public discussion and voting). The core tension comes from secret roles, social bluffing, and trying to read other players.
+This is the official repository for **Project Werewolf**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/project-werewolf).
 
-## Core rules (short)
+## 🚀 Key Features
 
-- Night: Players with hidden roles (e.g., werewolves) perform secret actions. Most players sleep and do nothing.
-- Day: All players discuss, accuse, defend, and then vote to eliminate one player.
-- Goal: Villagers win by eliminating all werewolves. Werewolves win by reducing villagers to parity.
+*   **⚡ WebRTC Multiplayer**: Robust peer-to-peer networking using a custom WebSocket signaling server for room creation and peer discovery.
+*   **🛠️ Authority-Based Sync**: Advanced physics synchronization with client-side prediction, authority reporting, and server-side state correction to ensure smooth gameplay.
+*   **📱 Mobile-First UI**: Fully responsive UI designed for mobile viewports (360×640) with dedicated virtual controls and dynamic scaling.
+*   **🏗️ Dynamic World Generation**: Tile-based level construction system with support for custom terrain types (Grass, Dirt, Stone, Fungus, etc.) and kill-zone mechanics.
+*   **⚙️ Jolt Physics Integration**: Leverages the high-performance Jolt Physics engine for accurate and efficient 2D character movement.
 
-Common roles (configurable): Villager, Werewolf, Seer, Doctor, Moderator.
+## 🛠️ Getting Started
 
-## Features (planned)
+### 1. Signaling Server Setup
+The game requires a signaling server to coordinate WebRTC connections.
 
-- Local and online play (Godot multiplayer integration)
-- Configurable roles and round settings
-- Spectator mode and replays
-- Simple UI and keyboard/controller support
+```bash
+cd signaling_server
+npm install
+npm start
+```
+*The server defaults to `ws://localhost:9080`.*
 
-## Getting started
+### 2. Godot Project Configuration
+1.  Open the project in **Godot 4.6+**.
+2.  In `scripts/multiplayer_manager.gd`, ensure the `signaling_server_url` matches your local or deployed server.
+3.  Run the project (`F5`).
 
-Requirements
+### 3. Playing
+*   **Host**: Select "Host" from the main menu to generate a 4-character Room Code.
+*   **Join**: Enter the Room Code on another client to connect via WebRTC.
 
-- Godot 4.x (recommended). Use the official Godot editor to open the project.
+## 📂 Project Structure
 
-Quick start
+*   `scenes/` — Game scenes (Main Menu, Levels, Player, Mobile Controls).
+*   `scripts/` — Core logic including `MultiplayerManager.gd` and `ResponsiveUI.gd`.
+*   `signaling_server/` — Node.js WebSocket server for WebRTC signaling.
+*   `addons/webrtc/` — Godot WebRTC extension.
+*   `asset/` — Terrain textures, icons, and player sprites.
 
-1. Clone the repo:
+## 📋 Development Notes
 
-   git clone <repo-url>
+*   **Responsive UI**: The `ResponsiveUI` autoload handles dynamic scaling for different screen aspects.
+*   **Multiplayer**: Game logic is split between local authority and server verification. See `player.gd` for RPC implementation details (`_sync_position`, `_force_correction`).
+*   **Physics**: Configured to use Jolt Physics for better stability in multiplayer environments.
 
-2. Open the project folder in Godot (open `project.godot`).
+## 🤝 Contributing
 
-3. Run the main scene from the Godot editor.
+We welcome contributions! Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for our workflow and coding standards.
 
-Development notes
+## 📄 License
 
-- Keep game logic decoupled from networking to allow offline play and easier testing.
-- Use scenes and signals for clear flow between UI and game state.
-
-## Contributing
-
-We welcome contributions. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for code style, branch workflow, and PR guidelines.
-
-Guidelines
-
-- Keep PRs focused (one feature/fix per PR).
-- Add tests where practical and keep changes small and well-documented.
-
-## Project structure (high level)
-
-- `project.godot` — Godot project file
-- `scenes/` — Godot scenes (UI, game, roles)
-- `scripts/` — GDScript or C# game logic
-- `assets/` — art, icons, audio
-- `CONTRIBUTING.md` — contribution rules
-- `LICENSE.md` — project license
-
-Adjust the structure as needed; keep code modular and documented.
-
-## License
-
-This project uses the license in `LICENSE.md`.
-
-## Want to help?
-
-Open issues, suggest roles or balance changes, and submit small PRs to get started. If you'd like, mention what you'd like to work on and we can point you at a good first issue.
+This project is licensed under the terms found in [LICENSE.md](./LICENSE.md).
 
 ---
-
-Thanks for helping build a friendly, open-source Werewolf implementation!
+*Built with ❤️ using Godot and WebRTC.*
