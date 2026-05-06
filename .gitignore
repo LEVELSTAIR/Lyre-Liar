@@ -7,8 +7,28 @@
 .import/
 export.cfg
 export_credentials.cfg
+*.apk
+*.exe
+*.zip
+builds/
 
-# Imported translations (automatically generated from CSV files)
+# Node.js (Signaling Server)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# OS-specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Imported translations
 *.translation
 
 # Mono-specific ignores
