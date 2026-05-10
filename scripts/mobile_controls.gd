@@ -18,6 +18,12 @@ var _mouse_pressed := false
 
 
 func _ready() -> void:
+	# Hide if not on mobile and not in editor
+	if OS.get_name() in ["macOS", "Windows", "Linux"] and not OS.has_feature("editor"):
+		visible = false
+		set_process_input(false)
+		return
+
 	ResponsiveUI.scale_changed.connect(_apply_layout)
 	resized.connect(func(): _apply_layout(ResponsiveUI.scale_factor))
 	_apply_layout(ResponsiveUI.scale_factor)

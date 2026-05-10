@@ -7,17 +7,25 @@ signal room_code_ready(code: String)
 signal connection_failed(reason: String)
 signal player_connected(session_id: String)
 signal player_disconnected(session_id: String)
-signal connected_to_game
+signal connected_to_game(mode: String)
 signal server_disconnected
 signal player_state_changed(session_id: String, state: Dictionary)
 
+var active_players: Array[String] = []
+
 var session_id: String = ""
+
 var room_code: String = ""
 var is_hosting_intent: bool = false
 var join_intent_code: String = ""
+var selected_mode: String = "day"
+
 
 var _ws: WebSocketPeer = null
-var _server_url := "ws://localhost:2567"
+var server_ip: String = "localhost"
+var _server_url: String:
+	get:
+		return "ws://" + server_ip + ":2567"
 var _connected := false
 
 
@@ -35,9 +43,10 @@ func _process(_delta: float) -> void:
 			print("WebSocket connected to server")
 			# Send host or join request
 			if is_hosting_intent:
-				_send({"type": "host"})
+				_send({"type": "host", "mode": selected_mode})
 			elif join_intent_code != "":
 				_send({"type": "join", "roomCode": join_intent_code})
+
 
 		# Process all queued messages
 		while _ws.get_available_packet_count() > 0:
@@ -52,11 +61,16 @@ func _process(_delta: float) -> void:
 		var reason := _ws.get_close_reason()
 		print("WebSocket closed [", code, "]: ", reason)
 		_ws = null
-		_connected = false
-		if session_id != "":
+		
+		if _connected:
+			_connected = false
 			session_id = ""
 			room_code = ""
+			active_players.clear()
 			server_disconnected.emit()
+		else:
+			# If it closed without ever connecting, it's a connection failure
+			connection_failed.emit("Server unreachable or refused connection")
 
 
 func host_game() -> void:
@@ -99,34 +113,42 @@ func _handle_message(raw: String) -> void:
 
 	match msg_type:
 		"hosted":
-			session_id = msg["sessionId"]
 			room_code = msg["roomCode"]
-			print("Hosted room: ", room_code, " (session: ", session_id, ")")
+			selected_mode = msg.get("mode", "day")
+			print("Hosted room: ", room_code, " (session: ", session_id, ") Mode: ", selected_mode)
 			room_code_ready.emit(room_code)
-			connected_to_game.emit()
+			connected_to_game.emit(selected_mode)
 			# Spawn ourselves — server doesn't send player_joined to self
+			if not active_players.has(session_id):
+				active_players.append(session_id)
 			player_connected.emit(session_id)
 
+
 		"joined":
+
 			session_id = msg["sessionId"]
 			room_code = msg["roomCode"]
-			print("Joined room: ", room_code, " (session: ", session_id, ")")
+			selected_mode = msg.get("mode", "day")
+			print("Joined room: ", room_code, " (session: ", session_id, ") Mode: ", selected_mode)
 			room_code_ready.emit(room_code)
-			connected_to_game.emit()
+			connected_to_game.emit(selected_mode)
 			# Spawn ourselves — server doesn't send player_joined to self
+			if not active_players.has(session_id):
+				active_players.append(session_id)
 			player_connected.emit(session_id)
+
 
 		"player_joined":
 			var pid: String = msg["sessionId"]
-			# Guard against duplicate spawn if server echoes our own id
-			if pid == session_id:
-				return
-			print("Player connected: ", pid)
+			print("Player joined: ", pid)
+			if not active_players.has(pid):
+				active_players.append(pid)
 			player_connected.emit(pid)
 
 		"player_left":
 			var pid: String = msg["sessionId"]
-			print("Player disconnected: ", pid)
+			print("Player left: ", pid)
+			active_players.erase(pid)
 			player_disconnected.emit(pid)
 
 		"player_moved":

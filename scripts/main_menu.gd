@@ -29,6 +29,11 @@ const BASE_FONT_VERSION: int = 12
 @onready var quit_button: Button = $VBox/QuitButton
 @onready var version_label: Label = $VersionLabel
 
+const SAVE_PATH = "user://server_config.cfg"
+var server_ip_input: LineEdit
+var server_ip_label: Label
+
+
 var _selected_mode: String = ""
 
 
@@ -40,8 +45,34 @@ func _ready() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	room_code_input.text_submitted.connect(_on_room_code_submitted)
 
+	# Load saved IP
+	var config = ConfigFile.new()
+	var err = config.load(SAVE_PATH)
+	if err == OK:
+		MultiplayerManager.server_ip = config.get_value("network", "last_ip", "localhost")
+
+	# Create IP Input field
+	server_ip_label = Label.new()
+	server_ip_label.text = "SERVER ADDRESS"
+	server_ip_label.horizontal_alignment = 1 as HorizontalAlignment
+	vbox.add_child(server_ip_label)
+
+	server_ip_input = LineEdit.new()
+	server_ip_input.placeholder_text = "e.g. 192.168.1.10"
+	server_ip_input.text = MultiplayerManager.server_ip
+	server_ip_input.alignment = 1 as HorizontalAlignment
+	vbox.add_child(server_ip_input)
+	
+	# Move to correct position
+	var room_idx = room_code_input.get_index()
+	vbox.move_child(server_ip_label, room_idx)
+	vbox.move_child(server_ip_input, room_idx + 1)
+
+
 	MultiplayerManager.room_code_ready.connect(_on_room_code_ready)
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
+	MultiplayerManager.connected_to_game.connect(_on_connected_to_game)
+
 
 	ResponsiveUI.scale_changed.connect(_apply_layout)
 	_apply_layout(ResponsiveUI.scale_factor)
@@ -70,14 +101,19 @@ func _apply_layout(sf: float) -> void:
 		btn.custom_minimum_size = Vector2(button_w, button_h)
 
 	room_code_input.custom_minimum_size = Vector2(button_w, button_h * 0.7)
-	status_label.custom_minimum_size = Vector2(button_w, button_h * 0.5)
+	server_ip_input.custom_minimum_size = Vector2(button_w, button_h * 0.7)
+	status_label.custom_minimum_size = Vector2(button_w, button_h * 0.8)
 
 	title_label.add_theme_font_size_override("font_size", int(BASE_FONT_TITLE * sf))
 	subtitle_label.add_theme_font_size_override("font_size", int(BASE_FONT_SUBTITLE * sf))
 	mode_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
+	server_ip_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	for btn in [day_button, night_button, host_button, join_button, quit_button]:
 		btn.add_theme_font_size_override("font_size", int(BASE_FONT_BUTTON * sf))
 	room_code_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
+	server_ip_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
+
+
 	status_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	version_label.add_theme_font_size_override("font_size", int(BASE_FONT_VERSION * sf))
 
@@ -90,6 +126,8 @@ func _update_ui_state() -> void:
 		host_button.visible = false
 		join_button.visible = false
 		room_code_input.visible = false
+		server_ip_input.visible = false
+		server_ip_label.visible = false
 		status_label.visible = false
 	else:
 		mode_label.text = "SELECT GAME MODE (" + _selected_mode.to_upper() + ")"
@@ -98,7 +136,11 @@ func _update_ui_state() -> void:
 		host_button.visible = true
 		join_button.visible = true
 		room_code_input.visible = true
+		server_ip_input.visible = true
+		server_ip_label.visible = true
 		status_label.visible = true
+
+
 
 
 func _on_day_pressed() -> void:
@@ -119,10 +161,18 @@ func _on_host_pressed() -> void:
 	room_code_input.visible = false
 	status_label.text = "Hosting game..."
 
+	var ip = server_ip_input.text.strip_edges()
+	if ip.is_empty(): ip = "localhost"
+	MultiplayerManager.server_ip = ip
+	server_ip_input.editable = false
+
+
 	MultiplayerManager.is_hosting_intent = true
 	MultiplayerManager.join_intent_code = ""
+	MultiplayerManager.selected_mode = _selected_mode
 	
-	_on_connected_to_game()
+	MultiplayerManager.host_game()
+
 
 
 func _on_join_pressed() -> void:
@@ -157,18 +207,38 @@ func _attempt_join(code: String) -> void:
 	MultiplayerManager.is_hosting_intent = false
 	MultiplayerManager.join_intent_code = code
 	
-	_on_connected_to_game()
+	var ip = server_ip_input.text.strip_edges()
+	if ip.is_empty(): ip = "localhost"
+	MultiplayerManager.server_ip = ip
+	server_ip_input.editable = false
+	_save_config(ip)
+	
+	MultiplayerManager.join_game(code)
+
+
+
 
 
 func _on_room_code_ready(code: String) -> void:
 	MultiplayerManager.room_code = code
-	status_label.text = "Room: " + code + " - Waiting for players..."
-	print("Host room created with code: ", code)
+	var local_ip = IP.get_local_addresses()
+	var ip_str = ""
+	for ip in local_ip:
+		if ip.begins_with("192.168.") or ip.begins_with("10."):
+			ip_str = ip
+			break
+	
+	if ip_str == "": ip_str = local_ip[0] if local_ip.size() > 0 else "Unknown"
+
+	status_label.text = "Room: " + code + "\nYour IP: " + ip_str + "\nWaiting for players..."
+	print("Host room created with code: ", code, " IP: ", ip_str)
 
 
-func _on_connected_to_game() -> void:
-	var scene_path = "res://scenes/level_2.tscn" if _selected_mode == "day" else "res://scenes/level_1.tscn"
+
+func _on_connected_to_game(mode: String) -> void:
+	var scene_path = "res://scenes/level_2.tscn" if mode == "day" else "res://scenes/level_1.tscn"
 	get_tree().change_scene_to_file(scene_path)
+
 
 
 func _on_connection_failed(reason: String) -> void:
@@ -178,6 +248,8 @@ func _on_connection_failed(reason: String) -> void:
 	host_button.disabled = false
 	join_button.disabled = false
 	room_code_input.editable = true
+	server_ip_input.editable = true
+
 
 	# If joining, show retry message
 	if room_code_input.visible:
@@ -186,3 +258,9 @@ func _on_connection_failed(reason: String) -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+
+func _save_config(ip: String) -> void:
+	var config = ConfigFile.new()
+	config.set_value("network", "last_ip", ip)
+	config.save(SAVE_PATH)
