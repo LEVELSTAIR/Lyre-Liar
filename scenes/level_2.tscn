@@ -22,7 +22,7 @@ motion_scale = Vector2(0, 0)
 [node name="Sky" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1606555568]
 offset_left = -535.0
 offset_top = -116.0
-offset_right = 4585.0
+offset_right = 8000.0
 offset_bottom = 2956.0
 color = Color(0.53, 0.81, 0.98, 1)
 

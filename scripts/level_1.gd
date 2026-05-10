@@ -15,6 +15,10 @@ const TILE_SIZE := 128
 
 const LEVEL: Array = [
 	[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
 ]
 
 # ─── Texture map ──────────────────────────────────────────────────────────────
@@ -43,8 +47,8 @@ const MODULATE := {
 # ─── State ────────────────────────────────────────────────────────────────────
 var _tex: Dictionary = {}
 var _spawn_points := [
-	Vector2(192, -100), Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100),
-	Vector2(192, -180), Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180)
+	Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100), Vector2(1472, -100),
+	Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180), Vector2(1472, -180)
 ]
 var _spawn_index := 0
 
@@ -60,18 +64,19 @@ func _ready() -> void:
 	_build_level()
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
 
-	# Connect player signals
+	# Connect Colyseus signals for future players
 	MultiplayerManager.player_connected.connect(_add_player)
 	MultiplayerManager.player_disconnected.connect(_remove_player)
 
+	# Spawn players that already connected before the scene loaded
+	for pid in MultiplayerManager.active_players:
+		_add_player(pid)
+
 	if MultiplayerManager.is_hosting_intent:
-		print("Level: Setting up as HOST")
 		MultiplayerManager.room_code_ready.connect(_on_room_code_ready)
-		MultiplayerManager.host_game()
-	elif MultiplayerManager.join_intent_code != "":
-		print("Level: Starting join with code: ", MultiplayerManager.join_intent_code)
+		_display_room_code()
+	else:
 		_display_room_code(MultiplayerManager.join_intent_code)
-		MultiplayerManager.join_game(MultiplayerManager.join_intent_code)
 		print("Level: Join completed")
 
 
@@ -109,6 +114,10 @@ func _remove_player(session_id: String) -> void:
 
 # ─── Level builder ────────────────────────────────────────────────────────────
 func _build_level() -> void:
+	# Add boundary walls
+	_spawn_wall(-20, 1000) # Left wall
+	_spawn_wall(LEVEL[0].size() * TILE_SIZE + 20, 1000) # Right wall
+
 	for row in LEVEL.size():
 		for col in LEVEL[row].size():
 			var tile_type: int = LEVEL[row][col]
@@ -135,6 +144,17 @@ func _spawn_tile(col: int, row: int, tile_type: int) -> void:
 	col_shape.shape = rect
 	body.add_child(col_shape)
 
+	add_child(body)
+
+
+func _spawn_wall(x_pos: float, height: float) -> void:
+	var body := StaticBody2D.new()
+	body.position = Vector2(x_pos, 0)
+	var col_shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(40, height * 2.0)
+	col_shape.shape = rect
+	body.add_child(col_shape)
 	add_child(body)
 
 

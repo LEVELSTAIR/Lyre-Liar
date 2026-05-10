@@ -92,14 +92,16 @@ wss.on("connection", (ws) => {
         const code = generateRoomCode();
         sessionId = generateSessionId();
         room = new Room(code);
+        room.mode = msg.mode || "day"; // Store the game mode
         rooms.set(code, room);
         room.addPlayer(sessionId, ws);
         ws.send(JSON.stringify({
           type: "hosted",
           roomCode: code,
-          sessionId
+          sessionId,
+          mode: room.mode
         }));
-        console.log(`Room ${code} created by ${sessionId}`);
+        console.log(`Room ${code} (${room.mode}) created by ${sessionId}`);
         break;
       }
 
@@ -117,7 +119,8 @@ wss.on("connection", (ws) => {
         ws.send(JSON.stringify({
           type: "joined",
           roomCode: code,
-          sessionId
+          sessionId,
+          mode: room.mode // Send the mode to the joiner
         }));
         console.log(`${sessionId} joined room ${code}`);
         break;
