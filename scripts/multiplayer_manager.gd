@@ -29,13 +29,27 @@ var _server_url: String:
 var _connected := false
 
 
-func _process(_delta: float) -> void:
+var _connection_timer: float = 0.0
+
+func _process(delta: float) -> void:
 	if _ws == null:
 		return
 
 	_ws.poll()
 
 	var state := _ws.get_ready_state()
+
+	if state == WebSocketPeer.STATE_CONNECTING:
+		_connection_timer += delta
+		if _connection_timer > 5.0:
+			print("Connection timeout!")
+			_ws.close()
+			_ws = null
+			connection_failed.emit("Connection timed out (Check Firewall)")
+			return
+	else:
+		_connection_timer = 0.0
+
 
 	if state == WebSocketPeer.STATE_OPEN:
 		if not _connected:
