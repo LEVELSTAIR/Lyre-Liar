@@ -2,21 +2,23 @@ extends Node2D
 
 # ─── Tile type constants ──────────────────────────────────────────────────────
 const EMPTY   := 0
-const GRASS   := 1   # green surface cap + dirt body (walkable top)
-const DIRT    := 2   # dirt body only      (underground fill)
-const STONE   := 3   # stone surface cap + stone body
-const ROCK    := 4   # solid stone body    (deep underground)
-const BEDROCK := 5   # impenetrable base layer
-const FUNGUS  := 6   # fungus-top platform (atmospheric mid-level)
-const GLOW    := 7   # glowing platform    (high / special)
+const GRASS   := 1
+const DIRT    := 2
+const STONE   := 3
+const ROCK    := 4
+const BEDROCK := 5
+const FUNGUS  := 6
+const GLOW    := 7
 
 # ─── World geometry ───────────────────────────────────────────────────────────
-const TILE_SIZE := 128   # px per tile
+const TILE_SIZE := 128
 
-# 60 cols × 1 row — extended flat grass surface.
 const LEVEL: Array = [
-#    0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
-	[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ], # 0  grass surface
+	[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
 ]
 
 # ─── Texture map ──────────────────────────────────────────────────────────────
@@ -32,7 +34,6 @@ const TEX_PATHS := {
 	GLOW:    TEX_BASE + "glow_surface.png",
 }
 
-# Brightness multiplier per tile type (Z-depth cue for 2.5D)
 const MODULATE := {
 	GRASS:   Color(1.00, 1.00, 1.00, 1),
 	DIRT:    Color(0.88, 0.84, 0.80, 1),
@@ -45,6 +46,11 @@ const MODULATE := {
 
 # ─── State ────────────────────────────────────────────────────────────────────
 var _tex: Dictionary = {}
+var _spawn_points := [
+	Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100), Vector2(1472, -100),
+	Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180), Vector2(1472, -180)
+]
+var _spawn_index := 0
 
 
 # ─── Lifecycle ────────────────────────────────────────────────────────────────
@@ -58,59 +64,60 @@ func _ready() -> void:
 	_build_level()
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
 
-	# Read intent and establish network AFTER the scene is fully loaded
+	# Connect Colyseus signals for future players
+	MultiplayerManager.player_connected.connect(_add_player)
+	MultiplayerManager.player_disconnected.connect(_remove_player)
+
+	# Spawn players that already connected before the scene loaded
+	for pid in MultiplayerManager.active_players:
+		_add_player(pid)
+
 	if MultiplayerManager.is_hosting_intent:
 		MultiplayerManager.room_code_ready.connect(_on_room_code_ready)
-		multiplayer.peer_connected.connect(_add_player)
-		multiplayer.peer_disconnected.connect(_remove_player)
-		_add_player(1) # Host spawns immediately
-		MultiplayerManager.host_game()
-	elif MultiplayerManager.join_intent_code != "":
+		_display_room_code()
+	else:
 		_display_room_code(MultiplayerManager.join_intent_code)
-		MultiplayerManager.join_game(MultiplayerManager.join_intent_code)
+		print("Level: Join completed")
+
 
 func _on_room_code_ready(code: String) -> void:
 	_display_room_code(code)
 
-func _on_connection_failed(_reason: String) -> void:
+
+func _on_connection_failed(reason: String) -> void:
+	print("Connection failed: ", reason)
+	await get_tree().create_timer(2.0).timeout
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
-var _spawn_points := [
-	Vector2(192, -100), Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100),
-	Vector2(192, -180), Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180)
-]
-var _spawn_index := 0
-
-
-
-
-
-func _add_player(id: int) -> void:
-	if not multiplayer.is_server():
-		return
-	if has_node(str(id)):
+func _add_player(session_id: String) -> void:
+	if has_node(session_id):
+		print("Player ", session_id, " already exists")
 		return
 
-	print("Spawning player with name '", id, "'")
+	print("Spawning player with session_id '", session_id, "'")
 	var player = preload("res://scenes/player.tscn").instantiate()
-	player.name = str(id)
-	player.set_multiplayer_authority(id)
+	player.session_id = session_id
+	player.name = session_id
 	player.position = _spawn_points[_spawn_index % _spawn_points.size()]
 	_spawn_index += 1
+
 	add_child(player)
-	player.setup_spawn.rpc(player.position)
+	print("Player ", session_id, " spawned at ", player.position)
 
 
-func _remove_player(id: int) -> void:
-	if not multiplayer.is_server():
-		return
-	if has_node(str(id)):
-		get_node(str(id)).queue_free()
+func _remove_player(session_id: String) -> void:
+	if has_node(session_id):
+		get_node(session_id).queue_free()
+		print("Player ", session_id, " removed")
 
 
 # ─── Level builder ────────────────────────────────────────────────────────────
 func _build_level() -> void:
+	# Add boundary walls
+	_spawn_wall(-20, 1000) # Left wall
+	_spawn_wall(LEVEL[0].size() * TILE_SIZE + 20, 1000) # Right wall
+
 	for row in LEVEL.size():
 		for col in LEVEL[row].size():
 			var tile_type: int = LEVEL[row][col]
@@ -140,9 +147,18 @@ func _spawn_tile(col: int, row: int, tile_type: int) -> void:
 	add_child(body)
 
 
+func _spawn_wall(x_pos: float, height: float) -> void:
+	var body := StaticBody2D.new()
+	body.position = Vector2(x_pos, 0)
+	var col_shape := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(40, height * 2.0)
+	col_shape.shape = rect
+	body.add_child(col_shape)
+	add_child(body)
+
+
 func _on_kill_zone_body_entered(body: Node2D) -> void:
-	if not multiplayer.is_server():
-		return
 	if body.has_method("respawn"):
 		body.respawn()
 
@@ -152,7 +168,7 @@ func _display_room_code(custom_code: String = "") -> void:
 
 	if room_code.is_empty():
 		room_code = MultiplayerManager.room_code
-		
+
 	print("Room code to display: '", room_code, "'")
 
 	if room_code.is_empty():
