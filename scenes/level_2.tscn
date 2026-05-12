@@ -1,88 +1,56 @@
 [gd_scene format=3 uid="uid://b2lvl2scene01"]
 
 [ext_resource type="Script" uid="uid://b2lvl2scrpt01" path="res://scripts/level_2.gd" id="1_level"]
-[ext_resource type="Script" uid="uid://ke32ci3q6lqt" path="res://scripts/player.gd" id="2_player"]
-[ext_resource type="Texture2D" uid="uid://csrg3beybd6vb" path="res://asset/charectors/hermit_sheet.png" id="3_hermit"]
 [ext_resource type="PackedScene" path="res://scenes/mobile_controls.tscn" id="4_mobile"]
+[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-clouds.png" id="5_clouds"]
+[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-mountains.png" id="6_mountains"]
+[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-trees.png" id="7_trees"]
 
 [sub_resource type="RectangleShape2D" id="KillZoneShape"]
-size = Vector2(7680, 116)
-
-[sub_resource type="RectangleShape2D" id="PlayerShape"]
-size = Vector2(78, 67)
+size = Vector2(2560, 128)
 
 [node name="Level2" type="Node2D" unique_id=233948914]
 script = ExtResource("1_level")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=580027819]
+[node name="BGLayer" type="CanvasLayer" parent="."]
+layer = -10
 
-[node name="SkyLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1730149138]
-motion_scale = Vector2(0, 0)
+[node name="Sky" type="ColorRect" parent="BGLayer"]
+offset_right = 360.0
+offset_bottom = 640.0
+color = Color(0.7, 0.85, 1, 1)
 
-[node name="Sky" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1606555568]
-offset_left = -535.0
-offset_top = -116.0
-offset_right = 8000.0
-offset_bottom = 2956.0
-color = Color(0.53, 0.81, 0.98, 1)
+[node name="Clouds" type="TextureRect" parent="BGLayer"]
+offset_right = 520.0
+offset_bottom = 640.0
+texture = ExtResource("5_clouds")
+stretch_mode = 1
+texture_repeat = 1
 
-[node name="UpperHaze" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1300112227]
-offset_left = -512.0
-offset_top = 430.0
-offset_right = 4608.0
-offset_bottom = 465.0
-color = Color(0.75, 0.9, 1, 0.15)
+[node name="Mountains" type="TextureRect" parent="BGLayer"]
+offset_right = 520.0
+offset_bottom = 640.0
+texture = ExtResource("6_mountains")
+stretch_mode = 1
+texture_repeat = 1
 
-[node name="GroundFill" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1300112301]
-offset_left = -535.0
-offset_top = 455.0
-offset_right = 4585.0
-offset_bottom = 2956.0
-color = Color(0.35, 0.22, 0.08, 1)
+[node name="Trees" type="TextureRect" parent="BGLayer"]
+offset_right = 520.0
+offset_bottom = 640.0
+texture = ExtResource("7_trees")
+stretch_mode = 1
+texture_repeat = 1
 
-[node name="SunGlow" type="Polygon2D" parent="ParallaxBackground/SkyLayer" unique_id=489391153]
-color = Color(1, 0.35, 0.05, 0.2)
-polygon = PackedVector2Array(882, 140, 880.81, 152.1, 877.28, 163.73, 871.55, 174.45, 863.84, 183.84, 854.45, 191.55, 843.73, 197.28, 832.1, 200.81, 820, 202, 807.9, 200.81, 796.27, 197.28, 785.55, 191.55, 776.16, 183.84, 768.45, 174.45, 762.72, 163.73, 759.19, 152.1, 758, 140, 759.19, 127.9, 762.72, 116.27, 768.45, 105.55, 776.16, 96.16, 785.55, 88.45, 796.27, 82.72, 807.9, 79.19, 820, 78, 832.1, 79.19, 843.73, 82.72, 854.45, 88.45, 863.84, 96.16, 871.55, 105.55, 877.28, 116.27, 880.81, 127.9)
+[node name="KillZone" type="Area2D" parent="." unique_id=1814281923]
+position = Vector2(1280, 3900)
 
-[node name="Sun" type="Polygon2D" parent="ParallaxBackground/SkyLayer" unique_id=441920225]
-color = Color(1, 0.15, 0.05, 1)
-polygon = PackedVector2Array(860, 140, 859.23, 147.8, 856.96, 155.31, 853.26, 162.22, 848.28, 168.28, 842.22, 173.26, 835.31, 176.96, 827.8, 179.23, 820, 180, 812.2, 179.23, 804.69, 176.96, 797.78, 173.26, 791.72, 168.28, 786.74, 162.22, 783.04, 155.31, 780.77, 147.8, 780, 140, 780.77, 132.2, 783.04, 124.69, 786.74, 117.78, 791.72, 111.72, 797.78, 106.74, 804.69, 103.04, 812.2, 100.77, 820, 100, 827.8, 100.77, 835.31, 103.04, 842.22, 106.74, 848.28, 111.72, 853.26, 117.78, 856.96, 124.69, 859.23, 132.2)
-
-[node name="FarMountainsLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1082380232]
-motion_scale = Vector2(0.08, 0)
-motion_mirroring = Vector2(2816, 0)
-
-[node name="FarMountains" type="Polygon2D" parent="ParallaxBackground/FarMountainsLayer" unique_id=2123197008]
-color = Color(0.5, 0.32, 0.12, 1)
-polygon = PackedVector2Array(0, 490, 200, 240, 380, 310, 520, 170, 680, 240, 820, 90, 1000, 210, 1150, 120, 1350, 240, 1500, 140, 1680, 200, 1820, 70, 2000, 170, 2200, 110, 2400, 230, 2560, 150, 2560, 490)
-
-[node name="TreesLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1276848052]
-motion_scale = Vector2(0.25, 0)
-motion_mirroring = Vector2(2816, 0)
-
-[node name="Trees" type="Polygon2D" parent="ParallaxBackground/TreesLayer" unique_id=2132371936]
-color = Color(0.12, 0.48, 0.15, 1)
-polygon = PackedVector2Array(0, 490, 80, 410, 120, 340, 160, 410, 240, 390, 280, 320, 320, 390, 400, 400, 440, 330, 500, 400, 560, 380, 600, 300, 640, 380, 720, 390, 760, 310, 820, 390, 880, 400, 920, 330, 980, 400, 1060, 390, 1100, 320, 1140, 390, 1240, 400, 1280, 330, 1340, 400, 1400, 380, 1460, 310, 1520, 380, 1580, 400, 1640, 340, 1700, 400, 1780, 390, 1840, 310, 1900, 390, 1980, 380, 2040, 320, 2100, 390, 2200, 400, 2240, 330, 2320, 400, 2400, 390, 2460, 320, 2560, 390, 2560, 490)
-
-[node name="FogLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=13847676]
-motion_scale = Vector2(0.6, 0)
-
-[node name="Fog" type="ColorRect" parent="ParallaxBackground/FogLayer" unique_id=1985518134]
-offset_left = -516.0
-offset_top = 403.0
-offset_right = 4604.0
-offset_bottom = 443.0
-color = Color(0.8, 0.93, 1, 0.18)
-
-[node name="KillZone" type="Area2D" parent="." unique_id=485104650]
-position = Vector2(3840, 256)
-
-[node name="KillShape" type="CollisionShape2D" parent="KillZone" unique_id=1755923895]
-position = Vector2(0, 26)
+[node name="KillShape" type="CollisionShape2D" parent="KillZone" unique_id=817917225]
+position = Vector2(0, 0)
 shape = SubResource("KillZoneShape")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://scenes/player.tscn")
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=820378519]
+_spawnable_scenes = PackedStringArray("uid://c8n6u4h7y7n2r")
 spawn_path = NodePath("..")
 
-[node name="MobileControls" parent="." unique_id=1161874326 instance=ExtResource("4_mobile")]
+[node name="MobileControls" type="CanvasLayer" parent="." unique_id=2144933918 instance=ExtResource("4_mobile")]
+layer = 10

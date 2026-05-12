@@ -1,71 +1,46 @@
 extends Node2D
 
-# ─── Tile type constants ──────────────────────────────────────────────────────
-const EMPTY   := 0
-const GRASS   := 1   # green surface cap + dirt body (walkable top)
-const DIRT    := 2   # dirt body only      (underground fill)
-const STONE   := 3   # stone surface cap + stone body
-const ROCK    := 4   # solid stone body    (deep underground)
-const BEDROCK := 5   # impenetrable base layer
-const FUNGUS  := 6   # fungus-top platform (atmospheric mid-level)
-const GLOW    := 7   # glowing platform    (high / special)
+const MAP_PATH     := "res://asset/terrain/Sunny-land-woods-files/Assets/Demo/assets/maps/map.json"
+const TILESET_PATH := "res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/tileset.png"
+const MAP_WIDTH    := 40
+const MAP_HEIGHT   := 60
+const TILESET_COLS := 36
+const TILE_PX      := 16
+const SCALE_FACTOR := 4
+const TILE_WORLD   := TILE_PX * SCALE_FACTOR
+const COL_SOLID    := 1
+const COL_ONEWAY   := 2
 
-# ─── World geometry ───────────────────────────────────────────────────────────
-const TILE_SIZE := 128   # px per tile
-
-# 60 cols × 1 row — extended flat grass surface.
-const LEVEL: Array = [
-	[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
+var _spawn_points := [
+	Vector2(128, 3264), Vector2(256, 3264), Vector2(384, 3264), Vector2(512, 3264),
+	Vector2(640, 3264), Vector2(768, 3264), Vector2(896, 3264), Vector2(1024, 3264),
 ]
+var _spawn_index := 0
+var _mountain_x: float = 0.0
+var _tree_x: float = 0.0
 
-# ─── Texture map ──────────────────────────────────────────────────────────────
-const TEX_BASE := "res://asset/terrain/generated/"
-
-const TEX_PATHS := {
-	GRASS:   TEX_BASE + "grass_surface.png",
-	DIRT:    TEX_BASE + "dirt_body.png",
-	STONE:   TEX_BASE + "stone_surface.png",
-	ROCK:    TEX_BASE + "stone_body.png",
-	BEDROCK: TEX_BASE + "bedrock.png",
-	FUNGUS:  TEX_BASE + "fungus_surface.png",
-	GLOW:    TEX_BASE + "glow_surface.png",
-}
-
-# Brightness multiplier per tile type (Z-depth cue for 2.5D)
-const MODULATE := {
-	GRASS:   Color(1.00, 1.00, 1.00, 1),
-	DIRT:    Color(0.88, 0.84, 0.80, 1),
-	STONE:   Color(0.95, 0.95, 1.00, 1),
-	ROCK:    Color(0.72, 0.72, 0.76, 1),
-	BEDROCK: Color(0.55, 0.55, 0.58, 1),
-	FUNGUS:  Color(1.00, 0.95, 0.90, 1),
-	GLOW:    Color(1.00, 1.00, 1.00, 1),
-}
-
-# ─── State ────────────────────────────────────────────────────────────────────
-var _tex: Dictionary = {}
+func _process(delta: float) -> void:
+	_mountain_x -= delta * 6.0
+	_tree_x -= delta * 18.0
+	if _mountain_x <= -160.0:
+		_mountain_x += 160.0
+	if _tree_x <= -160.0:
+		_tree_x += 160.0
+	($BGLayer/Mountains as TextureRect).position.x = _mountain_x
+	($BGLayer/Trees as TextureRect).position.x = _tree_x
 
 
-# ─── Lifecycle ────────────────────────────────────────────────────────────────
 func _ready() -> void:
-	for tile_type in TEX_PATHS:
-		_tex[tile_type] = load(TEX_PATHS[tile_type])
-
 	var kill_zone: Area2D = $KillZone
 	kill_zone.body_entered.connect(_on_kill_zone_body_entered)
 
-	_build_level()
+	_build_from_map()
+	_decorate_world()
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
 
-	# Connect Colyseus signals for future players
 	MultiplayerManager.player_connected.connect(_add_player)
 	MultiplayerManager.player_disconnected.connect(_remove_player)
 
-	# Spawn players that already connected before the scene loaded
 	for pid in MultiplayerManager.active_players:
 		_add_player(pid)
 
@@ -83,80 +58,113 @@ func _on_connection_failed(_reason: String) -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
-# ─── Level builder ────────────────────────────────────────────────────────────
-func _build_level() -> void:
-	# Add boundary walls
-	_spawn_wall(-20, 1000) # Left wall
-	_spawn_wall(LEVEL[0].size() * TILE_SIZE + 20, 1000) # Right wall
+func _build_from_map() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(MAP_PATH))
+	var col_data: Array  = data["layers"][0]["data"]
+	var vis_data: Array  = data["layers"][1]["data"]
 
-	for row in LEVEL.size():
-		for col in LEVEL[row].size():
-			var tile_type: int = LEVEL[row][col]
-			if tile_type == EMPTY:
-				continue
-			_spawn_tile(col, row, tile_type)
+	var tile_set := TileSet.new()
+	var atlas    := TileSetAtlasSource.new()
+	atlas.texture             = load(TILESET_PATH)
+	atlas.texture_region_size = Vector2i(TILE_PX, TILE_PX)
+	tile_set.add_source(atlas, 0)
+
+	var tilemap := TileMap.new()
+	tilemap.tile_set = tile_set
+	tilemap.scale    = Vector2(SCALE_FACTOR, SCALE_FACTOR)
+	add_child(tilemap)
+
+	for row in range(MAP_HEIGHT):
+		for col in range(MAP_WIDTH):
+			var gid: int = vis_data[row * MAP_WIDTH + col]
+			if gid > 0:
+				var ac := Vector2i((gid - 1) % TILESET_COLS, (gid - 1) / TILESET_COLS)
+				if not atlas.has_tile(ac):
+					atlas.create_tile(ac)
+				tilemap.set_cell(0, Vector2i(col, row), 0, ac)
+
+	for row in range(MAP_HEIGHT):
+		var run_start := -1
+		var run_type  := 0
+		for col in range(MAP_WIDTH + 1):
+			var val: int = col_data[row * MAP_WIDTH + col] if col < MAP_WIDTH else 0
+			if val != run_type:
+				if run_type != 0 and run_start >= 0:
+					_spawn_run(run_start, row, col - run_start, run_type)
+				run_start = col if val != 0 else -1
+				run_type  = val
 
 
-func _spawn_tile(col: int, row: int, tile_type: int) -> void:
-	var body := StaticBody2D.new()
-	body.position = Vector2(
-		col * TILE_SIZE + TILE_SIZE * 0.5,
-		row * TILE_SIZE + TILE_SIZE * 0.5
-	)
-
-	var sprite := Sprite2D.new()
-	sprite.texture  = _tex[tile_type]
-	sprite.modulate = MODULATE.get(tile_type, Color.WHITE)
-	body.add_child(sprite)
-
-	var col_shape := CollisionShape2D.new()
-	var rect      := RectangleShape2D.new()
-	rect.size      = Vector2(TILE_SIZE, TILE_SIZE)
-	col_shape.shape = rect
-	body.add_child(col_shape)
-
+func _spawn_run(run_start: int, row: int, run_len: int, col_type: int) -> void:
+	var body       := StaticBody2D.new()
+	body.position   = Vector2((run_start + run_len * 0.5) * TILE_WORLD, (row + 0.5) * TILE_WORLD)
+	var shape_node := CollisionShape2D.new()
+	var rect       := RectangleShape2D.new()
+	rect.size       = Vector2(run_len * TILE_WORLD, TILE_WORLD)
+	shape_node.shape = rect
+	if col_type == COL_ONEWAY:
+		shape_node.one_way_collision        = true
+		shape_node.one_way_collision_margin = 2.0
+	body.add_child(shape_node)
 	add_child(body)
 
 
-func _spawn_wall(x_pos: float, height: float) -> void:
-	var body := StaticBody2D.new()
-	body.position = Vector2(x_pos, 0)
-	var col_shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = Vector2(40, height * 2.0)
-	col_shape.shape = rect
-	body.add_child(col_shape)
-	add_child(body)
+func _decorate_world() -> void:
+	const PROPS_PATH := "res://asset/terrain/Sunny-land-woods-files/Assets/Demo/assets/atlas/atlas-props.png"
+	const LEAVES  := Rect2(506, 2, 150, 103)
+	const BR_01   := Rect2(2,   2, 54,  56)
+	const BR_03   := Rect2(140, 2, 94,  53)
+	const BR_05   := Rect2(374, 2, 130, 37)
+	var tex := load(PROPS_PATH) as Texture2D
+	if not tex:
+		return
+	var leaf_positions := [
+		Vector2(4, 50), Vector2(25, 52), Vector2(34, 48), Vector2(33, 53),
+		Vector2(27, 44), Vector2(36, 32), Vector2(2, 5),  Vector2(3, 7),
+		Vector2(36, 5),  Vector2(3, 0),  Vector2(12, 2),
+	]
+	for tp in leaf_positions:
+		_add_prop(tex, tp.x * TILE_WORLD, tp.y * TILE_WORLD, LEAVES)
+	_add_prop(tex, 33 * TILE_WORLD, 33 * TILE_WORLD, BR_05, true)
+	_add_prop(tex, 12 * TILE_WORLD, 32 * TILE_WORLD, BR_01)
+	_add_prop(tex, 31 * TILE_WORLD, 21 * TILE_WORLD, BR_01)
+	_add_prop(tex,  5 * TILE_WORLD,  7 * TILE_WORLD, BR_01)
+	_add_prop(tex,  9 * TILE_WORLD, 40 * TILE_WORLD, BR_03)
 
 
-var _spawn_points := [
-	Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100), Vector2(1472, -100),
-	Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180), Vector2(1472, -180)
-]
-var _spawn_index := 0
-
-
-
+func _add_prop(tex: Texture2D, wx: float, wy: float, region: Rect2, flip_x: bool = false) -> void:
+	var s := Sprite2D.new()
+	s.texture        = tex
+	s.region_enabled = true
+	s.region_rect    = region
+	s.scale          = Vector2(SCALE_FACTOR, SCALE_FACTOR)
+	s.position       = Vector2(wx, wy)
+	s.flip_h         = flip_x
+	add_child(s)
 
 
 func _add_player(id: String) -> void:
-	# With Colyseus, each client spawns their own representation of players
 	if has_node(id):
 		return
 
 	print("Spawning player with session ID '", id, "'")
 	var player = preload("res://scenes/player.tscn").instantiate()
 	player.session_id = id
-	player.name = id # Still set name for scene tree visibility
+	player.name = id
 
 	player.position = _spawn_points[_spawn_index % _spawn_points.size()]
 	_spawn_index += 1
 
 	add_child(player)
 
+	var cam: Camera2D = player.get_node("Camera2D")
+	cam.limit_left   = 0
+	cam.limit_top    = 0
+	cam.limit_right  = MAP_WIDTH  * TILE_WORLD
+	cam.limit_bottom = MAP_HEIGHT * TILE_WORLD
+
 
 func _remove_player(id: String) -> void:
-	# With Colyseus, each client removes the player node
 	if has_node(id):
 		get_node(id).queue_free()
 
@@ -171,7 +179,7 @@ func _display_room_code(custom_code: String = "") -> void:
 
 	if room_code.is_empty():
 		room_code = MultiplayerManager.room_code
-		
+
 	print("Room code to display: '", room_code, "'")
 
 	if room_code.is_empty():
