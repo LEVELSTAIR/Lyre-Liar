@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://c566vfi6kprxp"]
+
+[ext_resource type="Texture2D" uid="uid://d17eo8cdjotw1" path="res://Pickups/Carrot/carrot.png" id="1_f70j6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krv6u"]
+atlas = ExtResource("1_f70j6")
+region = Rect2(0, 0, 17, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_judnc"]
+atlas = ExtResource("1_f70j6")
+region = Rect2(17, 0, 17, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnsan"]
+atlas = ExtResource("1_f70j6")
+region = Rect2(34, 0, 17, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsv7s"]
+atlas = ExtResource("1_f70j6")
+region = Rect2(51, 0, 17, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m0f44"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krv6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_judnc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnsan")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wsv7s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Carrot" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_m0f44")
+autoplay = "default"
+frame_progress = 0.0180236

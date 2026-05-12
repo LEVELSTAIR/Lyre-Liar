@@ -22,6 +22,7 @@ const BASE_FONT_VERSION: int = 12
 @onready var mode_label: Label = $VBox/ModeLabel
 @onready var day_button: Button = $VBox/DayButton
 @onready var night_button: Button = $VBox/NightButton
+@onready var forest_button: Button = $VBox/ForestButton
 @onready var room_code_input: LineEdit = $VBox/RoomCodeInput
 @onready var status_label: Label = $VBox/StatusLabel
 @onready var host_button: Button = $VBox/HostButton
@@ -40,6 +41,7 @@ var _selected_mode: String = ""
 func _ready() -> void:
 	day_button.pressed.connect(_on_day_pressed)
 	night_button.pressed.connect(_on_night_pressed)
+	forest_button.pressed.connect(_on_forest_pressed)
 	host_button.pressed.connect(_on_host_pressed)
 	join_button.pressed.connect(_on_join_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
@@ -97,7 +99,7 @@ func _apply_layout(sf: float) -> void:
 	vbox.offset_right = half_vbox_w
 	vbox.add_theme_constant_override("separation", int(BASE_VBOX_SEP * sf))
 
-	for btn in [day_button, night_button, host_button, join_button, quit_button]:
+	for btn in [day_button, night_button, forest_button, host_button, join_button, quit_button]:
 		btn.custom_minimum_size = Vector2(button_w, button_h)
 
 	room_code_input.custom_minimum_size = Vector2(button_w, button_h * 0.7)
@@ -108,7 +110,7 @@ func _apply_layout(sf: float) -> void:
 	subtitle_label.add_theme_font_size_override("font_size", int(BASE_FONT_SUBTITLE * sf))
 	mode_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	server_ip_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
-	for btn in [day_button, night_button, host_button, join_button, quit_button]:
+	for btn in [day_button, night_button, forest_button, host_button, join_button, quit_button]:
 		btn.add_theme_font_size_override("font_size", int(BASE_FONT_BUTTON * sf))
 	room_code_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	server_ip_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
@@ -123,6 +125,7 @@ func _update_ui_state() -> void:
 		mode_label.text = "SELECT MODE"
 		day_button.visible = true
 		night_button.visible = true
+		forest_button.visible = true
 		host_button.visible = false
 		join_button.visible = false
 		room_code_input.visible = false
@@ -133,6 +136,7 @@ func _update_ui_state() -> void:
 		mode_label.text = "SELECT GAME MODE (" + _selected_mode.to_upper() + ")"
 		day_button.visible = false
 		night_button.visible = false
+		forest_button.visible = false
 		host_button.visible = true
 		join_button.visible = true
 		room_code_input.visible = true
@@ -150,6 +154,11 @@ func _on_day_pressed() -> void:
 
 func _on_night_pressed() -> void:
 	_selected_mode = "night"
+	_update_ui_state()
+
+
+func _on_forest_pressed() -> void:
+	_selected_mode = "forest"
 	_update_ui_state()
 
 
@@ -236,7 +245,12 @@ func _on_room_code_ready(code: String) -> void:
 
 
 func _on_connected_to_game(mode: String) -> void:
-	var scene_path = "res://scenes/level_2.tscn" if mode == "day" else "res://scenes/level_1.tscn"
+	var scene_path = "res://scenes/level_1.tscn"
+	if mode == "day":
+		scene_path = "res://scenes/level_2.tscn"
+	elif mode == "forest":
+		scene_path = "res://scenes/level_4.tscn"
+		
 	get_tree().change_scene_to_file(scene_path)
 
 

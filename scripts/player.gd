@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-const TEX_IDLE := preload("res://asset/charectors/1 Pink_Monster/Pink_Monster_Idle_4.png")
-const TEX_WALK := preload("res://asset/charectors/1 Pink_Monster/Pink_Monster_Walk_6.png")
-const TEX_JUMP := preload("res://asset/charectors/1 Pink_Monster/Pink_Monster_Jump_8.png")
+const TEX_IDLE := preload("res://Assets/PinkMonster/Pink_Monster_Idle_4.png")
+const TEX_WALK := preload("res://Assets/PinkMonster/Pink_Monster_Walk_6.png")
+const TEX_JUMP := preload("res://Assets/PinkMonster/Pink_Monster_Jump_8.png")
 
 enum AnimState { IDLE, WALK, JUMP }
 

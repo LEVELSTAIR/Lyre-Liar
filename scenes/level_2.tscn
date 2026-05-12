@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b2lvl2scene01"]
 
 [ext_resource type="Script" uid="uid://b2lvl2scrpt01" path="res://scripts/level_2.gd" id="1_level"]
-[ext_resource type="PackedScene" path="res://scenes/mobile_controls.tscn" id="4_mobile"]
-[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-clouds.png" id="5_clouds"]
-[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-mountains.png" id="6_mountains"]
-[ext_resource type="Texture2D" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-trees.png" id="7_trees"]
+[ext_resource type="PackedScene" uid="uid://ql5s5dasaxm6" path="res://scenes/mobile_controls.tscn" id="4_mobile"]
+[ext_resource type="Texture2D" uid="uid://c0i0iqj6yca83" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-clouds.png" id="5_clouds"]
+[ext_resource type="Texture2D" uid="uid://vubrrvfb17d7" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-mountains.png" id="6_mountains"]
+[ext_resource type="Texture2D" uid="uid://rc7ovekpsspx" path="res://asset/terrain/Sunny-land-woods-files/Assets/ENVIRONMENT/bg-trees.png" id="7_trees"]
 
 [sub_resource type="RectangleShape2D" id="KillZoneShape"]
 size = Vector2(2560, 128)
@@ -12,45 +12,49 @@ size = Vector2(2560, 128)
 [node name="Level2" type="Node2D" unique_id=233948914]
 script = ExtResource("1_level")
 
-[node name="BGLayer" type="CanvasLayer" parent="."]
+[node name="BGLayer" type="CanvasLayer" parent="." unique_id=1148227152]
 layer = -10
 
-[node name="Sky" type="ColorRect" parent="BGLayer"]
+[node name="Sky" type="ColorRect" parent="BGLayer" unique_id=1957205642]
 offset_right = 360.0
 offset_bottom = 640.0
 color = Color(0.7, 0.85, 1, 1)
 
-[node name="Clouds" type="TextureRect" parent="BGLayer"]
-offset_right = 520.0
+[node name="Clouds" type="TextureRect" parent="BGLayer" unique_id=1385498274]
+offset_right = 360.0
 offset_bottom = 640.0
 texture = ExtResource("5_clouds")
-stretch_mode = 1
-texture_repeat = 1
 
-[node name="Mountains" type="TextureRect" parent="BGLayer"]
-offset_right = 520.0
+[node name="Mountains" type="TextureRect" parent="BGLayer" unique_id=1303364151]
+offset_right = 360.0
 offset_bottom = 640.0
 texture = ExtResource("6_mountains")
-stretch_mode = 1
-texture_repeat = 1
 
-[node name="Trees" type="TextureRect" parent="BGLayer"]
-offset_right = 520.0
+[node name="Mountains2" type="TextureRect" parent="BGLayer" unique_id=73842471]
+offset_left = 360.0
+offset_right = 720.0
+offset_bottom = 640.0
+texture = ExtResource("6_mountains")
+
+[node name="Trees" type="TextureRect" parent="BGLayer" unique_id=389570953]
+offset_right = 360.0
 offset_bottom = 640.0
 texture = ExtResource("7_trees")
-stretch_mode = 1
-texture_repeat = 1
+
+[node name="Trees2" type="TextureRect" parent="BGLayer" unique_id=1522552043]
+offset_left = 360.0
+offset_right = 720.0
+offset_bottom = 640.0
+texture = ExtResource("7_trees")
 
 [node name="KillZone" type="Area2D" parent="." unique_id=1814281923]
 position = Vector2(1280, 3900)
 
 [node name="KillShape" type="CollisionShape2D" parent="KillZone" unique_id=817917225]
-position = Vector2(0, 0)
 shape = SubResource("KillZoneShape")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=820378519]
 _spawnable_scenes = PackedStringArray("uid://c8n6u4h7y7n2r")
 spawn_path = NodePath("..")
 
-[node name="MobileControls" type="CanvasLayer" parent="." unique_id=2144933918 instance=ExtResource("4_mobile")]
-layer = 10
+[node name="MobileControls" parent="." unique_id=2144933918 instance=ExtResource("4_mobile")]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx5jsh6f7g6a0"]
+
+[ext_resource type="Texture2D" uid="uid://b8kkmavp1cuhw" path="res://World/Assets/background.png" id="1_gfuif"]
+[ext_resource type="Texture2D" uid="uid://f1ww7yd5s7kx" path="res://World/Assets/middleground.png" id="2_35wf0"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+
+[node name="ParallaxLayerBackground" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.4, 0)
+motion_mirroring = Vector2(768, 0)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayerBackground"]
+offset_right = 768.0
+offset_bottom = 240.0
+texture = ExtResource("1_gfuif")
+stretch_mode = 1
+
+[node name="ParallaxLayerMiddleground" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.7, 0)
+motion_mirroring = Vector2(768, 0)
+
+[node name="TextureRect" type="TextureRect" parent="ParallaxLayerMiddleground"]
+offset_right = 768.0
+offset_bottom = 240.0
+texture = ExtResource("2_35wf0")
+stretch_mode = 1

@@ -87,6 +87,13 @@ text = "NIGHT"
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
 
+[node name="ForestButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "FOREST (LVL 4)"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.2, 0.8, 0.4, 1)
+
 [node name="RoomCodeInput" type="LineEdit" parent="VBox"]
 layout_mode = 2
 placeholder_text = "Room Code"

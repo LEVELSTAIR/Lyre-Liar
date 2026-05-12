@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c8n6u4h7y7n2r"]
 
 [ext_resource type="Script" uid="uid://ke32ci3q6lqt" path="res://scripts/player.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://asset/charectors/1 Pink_Monster/Pink_Monster_Idle_4.png" id="2_texture"]
+[ext_resource type="Texture2D" path="res://Assets/PinkMonster/Pink_Monster_Idle_4.png" id="2_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(50, 80)

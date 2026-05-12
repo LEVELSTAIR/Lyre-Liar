@@ -1,0 +1,36 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="Sunny Land Forest Godot"
+run/main_scene="res://World/world.tscn"
+config/features=PackedStringArray("4.6", "Forward Plus")
+config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=426
+window/size/viewport_height=240
+window/size/window_width_override=3408
+window/size/window_height_override=1920
+window/stretch/mode="canvas_items"
+
+[layer_names]
+
+2d_physics/layer_1="World"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
