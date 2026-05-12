@@ -13,7 +13,7 @@ const ANIM_DATA := {
 }
 
 const SPEED         := 220.0
-const JUMP_VELOCITY := -520.0
+const JUMP_VELOCITY := -380.0
 const GRAVITY       := 980.0
 
 
