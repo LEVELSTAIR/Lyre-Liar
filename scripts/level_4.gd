@@ -60,13 +60,34 @@ func _display_room_code(custom_code: String = "") -> void:
 	var ui_layer := CanvasLayer.new()
 	ui_layer.layer = 100
 	add_child(ui_layer)
+
+	var panel := PanelContainer.new()
+	panel.offset_left = 12
+	panel.offset_top  = 12
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.05, 0.04, 0.08, 0.82)
+	style.corner_radius_top_left     = 10
+	style.corner_radius_top_right    = 10
+	style.corner_radius_bottom_left  = 10
+	style.corner_radius_bottom_right = 10
+	style.content_margin_left   = 14
+	style.content_margin_right  = 14
+	style.content_margin_top    = 8
+	style.content_margin_bottom = 8
+	style.border_width_left   = 1
+	style.border_width_right  = 1
+	style.border_width_top    = 1
+	style.border_width_bottom = 1
+	style.border_color = Color(1.0, 0.8, 0.2, 0.4)
+	panel.add_theme_stylebox_override("panel", style)
+	ui_layer.add_child(panel)
+
 	var label := Label.new()
 	label.text = "Room: " + room_code
-	label.offset_left = 20
-	label.offset_top  = 20
-	label.add_theme_font_size_override("font_size", 28)
-	label.add_theme_color_override("font_color", Color(1.0, 0.8, 0.2, 1))
-	label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.8))
-	label.add_theme_constant_override("shadow_offset_x", 2)
-	label.add_theme_constant_override("shadow_offset_y", 2)
-	ui_layer.add_child(label)
+	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_color_override("font_color", Color(1.0, 0.8, 0.2, 1.0))
+	label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.6))
+	label.add_theme_constant_override("shadow_offset_x", 1)
+	label.add_theme_constant_override("shadow_offset_y", 1)
+	panel.add_child(label)

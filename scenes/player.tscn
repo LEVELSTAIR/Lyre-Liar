@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://Assets/PinkMonster/Pink_Monster_Idle_4.png" id="2_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(50, 80)
+size = Vector2(26, 41)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
 properties/0/path = NodePath(".:position")
@@ -21,9 +21,9 @@ properties/2/replication_mode = 2
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(3.0, 3.0)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_texture")
-offset = Vector2(0, -48)
+offset = Vector2(0, -24)
 hframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -31,8 +31,8 @@ position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_1")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, -180)
-zoom = Vector2(0.85, 0.85)
+offset = Vector2(0, 0)
+zoom = Vector2(1.0, 1.0)
 limit_left = 0
 limit_top = -700
 limit_right = 7680
