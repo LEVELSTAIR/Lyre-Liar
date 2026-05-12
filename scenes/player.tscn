@@ -34,9 +34,9 @@ shape = SubResource("RectangleShape2D_1")
 offset = Vector2(0, 0)
 zoom = Vector2(1.0, 1.0)
 limit_left = 0
-limit_top = -700
-limit_right = 7680
-limit_bottom = 200
+limit_top = 0
+limit_right = 1124
+limit_bottom = 4096
 position_smoothing_enabled = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

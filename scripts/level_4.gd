@@ -41,7 +41,7 @@ func _add_player(id: String) -> void:
 	cam.limit_left   = 0
 	cam.limit_top    = 0
 	cam.limit_right  = 1124
-	cam.limit_bottom = 240
+	cam.limit_bottom = 4096
 
 func _remove_player(id: String) -> void:
 	if has_node(id):
