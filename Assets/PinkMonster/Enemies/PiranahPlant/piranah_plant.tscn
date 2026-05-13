@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://dy4554uucwhh3"]
 
-[ext_resource type="Texture2D" uid="uid://pe0j6hn6w5tv" path="res://Enemies/PiranahPlant/piranha-plant-attack.png" id="1_40odx"]
-[ext_resource type="Texture2D" uid="uid://j3b7x5pilwl3" path="res://Enemies/PiranahPlant/piranha-plant.png" id="1_ngqob"]
+[ext_resource type="Texture2D" uid="uid://pe0j6hn6w5tv" path="res://Assets/Enemies/PiranahPlant/piranha-plant-attack.png" id="1_40odx"]
+[ext_resource type="Texture2D" uid="uid://j3b7x5pilwl3" path="res://Assets/Enemies/PiranahPlant/piranha-plant.png" id="1_ngqob"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8ybue"]
 atlas = ExtResource("1_40odx")
