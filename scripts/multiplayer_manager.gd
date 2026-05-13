@@ -123,6 +123,7 @@ func _handle_message(raw: String) -> void:
 
 	match msg_type:
 		"hosted":
+			session_id = msg["sessionId"]
 			room_code = msg["roomCode"]
 			selected_mode = msg.get("mode", "day")
 			print("Hosted room: ", room_code, " (session: ", session_id, ") Mode: ", selected_mode)
