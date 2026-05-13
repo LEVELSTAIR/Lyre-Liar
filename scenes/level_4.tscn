@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://doorv8d7wgeh2" path="res://Assets/World/Assets/props/mushroom-red.png" id="3_lpec2"]
 [ext_resource type="Texture2D" uid="uid://ccierjag2o2ms" path="res://Assets/World/Assets/props/tree.png" id="4_20e5r"]
 [ext_resource type="AudioStream" uid="uid://d3r51omyx66bq" path="res://Assets/PinkMonster/Music/happywalking.ogg" id="4_gmwgb"]
-[ext_resource type="PackedScene" uid="uid://ql5s5dasaxm6" path="res://scenes/mobile_controls.tscn" id="4_mobile"]
+[ext_resource type="PackedScene" path="res://scenes/mobile_controls.tscn" id="4_mobile"]
 [ext_resource type="PackedScene" uid="uid://8dbsyumfmwut" path="res://Assets/PinkMonster/Enemies/Slug/Slug.tscn" id="5_o4885"]
 [ext_resource type="PackedScene" uid="uid://cjcyy51wg5x2y" path="res://Assets/PinkMonster/Enemies/Bee/bee.tscn" id="6_6l5e8"]
 [ext_resource type="Texture2D" uid="uid://8jxt6ailv6ym" path="res://Assets/World/Assets/props/rock.png" id="6_f3vgq"]
