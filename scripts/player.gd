@@ -128,9 +128,9 @@ func _update_sprite(direction: float, vel_y: float, delta: float) -> void:
 		_anim_state   = intended
 		_walk_timer   = 0.0
 		_sprite.frame = 0
-		var data: Array = ANIM_DATA[_anim_state]
-		_sprite.texture = data[0]
-		_sprite.hframes = data[1]
+		var anim_data: Array = ANIM_DATA[_anim_state]
+		_sprite.texture = anim_data[0]
+		_sprite.hframes = anim_data[1]
 
 	var data: Array      = ANIM_DATA[_anim_state]
 	var frame_count: int = data[1]
