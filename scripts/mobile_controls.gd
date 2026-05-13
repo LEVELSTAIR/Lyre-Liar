@@ -96,16 +96,16 @@ func _input(event: InputEvent) -> void:
 		_on_touch_dragged(event)
 
 
-func _on_touch_pressed(position: Vector2, touch_id: int) -> void:
+func _on_touch_pressed(touch_position: Vector2, touch_id: int) -> void:
 	var joystick_rect = joystick_base.get_global_rect()
 	var jump_rect = jump_button.get_global_rect()
 
 	# Check if touch is on joystick
-	if joystick_rect.has_point(position):
+	if joystick_rect.has_point(touch_position):
 		_joystick_touch_id = touch_id
-		_update_joystick(position)
+		_update_joystick(touch_position)
 	# Check if touch is on jump button
-	elif jump_rect.has_point(position):
+	elif jump_rect.has_point(touch_position):
 		_jump_touch_id = touch_id
 		jump_button.modulate = Color.GRAY
 		Input.action_press("ui_accept")
