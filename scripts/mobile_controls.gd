@@ -106,6 +106,7 @@ func _on_touch_pressed(touch_position: Vector2, touch_id: int) -> void:
 		_update_joystick(touch_position)
 	# Check if touch is on jump button
 	elif jump_rect.has_point(touch_position):
+
 		_jump_touch_id = touch_id
 		jump_button.modulate = Color.GRAY
 		Input.action_press("ui_accept")

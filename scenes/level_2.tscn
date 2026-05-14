@@ -58,3 +58,4 @@ _spawnable_scenes = PackedStringArray("uid://c8n6u4h7y7n2r")
 spawn_path = NodePath("..")
 
 [node name="MobileControls" parent="." unique_id=2144933918 instance=ExtResource("4_mobile")]
+

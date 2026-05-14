@@ -16,7 +16,6 @@ const SPEED         := 220.0
 const JUMP_VELOCITY := -380.0
 const GRAVITY       := 980.0
 
-
 ## How often (in seconds) to send position to the server.
 const SEND_INTERVAL := 1.0 / 15.0
 
@@ -140,6 +139,7 @@ func _update_sprite(direction: float, vel_y: float, delta: float) -> void:
 	if _walk_timer >= 1.0 / fps:
 		_walk_timer   = 0.0
 		_sprite.frame = (_sprite.frame + 1) % frame_count
+
 
 
 func respawn() -> void:

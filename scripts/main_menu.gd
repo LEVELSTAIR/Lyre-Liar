@@ -111,6 +111,7 @@ func _apply_layout(sf: float) -> void:
 	mode_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	server_ip_label.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	for btn in [day_button, night_button, forest_button, host_button, join_button, quit_button]:
+
 		btn.add_theme_font_size_override("font_size", int(BASE_FONT_BUTTON * sf))
 	room_code_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
 	server_ip_input.add_theme_font_size_override("font_size", int(BASE_FONT_MODE * sf))
