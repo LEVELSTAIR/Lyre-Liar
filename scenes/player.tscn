@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c8n6u4h7y7n2r"]
 
 [ext_resource type="Script" uid="uid://ke32ci3q6lqt" path="res://scripts/player.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://Assets/PinkMonster/Pink_Monster_Idle_4.png" id="2_texture"]
+[ext_resource type="Texture2D" uid="uid://bya4wxxaao4o1" path="res://Assets/PinkMonster/Pink_Monster_Idle_4.png" id="2_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(32, 50)
@@ -17,22 +17,20 @@ properties/2/path = NodePath("Sprite2D:frame")
 properties/2/spawn = true
 properties/2/replication_mode = 2
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=861589387]
 script = ExtResource("1_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1584061493]
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_texture")
 offset = Vector2(0, -24)
 hframes = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=439100365]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_1")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, 0)
-zoom = Vector2(1.0, 1.0)
+[node name="Camera2D" type="Camera2D" parent="." unique_id=793487294]
 limit_left = 0
 limit_top = 0
 limit_right = 1124
@@ -40,5 +38,5 @@ limit_bottom = 4096
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=876382737]
 replication_config = SubResource("SceneReplicationConfig_1")

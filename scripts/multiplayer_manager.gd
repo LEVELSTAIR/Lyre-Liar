@@ -98,6 +98,7 @@ func join_game(code: String) -> void:
 
 
 func _connect_to_server() -> void:
+	_connected = false
 	_ws = WebSocketPeer.new()
 	var err := _ws.connect_to_url(_server_url)
 	if err != OK:
@@ -180,3 +181,4 @@ func leave() -> void:
 	_connected = false
 	session_id = ""
 	room_code = ""
+	active_players.clear()

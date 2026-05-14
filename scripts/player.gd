@@ -145,6 +145,7 @@ func _update_sprite(direction: float, vel_y: float, delta: float) -> void:
 func respawn() -> void:
 	global_position = spawn_point
 	velocity = Vector2.ZERO
+	_spawn_safety_timer = 0.2
 	if is_local_player:
 		MultiplayerManager.send_message("move", {
 			"x": global_position.x,

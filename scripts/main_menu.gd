@@ -174,6 +174,7 @@ func _on_host_pressed() -> void:
 	var ip = server_ip_input.text.strip_edges()
 	if ip.is_empty(): ip = "localhost"
 	MultiplayerManager.server_ip = ip
+	_save_config(ip)
 	server_ip_input.editable = false
 
 

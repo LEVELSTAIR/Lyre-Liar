@@ -113,14 +113,14 @@ color = Color(0.86, 0.84, 0.7, 0.68)
 [node name="UpperHaze" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1300112226]
 offset_left = -512.0
 offset_top = 430.0
-offset_right = 4608.0
+offset_right = 8000.0
 offset_bottom = 465.0
 color = Color(0.07, 0.05, 0.16, 0.22)
 
 [node name="GroundFill" type="ColorRect" parent="ParallaxBackground/SkyLayer" unique_id=1300112300]
 offset_left = -535.0
 offset_top = 455.0
-offset_right = 4585.0
+offset_right = 8000.0
 offset_bottom = 2956.0
 color = Color(0.07, 0.05, 0.13, 1)
 

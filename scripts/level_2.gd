@@ -181,11 +181,7 @@ func _display_room_code(custom_code: String = "") -> void:
 
 	if room_code.is_empty():
 		room_code = MultiplayerManager.room_code
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> upstream/dev
 	print("Room code to display: '", room_code, "'")
 
 	if room_code.is_empty():
