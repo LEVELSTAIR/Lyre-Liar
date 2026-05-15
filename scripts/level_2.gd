@@ -141,11 +141,12 @@ func _add_player(id: String) -> void:
 	_spawn_index += 1
 	add_child(player)
 
-	var cam: Camera2D = player.get_node("Camera2D")
-	cam.limit_left = 0
-	cam.limit_top = 0
-	cam.limit_right = LEVEL[0].size() * TILE_SIZE
-	cam.limit_bottom = LEVEL.size() * TILE_SIZE
+	if player.is_local_player:
+		var cam: Camera2D = player.get_node("Camera2D")
+		cam.limit_left = 0
+		cam.limit_top = 0
+		cam.limit_right = LEVEL[0].size() * TILE_SIZE
+		cam.limit_bottom = LEVEL.size() * TILE_SIZE
 
 
 func _remove_player(id: String) -> void:
