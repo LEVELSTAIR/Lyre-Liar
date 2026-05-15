@@ -1,0 +1,56 @@
+class_name Protocol
+extends RefCounted
+
+enum MessageType {
+    HANDSHAKE = 9,
+    JOIN_ROOM = 10,
+    ERROR = 11,
+    LEAVE_ROOM = 12,
+    ROOM_DATA = 13,
+    ROOM_STATE = 14,
+    ROOM_STATE_PATCH = 15,
+    ROOM_DATA_SCHEMA = 16,  # Deprecated — server no longer sends this
+    ROOM_DATA_BYTES = 17,
+    PING = 18,
+}
+
+enum ErrorCode {
+	MATCHMAKE_NO_HANDLER = 4210,
+	MATCHMAKE_INVALID_CRITERIA = 4211,
+	MATCHMAKE_INVALID_ROOM_ID = 4212,
+	MATCHMAKE_UNHANDLED = 4213,
+	MATCHMAKE_EXPIRED = 4214,
+	AUTH_FAILED = 4215,
+	APPLICATION_ERROR = 4216,
+}
+
+enum CloseCode {
+	NORMAL = 1000,
+	GOING_AWAY = 1001,
+	CONSENTED = 4000,
+	SERVER_SHUTDOWN = 4001,
+	WITH_ERROR = 4002,
+	FAILED_TO_RECONNECT = 4003,
+	MAY_TRY_RECONNECT = 4010,
+}
+
+enum SchemaType {
+    NULL = 0x01,
+    BOOLEAN = 0x02,
+    STRING = 0x03,
+    NUMBER = 0x04,
+    INT8 = 0x05,
+    UINT8 = 0x06,
+    INT16 = 0x07,
+    UINT16 = 0x08,
+    INT32 = 0x09,
+    UINT32 = 0x0A,
+    INT64 = 0x0B,
+    UINT64 = 0x0C,
+    FLOAT32 = 0x0D,
+    FLOAT64 = 0x0E,
+    MAP = 0x0F,
+    ARRAY = 0x10,
+    SET = 0x11,
+    COLLECTION = 0x12,
+}

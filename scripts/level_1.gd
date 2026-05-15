@@ -85,6 +85,8 @@ func _on_room_code_ready(code: String) -> void:
 
 
 func _on_connection_failed(reason: String) -> void:
+	if MultiplayerManager.is_single_player:
+		return
 	print("Connection failed: ", reason)
 	await get_tree().create_timer(2.0).timeout
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
