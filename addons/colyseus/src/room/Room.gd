@@ -15,6 +15,7 @@ var _session_id: String = ""
 var _reconnection_token: String = ""
 var _pending_reconnection_token: String = ""  # Used during reconnect flow
 var _state: RefCounted = null  # Schema instance (root state)
+var _joined: bool = false
 
 func _init(client: Node, room_name: String):
 	_client = client
@@ -33,6 +34,7 @@ func _on_room_state(data: PackedByteArray) -> void:
 		if changes.size() > 0:
 			state_changed.emit(changes)
 
+	_joined = true
 	joined.emit()
 
 # Internal callback from ColyseusClient when ROOM_STATE_PATCH is received
@@ -110,7 +112,7 @@ func get_name() -> String:
 	return _room_name
 
 func is_joined() -> bool:
-	return _state != null
+	return _joined
 
 func get_state() -> RefCounted:
 	return _state
@@ -120,6 +122,7 @@ func send(type: String, data = null) -> void:
 		_client.send_room_data(type, data)
 
 func leave(consented: bool = true) -> void:
+	_joined = false
 	if _client and _client.has_method("send_leave_room"):
 		_client.send_leave_room()
 	var code := Protocol.CloseCode.CONSENTED if consented else Protocol.CloseCode.NORMAL

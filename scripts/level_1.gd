@@ -107,6 +107,13 @@ func _add_player(session_id: String) -> void:
 	add_child(player)
 	print("Player ", session_id, " spawned at ", player.position)
 
+	if player.is_local_player:
+		var cam: Camera2D = player.get_node("Camera2D")
+		cam.limit_left   = 0
+		cam.limit_top    = 0
+		cam.limit_right  = LEVEL[0].size() * TILE_SIZE
+		cam.limit_bottom = LEVEL.size() * TILE_SIZE
+
 
 func _remove_player(session_id: String) -> void:
 	if has_node(session_id):

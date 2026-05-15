@@ -276,12 +276,21 @@ func _handle_join_room(data: PackedByteArray) -> void:
 	# Read reconnection token
 	var token_len := data[offset]
 	offset += 1
+	if token_len < 0 or offset + token_len > data.size():
+		print("[ColyseusClient] JOIN_ROOM token_len out of bounds: %d" % token_len)
+		return
 	var reconnection_token := data.slice(offset, offset + token_len).get_string_from_utf8()
 	offset += token_len
 
 	# Read serializer ID
+	if offset >= data.size():
+		print("[ColyseusClient] JOIN_ROOM packet truncated before serializer_len")
+		return
 	var serializer_len := data[offset]
 	offset += 1
+	if serializer_len < 0 or offset + serializer_len > data.size():
+		print("[ColyseusClient] JOIN_ROOM serializer_len out of bounds: %d" % serializer_len)
+		return
 	var serializer_id := data.slice(offset, offset + serializer_len).get_string_from_utf8()
 	offset += serializer_len
 
@@ -350,6 +359,8 @@ func _handle_error(data: PackedByteArray) -> void:
 
 	print("[ColyseusClient] Error: code=%s, message=%s" % [code, message])
 	error.emit(code, message)
+	if _current_room:
+		_current_room.error_received.emit(code, message)
 
 func _handle_ping() -> void:
 	if _ping_sent_time > 0:

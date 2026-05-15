@@ -4,9 +4,6 @@ extends Schema
 var _items: Array = []
 var _child_type: String = ""
 
-var _add_callbacks: Array = []
-var _remove_callbacks: Array = []
-
 func _init(child_type: String = ""):
 	super()
 	_child_type = child_type

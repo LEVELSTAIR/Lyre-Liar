@@ -279,6 +279,13 @@ func _on_room_code_ready(code: String) -> void:
 		if ip.begins_with("192.168.") or ip.begins_with("10."):
 			ip_str = ip
 			break
+		if ip.begins_with("172."):
+			var parts := ip.split(".")
+			if parts.size() >= 2 and parts[1].is_valid_int():
+				var octet := parts[1].to_int()
+				if octet >= 16 and octet <= 31:
+					ip_str = ip
+					break
 	if ip_str == "": ip_str = local_ip[0] if local_ip.size() > 0 else "Unknown"
 	status_label.text = "Room: " + code + "\nYour IP: " + ip_str + "\nWaiting for players..."
 

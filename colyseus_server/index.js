@@ -64,11 +64,11 @@ class WerewolfRoom extends Room {
     this.onMessage("move", (client, data) => {
       const player = this.state.players.get(client.sessionId);
       if (!player || !data) return;
-      if (typeof data.x === "number") player.x = data.x;
-      if (typeof data.y === "number") player.y = data.y;
-      if (typeof data.vx === "number") player.vx = data.vx;
-      if (typeof data.vy === "number") player.vy = data.vy;
-      if (typeof data.tick === "number") player.tick = data.tick;
+      if (Number.isFinite(data.x)) player.x = data.x;
+      if (Number.isFinite(data.y)) player.y = data.y;
+      if (Number.isFinite(data.vx)) player.vx = data.vx;
+      if (Number.isFinite(data.vy)) player.vy = data.vy;
+      if (Number.isFinite(data.tick)) player.tick = data.tick;
     });
 
     console.log(`[${state.roomCode}] Room created (mode=${state.mode})`);

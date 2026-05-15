@@ -137,6 +137,8 @@ func _join_room(options: Dictionary) -> void:
 	_room = _client.join(ROOM_NAME, options)
 	if _room == null:
 		print("[MP] _client.join returned null")
+		_teardown_client()
+		_reset_local_state()
 		connection_failed.emit("Failed to start matchmaking")
 		return
 

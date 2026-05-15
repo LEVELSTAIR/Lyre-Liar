@@ -209,6 +209,8 @@ static func decode_value(data: PackedByteArray, offset: int) -> Array:
 	# int32 BE
 	if prefix == 0xD2:
 		var val := (data[offset] << 24) | (data[offset + 1] << 16) | (data[offset + 2] << 8) | data[offset + 3]
+		if val >= 0x80000000:
+			val -= (1 << 32)
 		return [val, offset + 4]
 	# int64 BE
 	if prefix == 0xD3:
