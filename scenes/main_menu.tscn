@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
+[ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://Assets/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -14,7 +15,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.05, 0.04, 0.08, 1)
+color = Color(0.03, 0.06, 0.03, 1)
+
+[node name="BgTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2_bgtex")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.6, 0.85, 0.6, 0.32)
 
 [node name="TitleContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -29,7 +40,7 @@ alignment = 1
 
 [node name="TitleBar" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.8, 0.1, 0.1, 1)
+color = Color(0.18, 0.42, 0.12, 1)
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="TitleContainer"]
@@ -38,7 +49,7 @@ text = "PROJECT WEREWOLF"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 52
 theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
-theme_override_colors/font_shadow_color = Color(0.8, 0.1, 0.1, 0.6)
+theme_override_colors/font_shadow_color = Color(0.08, 0.28, 0.06, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 
@@ -47,14 +58,14 @@ layout_mode = 2
 text = "A Game of Deception"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.6, 0.55, 0.5, 1)
+theme_override_colors/font_color = Color(0.55, 0.78, 0.45, 1)
 
 [node name="TitleBarBottom" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.8, 0.1, 0.1, 1)
+color = Color(0.18, 0.42, 0.12, 1)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" name="VBox" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchor_left = 0.5
 anchor_top = 0.45
@@ -68,10 +79,24 @@ alignment = 1
 
 [node name="ModeLabel" type="Label" parent="VBox"]
 layout_mode = 2
-text = "SELECT MODE"
+text = "SELECT MAP"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.6, 0.55, 0.5, 1)
+theme_override_colors/font_color = Color(0.55, 0.78, 0.45, 1)
+
+[node name="SinglePlayerButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "SINGLE PLAYER"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.85, 0.95, 0.6, 1)
+
+[node name="MultiplayerButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "MULTIPLAYER"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="DayButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
@@ -87,6 +112,13 @@ text = "NIGHT"
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
 
+[node name="ForestButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "FOREST (LVL 4)"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.2, 0.8, 0.4, 1)
+
 [node name="RoomCodeInput" type="LineEdit" parent="VBox"]
 layout_mode = 2
 placeholder_text = "Room Code"
@@ -97,28 +129,28 @@ layout_mode = 2
 text = ""
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
+theme_override_colors/font_color = Color(0.55, 0.85, 0.55, 1)
 
 [node name="HostButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "HOST GAME"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="JoinButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "JOIN GAME"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="QuitButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "QUIT"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="VersionLabel" type="Label" parent="."]
 layout_mode = 1
@@ -130,4 +162,4 @@ offset_left = -110.0
 offset_top = -30.0
 text = "v0.1.0 - Alpha"
 theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.4, 0.38, 0.36, 1)
+theme_override_colors/font_color = Color(0.35, 0.55, 0.3, 1)

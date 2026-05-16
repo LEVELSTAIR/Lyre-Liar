@@ -1,9 +1,20 @@
 extends CharacterBody2D
 
+const TEX_IDLE := preload("res://Assets/PinkMonster/Pink_Monster_Idle_4.png")
+const TEX_WALK := preload("res://Assets/PinkMonster/Pink_Monster_Walk_6.png")
+const TEX_JUMP := preload("res://Assets/PinkMonster/Pink_Monster_Jump_8.png")
+
+enum AnimState { IDLE, WALK, JUMP }
+
+const ANIM_DATA := {
+	AnimState.IDLE: [TEX_IDLE, 4,  6.0],
+	AnimState.WALK: [TEX_WALK, 6,  8.0],
+	AnimState.JUMP: [TEX_JUMP, 8, 10.0],
+}
+
 const SPEED         := 220.0
-const JUMP_VELOCITY := -520.0
+const JUMP_VELOCITY := -380.0
 const GRAVITY       := 980.0
-const WALK_FPS  := 8.0
 
 ## How often (in seconds) to send position to the server.
 const SEND_INTERVAL := 1.0 / 15.0
@@ -15,12 +26,15 @@ var spawn_point: Vector2
 
 @onready var _sprite: Sprite2D = $Sprite2D
 
-var _walk_timer := 0.0
-var _tick := 0
+var _walk_timer  := 0.0
+var _anim_state  := AnimState.IDLE
+var _tick        := 0
 var _send_timer := 0.0
 
 var is_local_player := false
 var session_id := ""
+var _spawn_safety_timer := 0.2
+
 
 # Remote interpolation targets
 var _remote_target_pos := Vector2.ZERO
@@ -60,7 +74,7 @@ func _process(delta: float) -> void:
 	# Smoothly interpolate remote players
 	if _remote_initialized:
 		global_position = global_position.lerp(_remote_target_pos, clampf(REMOTE_LERP_SPEED * delta, 0.0, 1.0))
-		_update_sprite(_remote_target_vel.x, delta)
+		_update_sprite(_remote_target_vel.x, _remote_target_vel.y, delta)
 
 
 func _physics_process(delta: float) -> void:
@@ -68,7 +82,11 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if not is_on_floor():
-		velocity.y += GRAVITY * delta
+		if _spawn_safety_timer > 0:
+			_spawn_safety_timer -= delta
+			velocity.y = 0
+		else:
+			velocity.y += GRAVITY * delta
 
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -78,7 +96,7 @@ func _physics_process(delta: float) -> void:
 
 	_tick += 1
 	move_and_slide()
-	_update_sprite(direction, delta)
+	_update_sprite(direction, velocity.y, delta)
 
 	# Throttled movement send
 	_send_timer += delta
@@ -93,21 +111,41 @@ func _physics_process(delta: float) -> void:
 		})
 
 
-func _update_sprite(direction: float, delta: float) -> void:
+func _update_sprite(direction: float, vel_y: float, delta: float) -> void:
+	var intended: AnimState
+	if vel_y < -0.1 or vel_y > 0.1:
+		intended = AnimState.JUMP
+	elif direction != 0.0:
+		intended = AnimState.WALK
+	else:
+		intended = AnimState.IDLE
+
 	if direction != 0.0:
 		_sprite.flip_h = direction < 0.0
-		_walk_timer += delta
-		if _walk_timer >= 1.0 / WALK_FPS:
-			_walk_timer = 0.0
-			_sprite.frame = (_sprite.frame + 1) % 4
-	else:
+
+	if intended != _anim_state:
+		_anim_state   = intended
+		_walk_timer   = 0.0
 		_sprite.frame = 0
-		_walk_timer = 0.0
+		var anim_data: Array = ANIM_DATA[_anim_state]
+		_sprite.texture = anim_data[0]
+		_sprite.hframes = anim_data[1]
+
+	var data: Array      = ANIM_DATA[_anim_state]
+	var frame_count: int = data[1]
+	var fps: float       = data[2]
+
+	_walk_timer += delta
+	if _walk_timer >= 1.0 / fps:
+		_walk_timer   = 0.0
+		_sprite.frame = (_sprite.frame + 1) % frame_count
+
 
 
 func respawn() -> void:
 	global_position = spawn_point
 	velocity = Vector2.ZERO
+	_spawn_safety_timer = 0.2
 	if is_local_player:
 		MultiplayerManager.send_message("move", {
 			"x": global_position.x,
