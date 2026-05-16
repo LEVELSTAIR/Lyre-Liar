@@ -8,7 +8,7 @@ But one of the players isn't a crewmate. **One player is secretly the imposter.*
 
 The crewmates' job is to survive the map *and* figure out who keeps "happening" to be near the traps right when they fire. The imposter's job is to thin the group out and never get caught.
 
-### How it plays
+## How it plays
 
 - **Cross-platform multiplayer** — PC players (keyboard) and mobile players (touch joystick + jump button) join the same room over a Colyseus WebSocket server. A 4-character room code is all you need to share a game.
 - **Multiple maps** — pick from **Day** (sunny outdoor platforms), **Night** (underground stone-and-fungus tiles), or **Forest** (a tall vertical map). Each is a tile-built 2D world with floating platforms, walls, and a fall-out kill-zone.
@@ -21,7 +21,7 @@ The crewmates' job is to survive the map *and* figure out who keeps "happening" 
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.6-blue?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![Networking](https://img.shields.io/badge/Network-Colyseus-9b59b6)](https://colyseus.io)
-[![Platforms](https://img.shields.io/badge/Platforms-PC%20%7C%20Android-2ecc71)]()
+![Platforms](https://img.shields.io/badge/Platforms-PC%20%7C%20Android-2ecc71)
 
 Built with **Godot 4.6** and a **Colyseus** authoritative server. This is the official repository for **Project Werewolf**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/project-werewolf).
 
@@ -88,7 +88,7 @@ Mobile and PC players can join the same room as long as they can reach the same 
 
 ## 📂 Project Structure
 
-```
+```text
 project-werewolf/
 ├── colyseus_server/        # Authoritative Node.js server (Colyseus)
 │   └── index.js            #   WerewolfRoom: state, join, move messages
