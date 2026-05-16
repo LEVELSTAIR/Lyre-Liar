@@ -25,11 +25,11 @@ A short, fast-paced round plays out across a single level:
 
 ## 🚀 Key Features
 
-* **🔌 Authoritative WebSocket Multiplayer** — A lightweight Node.js server (`colyseus_server/`) manages rooms and relays player state. No peer-to-peer setup, no signaling dance — clients just connect to one URL.
+* **🔌 WebSocket Multiplayer (Relay Server)** — A lightweight Node.js server (`colyseus_server/`) manages rooms and forwards player state between clients. No peer-to-peer setup, no signaling dance — clients just connect to one URL.
 * **🏷️ 4-Character Room Codes** — Hosts generate a short code from a non-ambiguous alphabet (no `0/O`, `1/I`, etc.) to share with friends.
 * **🌗 Day / Night Modes** — Mode selection in the main menu chooses between two level layouts (`level_2` for Day, `level_1` for Night).
 * **📱 Mobile-First UI** — Built for 360×640 portrait viewports with virtual on-screen controls (`scenes/mobile_controls.tscn`) and dynamic scaling via the `ResponsiveUI` autoload.
-* **🧮 Client-Side Interpolation** — Remote players are smoothly lerped toward authoritative server positions; the local player runs physics locally and ticks updates to the server at 15 Hz.
+* **🧮 Client-Side Interpolation** — Remote players are smoothly lerped toward the latest relayed server snapshot; the local player runs physics locally and ticks updates to the server at 15 Hz.
 * **🏗️ Tile-Based Levels** — Levels are built from a 2D int grid using a small terrain palette (Grass, Dirt, Stone, Rock, Bedrock, Fungus, Glow). Kill zones reset players to spawn.
 * **⚙️ Jolt Physics** — Configured to use the Jolt physics engine for stable character movement.
 
@@ -59,7 +59,7 @@ The server listens on `ws://localhost:2567` by default. Override with the `PORT`
 
 ## 📂 Project Structure
 
-```
+```text
 project-werewolf/
 ├── scenes/
 │   ├── main_menu.tscn       # Mode select + host/join UI
@@ -90,7 +90,7 @@ project-werewolf/
 
 ## 🌐 Networking Model
 
-The networking is intentionally simple and authoritative-relay style:
+The networking is intentionally simple and relay-style — the server forwards state between clients without validating or simulating it:
 
 | Client → Server | Server → Clients |
 | --- | --- |
@@ -98,11 +98,11 @@ The networking is intentionally simple and authoritative-relay style:
 | `join` — join a room by code | `player_joined` / `player_left` — peer membership changes |
 | `move` — `{x, y, vx, vy, tick}` at 15 Hz | `player_moved` — relayed peer state |
 
-* Each player runs their own physics locally; the server **does not** simulate or correct movement.
+* Each player runs their own physics locally; the server **does not** simulate, validate, or correct movement — it only forwards.
 * Remote players are interpolated client-side toward the latest `player_moved` snapshot.
 * Rooms are destroyed automatically when the last player disconnects.
 
-This model is well-suited to extending with **imposter actions** (trap-trigger RPCs) and **enemy state** (server-owned AI broadcasts) — both planned next.
+This is fine for movement today, but it means anti-cheat and trust-sensitive logic (imposter actions, enemy state, damage) will need to move toward server authority as those features land — see Roadmap.
 
 ## 🗺️ Roadmap
 
@@ -120,7 +120,7 @@ The platforming and networking foundation is in place. Upcoming work, in rough o
 * **Autoloads** — `MultiplayerManager` (networking) and `ResponsiveUI` (scaling) are registered in `project.godot`.
 * **Tick rate** — Movement is sent every `1/15 s` (`SEND_INTERVAL` in `player.gd`). Adjust there if you change server cadence.
 * **Spawn points** — Hardcoded per-level in `level_1.gd` / `level_2.gd` and cycled per join order.
-* **Mobile build** — APKs are produced via Godot's Android export; recent builds are checked into the repo root (`0.5.apk` … `0.14.apk`) for quick testing.
+* **Mobile build** — Use Godot's Android export to produce an APK. Builds are not tracked in this repo; publish them via GitHub Releases or CI artifacts when sharing with testers.
 
 ## 🤝 Contributing
 
