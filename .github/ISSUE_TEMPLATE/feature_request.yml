@@ -1,0 +1,64 @@
+name: Feature request
+description: Suggest a new feature, map, mechanic, or improvement.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for a new trap, map, role, or system? Tell us about it. The more specific, the better.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What gap or pain point does this address? If it's purely additive, describe the player experience you want to enable.
+      placeholder: e.g. The imposter has no way to set up environmental kills on the Forest map.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe what you want built. Be concrete about player-facing behavior.
+      placeholder: e.g. Add a falling-log trap the imposter can trigger silently when a crewmate walks under it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you thought about and why you didn't pick them.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Gameplay — roles / mechanics
+        - Gameplay — traps / enemies
+        - Maps / level design
+        - Client — UI / menus / controls
+        - Networking — Colyseus client/server
+        - Tooling / build
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, references, links to related issues, etc.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: I'm willing to discuss scope with maintainers before any work starts.
+          required: false

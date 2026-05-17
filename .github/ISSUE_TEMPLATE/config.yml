@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contributing guide
+    url: https://github.com/LEVELSTAIR/Lyre-Liar/blob/main/CONTRIBUTING.md
+    about: Read this first — branching model, code style, and PR workflow.
+  - name: Question / discussion
+    url: https://github.com/LEVELSTAIR/Lyre-Liar/discussions
+    about: For open-ended questions, ideas, or playtesting feedback that aren't yet a bug or a concrete feature request.
