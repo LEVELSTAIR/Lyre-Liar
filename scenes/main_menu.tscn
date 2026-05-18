@@ -40,29 +40,29 @@ alignment = 1
 
 [node name="TitleBar" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.18, 0.42, 0.12, 1)
+color = Color(0.78, 0.55, 0.18, 1)
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="TitleContainer"]
 layout_mode = 2
-text = "PROJECT WEREWOLF"
+text = "LYRE & LIAR"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 52
 theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
-theme_override_colors/font_shadow_color = Color(0.08, 0.28, 0.06, 0.8)
+theme_override_colors/font_shadow_color = Color(0.32, 0.18, 0.06, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 
 [node name="SubtitleLabel" type="Label" parent="TitleContainer"]
 layout_mode = 2
-text = "A Game of Deception"
+text = "Whisper me a betrayal"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.55, 0.78, 0.45, 1)
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
 
 [node name="TitleBarBottom" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.18, 0.42, 0.12, 1)
+color = Color(0.78, 0.55, 0.18, 1)
 layout_mode = 2
 
 [node name="VBox" type="VBoxContainer" parent="."]
