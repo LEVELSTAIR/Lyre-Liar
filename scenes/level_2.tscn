@@ -1123,16 +1123,16 @@ spawn_path = NodePath("..")
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=2056591737]
 
 [node name="Spawn1" type="Marker2D" parent="SpawnPoints" unique_id=2038804777]
-position = Vector2(150, 480)
+position = Vector2(150, 370)
 
 [node name="Spawn2" type="Marker2D" parent="SpawnPoints" unique_id=1270511265]
-position = Vector2(400, 480)
+position = Vector2(400, 370)
 
 [node name="Spawn3" type="Marker2D" parent="SpawnPoints" unique_id=1612817298]
-position = Vector2(650, 480)
+position = Vector2(650, 370)
 
 [node name="Spawn4" type="Marker2D" parent="SpawnPoints" unique_id=1584382804]
-position = Vector2(900, 480)
+position = Vector2(900, 370)
 
 [node name="MobileControls" parent="." unique_id=432519172 instance=ExtResource("2_mobile")]
 

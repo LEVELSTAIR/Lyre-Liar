@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 
 ## Level scene. Terrain, spawn points, and camera bounds come from the scene,
@@ -9,20 +8,16 @@ extends Node2D
 
 var _spawn_index := 0
 
-# Platform ranges defined in tile coordinates (row/col in TileMap space).
-# Tiles alternate between atlas coords (14,23)/(15,23) for top rows and
-# (14,24)/(15,24) for bottom rows, matching the mainlev_build.png source.
+# Elevated platforms generated at runtime on top of the base floor tiles.
+# Base floor sits at rows 6–7 (world y ≈ 443–467).
+# Mid platforms (rows 3–4) are reachable in one jump (~73 px max height).
+# High platforms (rows 1–2) are reachable from mid platforms.
 const PLATFORMS := [
-	{"rs": 8, "re": 9, "cs": 76,  "ce": 110},  # Extended floor
-	{"rs": 6, "re": 7, "cs": 5,   "ce": 14},   # Low platform 1
-	{"rs": 6, "re": 7, "cs": 22,  "ce": 31},   # Low platform 2
-	{"rs": 6, "re": 7, "cs": 42,  "ce": 51},   # Low platform 3
-	{"rs": 6, "re": 7, "cs": 62,  "ce": 71},   # Low platform 4
-	{"rs": 6, "re": 7, "cs": 84,  "ce": 93},   # Low platform 5
-	{"rs": 4, "re": 5, "cs": 14,  "ce": 21},   # High platform 1
-	{"rs": 4, "re": 5, "cs": 32,  "ce": 39},   # High platform 2
-	{"rs": 4, "re": 5, "cs": 52,  "ce": 59},   # High platform 3
-	{"rs": 4, "re": 5, "cs": 72,  "ce": 79},   # High platform 4
+	{"rs": 3, "re": 4, "cs": 10, "ce": 22},
+	{"rs": 3, "re": 4, "cs": 35, "ce": 47},
+	{"rs": 3, "re": 4, "cs": 60, "ce": 72},
+	{"rs": 1, "re": 2, "cs": 22, "ce": 34},
+	{"rs": 1, "re": 2, "cs": 48, "ce": 60},
 ]
 
 
@@ -40,15 +35,8 @@ func _create_platform_tiles() -> void:
 					tilemap.set_cell(0, coords, 1, atlas)
 
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_EDITOR_PRE_SAVE:
-		_create_platform_tiles()
-
-
 func _ready() -> void:
 	_create_platform_tiles()
-	if Engine.is_editor_hint():
-		return
 
 	$KillZone.body_entered.connect(_on_kill_zone_body_entered)
 
