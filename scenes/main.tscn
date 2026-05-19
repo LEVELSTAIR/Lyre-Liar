@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://q8qb14hg4mc4"]
+
+[ext_resource type="Texture2D" uid="uid://4grdo48g04mi" path="res://icon.svg" id="1_texture"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2"]
+size = Vector2(128, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 16.0
+
+[node name="root" type="Node2D" unique_id=793307048]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=986107785]
+position = Vector2(200, 250)
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=2105002452]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=386785597]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Platform" type="StaticBody2D" parent="." unique_id=396770047]
+position = Vector2(300, 400)
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform" unique_id=843545705]
+modulate = Color(0.2, 0.8, 0.2, 1)
+scale = Vector2(4, 0.5)
+texture = ExtResource("1_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=1681027318]
+shape = SubResource("RectangleShape2D_2")
+
+[node name="Collectible" type="Area2D" parent="." unique_id=919324855]
+position = Vector2(400, 300)
+
+[node name="Sprite2D" type="Sprite2D" parent="Collectible" unique_id=1423284630]
+modulate = Color(1, 0.9, 0.1, 1)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collectible" unique_id=992577441]
+shape = SubResource("CircleShape2D_1")
