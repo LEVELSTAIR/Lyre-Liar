@@ -40,6 +40,11 @@ func _create_platform_tiles() -> void:
 					tilemap.set_cell(0, coords, 1, atlas)
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_EDITOR_PRE_SAVE:
+		_create_platform_tiles()
+
+
 func _ready() -> void:
 	_create_platform_tiles()
 	if Engine.is_editor_hint():
