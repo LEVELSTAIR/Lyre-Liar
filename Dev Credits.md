@@ -4,8 +4,8 @@
 - SachinduN
 
 # Game Design
-- TharinduDM
+- TharinduDMunasinghe
 - SachinduN
 
 # Project Management
-- TharinduDM
+- TharinduDMunsinghe
