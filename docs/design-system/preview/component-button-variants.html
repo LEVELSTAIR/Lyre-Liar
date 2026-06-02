@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:28px 32px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .btn{height:54px;border:0;font-family:var(--font-ui);font-size:18px;text-transform:uppercase;letter-spacing:0.06em;background:linear-gradient(180deg,#4F4F4F,#353535);text-shadow:0 1px 0 rgba(0,0,0,0.6);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .lbl{font-family:var(--font-mono);font-size:10px;color:var(--state-version);text-align:center;margin-top:6px;}
+  .col{display:flex;flex-direction:column;}
+</style></head>
+<body><div class="wrap">
+  <div class="col"><div class="btn" style="color:var(--label-single);">Single player</div><div class="lbl">single · #D9F299</div></div>
+  <div class="col"><div class="btn" style="color:var(--label-multi);">Multiplayer</div><div class="lbl">multi · #D1F2BF</div></div>
+  <div class="col"><div class="btn" style="color:var(--map-day);">Day</div><div class="lbl">map.day · #FFBF33</div></div>
+  <div class="col"><div class="btn" style="color:var(--map-night);">Night</div><div class="lbl">map.night · #99BFFF</div></div>
+  <div class="col"><div class="btn" style="color:var(--map-forest);">Forest</div><div class="lbl">map.forest · #33CC66</div></div>
+</div></body></html>

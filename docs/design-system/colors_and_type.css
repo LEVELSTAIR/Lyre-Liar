@@ -1,0 +1,214 @@
+/* =========================================================================
+   LYRE & LIAR — DESIGN TOKENS
+   Source of truth derived from main_menu.tscn, pause_menu.tscn, death_menu.tscn,
+   level_complete_menu.tscn, timer_hud.tscn, and project.godot.
+   Colors are reproduced 1:1 from Godot Color(r,g,b,a) declarations.
+   ========================================================================= */
+
+/* ─── Webfonts ─────────────────────────────────────────────────────────── */
+/* The Godot project ships with no custom font files — it falls back to Godot's
+   default theme (a Noto Sans / Open Sans hybrid). The substitutes below were
+   picked to fit the cozy-fantasy / arcade-pixel mood; flag to user if they
+   want the engine default restored. */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Jersey+25&family=VT323&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ─── BACKDROP / SHELL ──────────────────────────────────────────────── */
+  /* Near-black green used as the main menu base (under the parallax cave). */
+  --shell-void:         #080F08; /* Color(0.03, 0.06, 0.03) */
+  /* Engine default clear color — warm amber, leaks into transition flashes. */
+  --shell-amber:        #CCB34D; /* Color(0.8, 0.7, 0.3) */
+  /* Death overlay base (dim crimson, 0.7α). */
+  --shell-bloodshade:   rgba(64, 0, 0, 0.7);  /* Color(0.25, 0, 0, 0.7) */
+  /* Level-complete overlay base (forest dusk, 0.7α). */
+  --shell-glade:        rgba(0, 38, 13, 0.7); /* Color(0, 0.15, 0.05, 0.7) */
+  /* Pause overlay base (true black, 0.6α). */
+  --shell-hush:         rgba(0, 0, 0, 0.6);
+  /* Pause / timeout-screen overlay base (true black, 0.7α). */
+  --shell-hush-deep:    rgba(0, 0, 0, 0.7);
+
+  /* ─── BRASS — primary brand accent ──────────────────────────────────── */
+  /* Used for the two horizontal rules that bracket the LYRE & LIAR title. */
+  --brass-rule:         #C78D2E; /* Color(0.78, 0.55, 0.18) — title rules */
+  --brass-deep:         #522E0F; /* Color(0.32, 0.18, 0.06) — title shadow */
+  --brass-glow:         #D9B366; /* Color(0.85, 0.7, 0.4)  — subtitle gold */
+
+  /* ─── PARCHMENT — title / body text on dark ─────────────────────────── */
+  --parchment:          #F2E5D9; /* Color(0.95, 0.9, 0.85)  — LYRE & LIAR text */
+  --parchment-dim:      #F2F2BF; /* Color(0.95, 0.95, 0.75) — stats line */
+
+  /* ─── MAP / MOOD ACCENTS ────────────────────────────────────────────── */
+  /* One per map selector. These are also re-used elsewhere semantically. */
+  --map-day:            #FFBF33; /* Color(1.0, 0.75, 0.2) — sun gold */
+  --map-night:          #99BFFF; /* Color(0.6, 0.75, 1.0) — moon blue */
+  --map-forest:         #33CC66; /* Color(0.2, 0.8, 0.4)  — forest green */
+
+  /* ─── BUTTON LABEL TINTS ────────────────────────────────────────────── */
+  /* Each button label has its own hue — buttons themselves are the Godot
+     default gray stylebox; the personality lives in the label color. */
+  --label-single:       #D9F299; /* Color(0.85, 0.95, 0.6)  — single player */
+  --label-multi:        #D1F2BF; /* Color(0.82, 0.95, 0.75) — multiplayer / host / join / quit */
+
+  /* ─── SEMANTIC / STATE ──────────────────────────────────────────────── */
+  --state-mode:         #8CC773; /* Color(0.55, 0.78, 0.45) — "SELECT MAP" label */
+  --state-status:       #8CD98C; /* Color(0.55, 0.85, 0.55) — status line */
+  --state-version:      #59874D; /* Color(0.35, 0.55, 0.3)  — v0.1.0 - Alpha */
+  --state-paused:       #FFD94D; /* Color(1, 0.85, 0.3)     — PAUSED */
+  --state-died:         #FF3333; /* Color(1, 0.2, 0.2)      — YOU DIED */
+  --state-complete:     #99FF66; /* Color(0.6, 1, 0.4)      — LEVEL COMPLETE */
+  --state-timer:        #FFE666; /* Color(1, 0.9, 0.4)      — countdown */
+  --state-timeout:      #FF9933; /* Color(1, 0.6, 0.2)      — TOO LATE */
+
+  /* ─── SHADOWS ───────────────────────────────────────────────────────── */
+  /* Drop shadow under every title — Godot's font_shadow_color + 2 or 3px offset. */
+  --title-shadow:       0 3px 0 rgba(82, 46, 15, 0.8);   /* brass-deep × .8 */
+  --label-shadow:       0 2px 0 rgba(0, 0, 0, 0.8);      /* secondary titles */
+
+  /* ─── TYPE FAMILIES ─────────────────────────────────────────────────── */
+  /* Cinzel — main title / heroic moments. Medieval Roman caps for "LYRE & LIAR". */
+  --font-display:       'Cinzel', 'Times New Roman', serif;
+  /* Jersey 25 — chunky stadium / arcade type for buttons + HUD labels.
+     Direct stand-in for the Godot default at large weights. */
+  --font-ui:            'Jersey 25', 'Inter', system-ui, sans-serif;
+  /* VT323 — pixel monospace for the room-code input + timer digits. */
+  --font-mono:          'VT323', 'Courier New', monospace;
+  /* Inter — neutral body for help text and prose docs. */
+  --font-body:          'Inter', system-ui, sans-serif;
+
+  /* ─── TYPE SCALE (px values mirror Godot font_size literals) ─────────── */
+  --fs-title:           52px; /* LYRE & LIAR */
+  --fs-overlay-title:   40px; /* YOU DIED / TOO LATE */
+  --fs-complete-title:  36px; /* LEVEL COMPLETE */
+  --fs-pause-title:     32px; /* PAUSED */
+  --fs-timer:           28px; /* 01:00 */
+  --fs-button:          22px; /* every menu button */
+  --fs-overlay-button:  20px; /* in-overlay button */
+  --fs-stats:           18px; /* level-complete stats line */
+  --fs-subtitle:        18px; /* Whisper me a betrayal */
+  --fs-mode:            14px; /* SELECT MAP label */
+  --fs-meta:            12px; /* v0.1.0 - Alpha, status text */
+
+  /* ─── SPACING & GEOMETRY ────────────────────────────────────────────── */
+  /* Base layout is the 360×640 portrait viewport scaled via ResponsiveUI. */
+  --base-viewport-w:    360px;
+  --base-viewport-h:    640px;
+  --scale-min:          0.7;
+  --scale-max:          2.5;
+
+  --space-rule:         6px;   /* title bar thickness */
+  --space-vbox-sep:     18px;  /* gap between buttons */
+  --space-overlay-sep:  16px;  /* gap between buttons inside overlays */
+
+  --btn-w:              280px;
+  --btn-h:              56px;
+  --btn-overlay-w:      240px;
+  --btn-overlay-h:      50px;
+  --joystick:           100px;
+  --joystick-handle:    50px;
+
+  --radius-pill:        9999px; /* mobile controls — fully round panels */
+  --radius-none:        0;      /* every menu button — Godot stylebox default */
+}
+
+/* =========================================================================
+   SEMANTIC TYPOGRAPHY
+   ========================================================================= */
+
+.ll-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--fs-title);
+  letter-spacing: 0.04em;
+  color: var(--parchment);
+  text-shadow: var(--title-shadow);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.ll-subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--fs-subtitle);
+  color: var(--brass-glow);
+  letter-spacing: 0.02em;
+}
+
+.ll-overlay-title {
+  font-family: var(--font-ui);
+  font-size: var(--fs-overlay-title);
+  color: var(--state-died);
+  text-shadow: var(--label-shadow);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ll-mode-label {
+  font-family: var(--font-ui);
+  font-size: var(--fs-mode);
+  color: var(--state-mode);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.ll-button-label {
+  font-family: var(--font-ui);
+  font-size: var(--fs-button);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--label-multi);
+}
+
+.ll-timer {
+  font-family: var(--font-mono);
+  font-size: var(--fs-timer);
+  color: var(--state-timer);
+  text-shadow: var(--label-shadow);
+  letter-spacing: 0.04em;
+}
+
+.ll-meta {
+  font-family: var(--font-body);
+  font-size: var(--fs-meta);
+  color: var(--state-version);
+  letter-spacing: 0.04em;
+}
+
+.ll-stats {
+  font-family: var(--font-body);
+  font-size: var(--fs-stats);
+  color: var(--parchment-dim);
+}
+
+/* =========================================================================
+   BUTTON — Godot default stylebox approximation
+   - Square-corner, gray gradient, no border, slightly lighter on hover, slightly
+     darker on press. Label color comes from a separate var per role.
+   ========================================================================= */
+.ll-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--btn-w);
+  height: var(--btn-h);
+  padding: 0 16px;
+  border: 0;
+  border-radius: var(--radius-none);
+  font-family: var(--font-ui);
+  font-size: var(--fs-button);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--label-multi);
+  background: linear-gradient(180deg, #4F4F4F 0%, #353535 100%);
+  cursor: pointer;
+  transition: filter 90ms linear, transform 90ms ease-out;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+.ll-btn:hover    { filter: brightness(1.15); }
+.ll-btn:active   { filter: brightness(0.85); transform: translateY(1px); }
+.ll-btn:disabled { filter: brightness(0.6) grayscale(0.4); cursor: default; }
+
+.ll-btn--day     { color: var(--map-day); }
+.ll-btn--night   { color: var(--map-night); }
+.ll-btn--forest  { color: var(--map-forest); }
+.ll-btn--single  { color: var(--label-single); }
+.ll-btn--multi   { color: var(--label-multi); }

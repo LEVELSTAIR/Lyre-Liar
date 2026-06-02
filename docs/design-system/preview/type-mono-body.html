@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:24px 32px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;}
+  .mono{font-family:var(--font-mono);font-size:48px;color:var(--state-timer);text-shadow:0 2px 0 rgba(0,0,0,0.8);letter-spacing:0.04em;}
+  .input{font-family:var(--font-mono);font-size:24px;color:var(--parchment);background:#1A1A1A;border:1px solid #444;padding:8px 14px;letter-spacing:0.18em;text-align:center;}
+  .body{font-family:var(--font-body);font-size:14px;color:var(--state-status);line-height:1.6;}
+  .meta{font-family:var(--font-mono);font-size:11px;color:var(--state-version);letter-spacing:0.04em;margin-top:6px;}
+  .col{display:flex;flex-direction:column;gap:4px;}
+</style></head>
+<body><div class="wrap">
+  <div class="col"><div class="mono">01:00</div><div class="meta">vt323 · countdown HUD</div></div>
+  <div class="col"><div class="input">ABCD</div><div class="meta">vt323 · 4-char room code</div></div>
+  <div class="col" style="grid-column:1/-1;"><div class="body">Room: ABCD<br>Your IP: 192.168.1.10<br>Waiting for players...</div><div class="meta">inter 14px · status copy / state·status</div></div>
+</div></body></html>
