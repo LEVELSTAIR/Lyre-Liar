@@ -11,6 +11,7 @@ export_credentials.cfg
 *.exe
 *.zip
 builds/
+build/
 
 # Node.js (Signaling Server)
 node_modules/
@@ -35,3 +36,6 @@ Thumbs.db
 .mono/
 data_*/
 mono_crash.*.json
+
+# Claude Code local state
+.claude/
