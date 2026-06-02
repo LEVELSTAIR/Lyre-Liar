@@ -20,12 +20,38 @@ const ROOM_NAME := "werewolf"
 const ROOM_CODE_CHARS := "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 const HOST_RETRY_LIMIT := 3
 
+# Single source of truth for the maps this build ships. Add a row here to add
+# a map — main_menu.gd reads this for the selection grid + launch route, and
+# level_complete_menu.gd reads it for the next-level cycle. Order in the array
+# defines the cycle order used by next_mode().
+const MAP_REGISTRY := [
+	{"mode": "day",    "name": "DAY",    "desc": "sun outdoor",   "mood": Color(1.0, 0.75, 0.2, 1), "scene": "res://scenes/level_2.tscn"},
+	{"mode": "night",  "name": "NIGHT",  "desc": "cave depths",   "mood": Color(0.6, 0.75, 1.0, 1), "scene": "res://scenes/level_1.tscn"},
+	{"mode": "forest", "name": "FOREST", "desc": "tall vertical", "mood": Color(0.2, 0.8, 0.4, 1), "scene": "res://scenes/level_4.tscn"},
+]
+
+
+static func get_map(mode: String) -> Dictionary:
+	for entry in MAP_REGISTRY:
+		if entry["mode"] == mode:
+			return entry
+	return MAP_REGISTRY[0]
+
+
+static func next_mode(current: String) -> String:
+	for i in MAP_REGISTRY.size():
+		if MAP_REGISTRY[i]["mode"] == current:
+			return MAP_REGISTRY[(i + 1) % MAP_REGISTRY.size()]["mode"]
+	return MAP_REGISTRY[0]["mode"]
+
+
 var active_players: Array[String] = []
 var session_id: String = ""
 var room_code: String = ""
 var is_hosting_intent: bool = false
 var join_intent_code: String = ""
 var selected_mode: String = "day"
+var selected_character: String = "pink"
 var server_ip: String = "localhost"
 var is_single_player: bool = false
 
