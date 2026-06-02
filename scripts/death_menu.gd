@@ -18,6 +18,11 @@ func _ready() -> void:
 
 
 func show_death(player: Node) -> void:
+	# Single-player only: in multiplayer a local death must not pause the whole
+	# tree (which would freeze remote players too). Mirrors timer_hud /
+	# level_complete_menu, which self-remove in multiplayer.
+	if not MultiplayerManager.is_single_player:
+		return
 	if _overlay.visible:
 		return
 	_player = player

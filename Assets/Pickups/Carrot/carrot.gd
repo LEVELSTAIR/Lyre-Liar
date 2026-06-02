@@ -13,5 +13,6 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if "is_local_player" in body and body.is_local_player and body.has_method("heal"):
-		body.heal(HEAL_AMOUNT)
-		queue_free()
+		# Only consume the carrot if it actually restored HP (not at full health).
+		if body.heal(HEAL_AMOUNT):
+			queue_free()
