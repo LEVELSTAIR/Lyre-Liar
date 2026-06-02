@@ -194,12 +194,13 @@ func _on_touch_pressed(touch_position: Vector2, touch_id: int) -> void:
 	var joystick_rect = joystick_base.get_global_rect()
 	var jump_rect = jump_button.get_global_rect()
 
-	# Check if touch is on joystick
-	if joystick_rect.has_point(touch_position):
+	# Check if touch is on joystick (only claim it when no finger owns it yet,
+	# so a second touch can't hijack an active control).
+	if joystick_rect.has_point(touch_position) and _joystick_touch_id == -1:
 		_joystick_touch_id = touch_id
 		_update_joystick(touch_position)
 	# Check if touch is on jump button
-	elif jump_rect.has_point(touch_position):
+	elif jump_rect.has_point(touch_position) and _jump_touch_id == -1:
 
 		_jump_touch_id = touch_id
 		jump_button.modulate = Color.GRAY

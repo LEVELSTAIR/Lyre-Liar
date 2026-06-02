@@ -61,7 +61,7 @@ function App() {
           />
         )}
         {overlay === 'died' && (
-          <OverlayDied onRestart={() => setOverlay(null)} onQuit={backToMenu} />
+          <OverlayDied onRestart={() => { setSeconds(60); setOverlay(null); }} onQuit={backToMenu} />
         )}
         {overlay === 'timeout' && (
           <OverlayTimeout onRestart={() => { setSeconds(60); setOverlay(null); }} onQuit={backToMenu} />

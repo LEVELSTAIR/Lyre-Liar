@@ -23,6 +23,11 @@ func _ready() -> void:
 	_next_btn.pressed.connect(_next_level)
 	_menu_btn.pressed.connect(_to_main_menu)
 
+	# On the final map next_mode() wraps back to the first level, so hide
+	# "Next Level" rather than sending the player back to the start.
+	if MultiplayerManager.selected_mode == MultiplayerManager.MAP_REGISTRY[-1]["mode"]:
+		_next_btn.visible = false
+
 
 func show_win(_player: Node, time_seconds: float = -1.0, deaths: int = -1) -> void:
 	if _won:

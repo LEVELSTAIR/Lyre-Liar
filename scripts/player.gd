@@ -162,6 +162,12 @@ func _physics_process(delta: float) -> void:
 	if not is_local_player:
 		return
 
+	# A dead local player stops moving and sending position packets until it
+	# respawns (which restores HP). Without this guard the corpse keeps walking
+	# and broadcasting "move" messages while the death overlay is up.
+	if not is_alive():
+		return
+
 	if not is_on_floor():
 		if _spawn_safety_timer > 0:
 			_spawn_safety_timer -= delta
@@ -264,15 +270,17 @@ func take_damage(amount: int = 1) -> void:
 		died.emit()
 
 
-## Restore `amount` HP up to MAX_HP. No-op after death.
-func heal(amount: int = 1) -> void:
+## Restore `amount` HP up to MAX_HP. Returns true only when HP actually changed,
+## so callers (e.g. pickups) can avoid being consumed at full health or post-death.
+func heal(amount: int = 1) -> bool:
 	if not is_alive():
-		return
+		return false
 	var new_hp: int = min(MAX_HP, current_hp + amount)
 	if new_hp == current_hp:
-		return
+		return false
 	current_hp = new_hp
 	hp_changed.emit(current_hp, MAX_HP)
+	return true
 
 
 # Called from _physics_process for the local player. Walks the slide

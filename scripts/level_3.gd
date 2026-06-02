@@ -49,6 +49,8 @@ func _on_room_code_ready(code: String) -> void:
 	_display_room_code(code)
 
 func _on_connection_failed(_reason: String) -> void:
+	if MultiplayerManager.is_single_player:
+		return
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 

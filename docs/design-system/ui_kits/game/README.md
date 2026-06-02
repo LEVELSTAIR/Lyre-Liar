@@ -22,19 +22,15 @@ Hi-fi recreation of the Lyre & Liar game client UI, modeled directly from the Go
 
 ## Components
 
-| File | Purpose |
-| --- | --- |
-| `App.jsx` | Root state machine — mirrors `main_menu.gd::_update_ui_state`. |
-| `GameFrame.jsx` | 360×640 portrait shell that scales to fit any viewport (mirrors `responsive_ui.gd`). |
-| `TitleBlock.jsx` | LYRE & LIAR wordmark + brass rules + tagline. |
-| `MenuButton.jsx` | Godot-default stylebox button with per-role label tint. |
-| `RoomCodeInput.jsx`, `ServerAddressInput.jsx` | The two `LineEdit`s from `main_menu.tscn`. |
-| `StatusLine.jsx` | Multiline status text in `state-status` green. |
-| `MainMenu.jsx` | Composes the three menu screens (initial / map-select / multiplayer). |
-| `GameView.jsx` | In-game canvas with parallax background, mobile controls, HUD. |
-| `MobileHUD.jsx` | Joystick + JUMP button + pause + timer. |
-| `Overlay.jsx` | Generic centered overlay frame; used by all four overlay screens. |
-| `OverlayPaused.jsx`, `OverlayDied.jsx`, `OverlayTimeout.jsx`, `OverlayComplete.jsx` | The four overlay states. |
+The kit is split across five `.jsx` files (loaded in order by `index.html`). Related components are consolidated into `Primitives.jsx` and `Overlays.jsx` rather than one file each.
+
+| File | Components | Purpose |
+| --- | --- | --- |
+| `Primitives.jsx` | `GameFrame`, `TitleBlock`, `MenuButton`, `StatusLine` | 360×640 portrait shell, LYRE & LIAR wordmark + brass rules, Godot-default stylebox buttons, and multiline status text. |
+| `MainMenu.jsx` | `MainMenu` | Composes the three menu screens (initial / map-select / multiplayer), including the inline room-code and server-address inputs. |
+| `GameView.jsx` | `GameView`, `PauseButton`, `TimerHud`, `MobileControls` | In-game canvas (parallax background + sprites), top-left pause button, top-right countdown, and the joystick + JUMP controls. |
+| `Overlays.jsx` | `Overlay`, `OverlayTitle`, `OverlayPaused`, `OverlayDied`, `OverlayTimeout`, `OverlayComplete` | Generic centered overlay frame/title plus the four overlay states. |
+| `App.jsx` | `App` | Root state machine — mirrors `main_menu.gd::_update_ui_state` and the in-game overlay flow. |
 
 ## Notes & limitations
 

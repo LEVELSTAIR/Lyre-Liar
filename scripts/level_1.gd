@@ -135,7 +135,8 @@ func _on_kill_zone_body_entered(body: Node2D) -> void:
 		return
 	if "is_local_player" in body and body.is_local_player:
 		_deaths += 1
-		_death_menu.show_death(body)
+		if _death_menu and _death_menu.has_method("show_death"):
+			_death_menu.show_death(body)
 
 
 func _on_goal_body_entered(body: Node2D) -> void:

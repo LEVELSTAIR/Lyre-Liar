@@ -71,6 +71,7 @@ Flow:
 README files use a small set of emoji as section bullets (🗺 🚀 🛠 🔌 📋 🤝 📄) — that pattern is reserved for *developer-facing docs only*. Player-facing UI has **zero emoji**.
 
 ### Examples — verbatim from the game
+
 | Surface | Copy |
 | --- | --- |
 | Wordmark | `LYRE & LIAR` |
