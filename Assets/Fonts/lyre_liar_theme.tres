@@ -1,8 +1,0 @@
-[gd_resource type="Theme" load_steps=3 format=3]
-
-[ext_resource type="FontFile" path="res://Assets/Fonts/Jersey25-Regular.ttf" id="1_jersey"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/VT323-Regular.ttf" id="2_vt323"]
-
-[resource]
-default_font = ExtResource("1_jersey")
-LineEdit/fonts/font = ExtResource("2_vt323")

@@ -1,13 +1,25 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
-[ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://Assets/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="3_cinzel"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/Inter-VariableFont.ttf" id="4_inter"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/Inter-Italic-VariableFont.ttf" id="5_interi"]
-[ext_resource type="Texture2D" path="res://Assets/PinkMonster/Pink_Monster.png" id="6_pink"]
-[ext_resource type="Texture2D" path="res://Assets/DudeMonster/Dude_Monster.png" id="7_dude"]
-[ext_resource type="Texture2D" path="res://Assets/OwletMonster/Owlet_Monster.png" id="8_owlet"]
+[ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://asset/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Cinzel-VariableFont_wght.ttf" id="3_cinzel"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Inter-VariableFont.ttf" id="4_inter"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Inter-Italic-VariableFont.ttf" id="5_interi"]
+[ext_resource type="Texture2D" uid="uid://gwsnw0g1xe7q" path="res://asset/Pixel Adventure/Main Characters/Pink Man/Idle (32x32).png" id="6_pink"]
+[ext_resource type="Texture2D" uid="uid://k72w4vnfkg22" path="res://asset/Pixel Adventure/Main Characters/Mask Dude/Idle (32x32).png" id="7_dude"]
+[ext_resource type="Texture2D" uid="uid://b05qhkgc0qcn4" path="res://asset/Pixel Adventure/Main Characters/Ninja Frog/Idle (32x32).png" id="8_owlet"]
+
+[sub_resource type="AtlasTexture" id="Icon_pink"]
+atlas = ExtResource("6_pink")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Icon_dude"]
+atlas = ExtResource("7_dude")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Icon_owlet"]
+atlas = ExtResource("8_owlet")
+region = Rect2(0, 0, 32, 32)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -122,7 +134,7 @@ theme_override_constants/v_separation = 18
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "PINK MONSTER"
-icon = ExtResource("6_pink")
+icon = SubResource("Icon_pink")
 expand_icon = true
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(1, 0.6, 0.8, 1)
@@ -131,7 +143,7 @@ theme_override_colors/font_color = Color(1, 0.6, 0.8, 1)
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "DUDE MONSTER"
-icon = ExtResource("7_dude")
+icon = SubResource("Icon_dude")
 expand_icon = true
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
@@ -140,7 +152,7 @@ theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "OWLET MONSTER"
-icon = ExtResource("8_owlet")
+icon = SubResource("Icon_owlet")
 expand_icon = true
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
