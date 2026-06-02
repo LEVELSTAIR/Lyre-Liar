@@ -23,7 +23,7 @@ const BASE_FONT_VERSION: int = 12
 
 const MAP_GRID_COLUMNS: int = 2
 
-const INTER_ITALIC := preload("res://Assets/Fonts/Inter-Italic-VariableFont.ttf")
+const INTER_ITALIC := preload("res://asset/Fonts/Inter-Italic-VariableFont.ttf")
 
 # Brand colors mirrored from docs/design-system/colors_and_type.css.
 const BRASS_RULE := Color(0.78, 0.55, 0.18, 1)

@@ -7,32 +7,39 @@ signal hp_changed(current_hp: int, max_hp: int)
 ## Emitted when HP drops to 0. Levels listen to show the death menu.
 signal died
 
-# Pink Monster has full Idle / Walk / Jump sheets.
-const PINK_IDLE := preload("res://Assets/PinkMonster/Pink_Monster_Idle_4.png")
-const PINK_WALK := preload("res://Assets/PinkMonster/Pink_Monster_Walk_6.png")
-const PINK_JUMP := preload("res://Assets/PinkMonster/Pink_Monster_Jump_8.png")
+# Player skins are from "Pixel Adventure" (CC0) by Pixel Frog. Every character
+# ships full Idle / Run / Jump sheets laid out horizontally as 32x32 frames.
+#   pink -> Pink Man, dude -> Mask Dude, owlet -> Ninja Frog
+const PINK_IDLE := preload("res://asset/Pixel Adventure/Main Characters/Pink Man/Idle (32x32).png")
+const PINK_WALK := preload("res://asset/Pixel Adventure/Main Characters/Pink Man/Run (32x32).png")
+const PINK_JUMP := preload("res://asset/Pixel Adventure/Main Characters/Pink Man/Jump (32x32).png")
 
-# Dude / Owlet ship idle only; walk and jump reuse the idle sheet (frozen idle while moving).
-const DUDE_IDLE := preload("res://Assets/DudeMonster/Dude_Monster_Idle_4.png")
-const OWLET_IDLE := preload("res://Assets/OwletMonster/Owlet_Monster_Idle_4.png")
+const DUDE_IDLE := preload("res://asset/Pixel Adventure/Main Characters/Mask Dude/Idle (32x32).png")
+const DUDE_WALK := preload("res://asset/Pixel Adventure/Main Characters/Mask Dude/Run (32x32).png")
+const DUDE_JUMP := preload("res://asset/Pixel Adventure/Main Characters/Mask Dude/Jump (32x32).png")
+
+const OWLET_IDLE := preload("res://asset/Pixel Adventure/Main Characters/Ninja Frog/Idle (32x32).png")
+const OWLET_WALK := preload("res://asset/Pixel Adventure/Main Characters/Ninja Frog/Run (32x32).png")
+const OWLET_JUMP := preload("res://asset/Pixel Adventure/Main Characters/Ninja Frog/Jump (32x32).png")
 
 enum AnimState { IDLE, WALK, JUMP }
 
+# [sheet, frame_count, fps]. Pixel Adventure frame counts: Idle=11, Run=12, Jump=1.
 const ANIM_BY_CHARACTER := {
 	"pink": {
-		AnimState.IDLE: [PINK_IDLE, 4,  6.0],
-		AnimState.WALK: [PINK_WALK, 6,  8.0],
-		AnimState.JUMP: [PINK_JUMP, 8, 10.0],
+		AnimState.IDLE: [PINK_IDLE, 11, 20.0],
+		AnimState.WALK: [PINK_WALK, 12, 20.0],
+		AnimState.JUMP: [PINK_JUMP,  1, 10.0],
 	},
 	"dude": {
-		AnimState.IDLE: [DUDE_IDLE, 4, 6.0],
-		AnimState.WALK: [DUDE_IDLE, 4, 6.0],
-		AnimState.JUMP: [DUDE_IDLE, 4, 6.0],
+		AnimState.IDLE: [DUDE_IDLE, 11, 20.0],
+		AnimState.WALK: [DUDE_WALK, 12, 20.0],
+		AnimState.JUMP: [DUDE_JUMP,  1, 10.0],
 	},
 	"owlet": {
-		AnimState.IDLE: [OWLET_IDLE, 4, 6.0],
-		AnimState.WALK: [OWLET_IDLE, 4, 6.0],
-		AnimState.JUMP: [OWLET_IDLE, 4, 6.0],
+		AnimState.IDLE: [OWLET_IDLE, 11, 20.0],
+		AnimState.WALK: [OWLET_WALK, 12, 20.0],
+		AnimState.JUMP: [OWLET_JUMP,  1, 10.0],
 	},
 }
 

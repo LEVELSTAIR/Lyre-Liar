@@ -1,0 +1,152 @@
+[gd_scene load_steps=19 format=3 uid="uid://dh3uoh5kn40gj"]
+
+[ext_resource type="Texture2D" uid="uid://81vy86vrfbqn" path="res://asset/Pixel Adventure/Items/Fruits/Strawberry.png" id="1_tex"]
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_0"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_1"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_2"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_3"]
+atlas = ExtResource("1_tex")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_4"]
+atlas = ExtResource("1_tex")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_5"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_6"]
+atlas = ExtResource("1_tex")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_7"]
+atlas = ExtResource("1_tex")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_8"]
+atlas = ExtResource("1_tex")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_9"]
+atlas = ExtResource("1_tex")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_10"]
+atlas = ExtResource("1_tex")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_11"]
+atlas = ExtResource("1_tex")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_12"]
+atlas = ExtResource("1_tex")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_13"]
+atlas = ExtResource("1_tex")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_14"]
+atlas = ExtResource("1_tex")
+region = Rect2(448, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_15"]
+atlas = ExtResource("1_tex")
+region = Rect2(480, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_straw_16"]
+atlas = ExtResource("1_tex")
+region = Rect2(512, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_straw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_7")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_8")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_9")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_10")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_11")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_12")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_13")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_14")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_15")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_straw_16")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="Star" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_straw")
+autoplay = "default"

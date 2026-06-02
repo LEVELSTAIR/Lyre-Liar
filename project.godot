@@ -29,7 +29,7 @@ window/stretch/aspect="keep_height"
 
 [gui]
 
-theme/custom="res://Assets/Fonts/lyre_liar_theme.tres"
+theme/custom="res://asset/Fonts/lyre_liar_theme.tres"
 
 [rendering]
 

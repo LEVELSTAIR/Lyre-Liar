@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/timer_hud.gd" id="1_script"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/VT323-Regular.ttf" id="2_vt323"]
+[ext_resource type="FontFile" path="res://asset/Fonts/VT323-Regular.ttf" id="2_vt323"]
 
 [node name="TimerHud" type="CanvasLayer"]
 layer = 103
