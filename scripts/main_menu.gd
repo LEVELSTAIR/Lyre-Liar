@@ -5,13 +5,30 @@ const BASE_TITLE_BAR_H: float = 6.0
 const BASE_VBOX_HALF_W: float = 140.0
 const BASE_BUTTON_W: float = 280.0
 const BASE_BUTTON_H: float = 56.0
+const BASE_CARD_W: float = 131.0   # (280 - 18 h_separation) / 2 columns
+const BASE_CARD_H: float = 96.0
+# Visible viewport for the map scroll: 2 full rows + ~24 px peek of the next
+# row so the affordance ("there's more — scroll") is obvious when the grid
+# exceeds two rows.
+const BASE_MAP_SCROLL_H: float = 234.0
 const BASE_VBOX_SEP: float = 18.0
 
 const BASE_FONT_TITLE: int = 52
 const BASE_FONT_SUBTITLE: int = 18
 const BASE_FONT_MODE: int = 14
 const BASE_FONT_BUTTON: int = 22
+const BASE_FONT_CARD_NAME: int = 22
+const BASE_FONT_CARD_DESC: int = 11
 const BASE_FONT_VERSION: int = 12
+
+const MAP_GRID_COLUMNS: int = 2
+
+const INTER_ITALIC := preload("res://Assets/Fonts/Inter-Italic-VariableFont.ttf")
+
+# Brand colors mirrored from docs/design-system/colors_and_type.css.
+const BRASS_RULE := Color(0.78, 0.55, 0.18, 1)
+const SHELL_VOID := Color(0.03, 0.06, 0.03, 1)
+const BRASS_GLOW := Color(0.85, 0.7, 0.4, 1)
 
 @onready var title_container: VBoxContainer = $TitleContainer
 @onready var title_bar: ColorRect = $TitleContainer/TitleBar
@@ -22,9 +39,11 @@ const BASE_FONT_VERSION: int = 12
 @onready var mode_label: Label = $VBox/ModeLabel
 @onready var single_player_button: Button = $VBox/SinglePlayerButton
 @onready var multiplayer_button: Button = $VBox/MultiplayerButton
-@onready var day_button: Button = $VBox/DayButton
-@onready var night_button: Button = $VBox/NightButton
-@onready var forest_button: Button = $VBox/ForestButton
+@onready var map_scroll: ScrollContainer = $VBox/MapScroll
+@onready var map_cards_grid: GridContainer = $VBox/MapScroll/MapCardsGrid
+@onready var pink_monster_button: Button = $VBox/PinkMonsterButton
+@onready var dude_monster_button: Button = $VBox/DudeMonsterButton
+@onready var owlet_monster_button: Button = $VBox/OwletMonsterButton
 @onready var room_code_input: LineEdit = $VBox/RoomCodeInput
 @onready var status_label: Label = $VBox/StatusLabel
 @onready var host_button: Button = $VBox/HostButton
@@ -39,6 +58,11 @@ var server_ip_label: Label
 # "" = initial  |  "single" = single-player picked  |  "multi" = multiplayer picked
 var _game_type: String = ""
 var _selected_mode: String = ""
+var _selected_character: String = ""
+
+# Populated by _build_map_cards(); used by _apply_layout() to scale fonts.
+var _card_name_labels: Array[Label] = []
+var _card_desc_labels: Array[Label] = []
 
 
 func _ready() -> void:
@@ -46,9 +70,9 @@ func _ready() -> void:
 
 	single_player_button.pressed.connect(_on_single_player_pressed)
 	multiplayer_button.pressed.connect(_on_multiplayer_pressed)
-	day_button.pressed.connect(_on_day_pressed)
-	night_button.pressed.connect(_on_night_pressed)
-	forest_button.pressed.connect(_on_forest_pressed)
+	pink_monster_button.pressed.connect(_on_character_pressed.bind("pink"))
+	dude_monster_button.pressed.connect(_on_character_pressed.bind("dude"))
+	owlet_monster_button.pressed.connect(_on_character_pressed.bind("owlet"))
 	host_button.pressed.connect(_on_host_pressed)
 	join_button.pressed.connect(_on_join_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
@@ -77,10 +101,79 @@ func _ready() -> void:
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
 	MultiplayerManager.connected_to_game.connect(_on_connected_to_game)
 
+	_build_map_cards()
+
 	ResponsiveUI.scale_changed.connect(_apply_layout)
 	_apply_layout(ResponsiveUI.scale_factor)
 
 	_update_ui_state()
+
+
+# ─── Map cards ─────────────────────────────────────────────────────────────────
+# The three map buttons are restyled at runtime into brass-bordered cards with
+# a mood-colored name and an italic-Inter subtitle. Brass-rule top/bottom
+# mirrors the title block per docs/design-system/README.md (Cards section).
+
+func _build_map_cards() -> void:
+	map_cards_grid.columns = MAP_GRID_COLUMNS
+	for def in MultiplayerManager.MAP_REGISTRY:
+		var card := Button.new()
+		card.custom_minimum_size = Vector2(BASE_CARD_W, BASE_CARD_H)
+		_apply_card_style(card, def["name"], def["desc"], def["mood"])
+		card.pressed.connect(_on_map_card_pressed.bind(def["mode"]))
+		map_cards_grid.add_child(card)
+
+
+func _apply_card_style(btn: Button, name_text: String, desc_text: String, mood: Color) -> void:
+	btn.text = ""
+	btn.icon = null
+	btn.add_theme_stylebox_override("normal",  _make_card_style(0.85, 1.0))
+	btn.add_theme_stylebox_override("hover",   _make_card_style(0.95, 1.6))
+	btn.add_theme_stylebox_override("pressed", _make_card_style(0.95, 0.55))
+
+	var content := VBoxContainer.new()
+	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.alignment = BoxContainer.ALIGNMENT_CENTER
+	content.add_theme_constant_override("separation", 2)
+	btn.add_child(content)
+
+	var name_label := Label.new()
+	name_label.text = name_text
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.add_theme_font_size_override("font_size", BASE_FONT_CARD_NAME)
+	name_label.add_theme_color_override("font_color", mood)
+	name_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	name_label.add_theme_constant_override("shadow_offset_y", 2)
+	content.add_child(name_label)
+
+	var desc_label := Label.new()
+	desc_label.text = desc_text
+	desc_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	desc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	desc_label.add_theme_font_size_override("font_size", BASE_FONT_CARD_DESC)
+	desc_label.add_theme_color_override("font_color", BRASS_GLOW)
+	desc_label.add_theme_font_override("font", INTER_ITALIC)
+	content.add_child(desc_label)
+
+	_card_name_labels.append(name_label)
+	_card_desc_labels.append(desc_label)
+
+
+func _make_card_style(alpha: float, brightness: float) -> StyleBoxFlat:
+	var s := StyleBoxFlat.new()
+	s.bg_color = Color(SHELL_VOID.r * brightness, SHELL_VOID.g * brightness, SHELL_VOID.b * brightness, alpha)
+	s.border_color = BRASS_RULE
+	s.border_width_top = 6
+	s.border_width_bottom = 6
+	s.border_width_left = 0
+	s.border_width_right = 0
+	s.corner_radius_top_left = 0
+	s.corner_radius_top_right = 0
+	s.corner_radius_bottom_left = 0
+	s.corner_radius_bottom_right = 0
+	return s
 
 
 func _apply_layout(sf: float) -> void:
@@ -100,10 +193,28 @@ func _apply_layout(sf: float) -> void:
 	vbox.offset_right = half_vbox_w
 	vbox.add_theme_constant_override("separation", int(BASE_VBOX_SEP * sf))
 
-	for btn in [single_player_button, multiplayer_button, day_button, night_button,
-			forest_button, host_button, join_button, quit_button]:
+	for btn in [single_player_button, multiplayer_button,
+			pink_monster_button, dude_monster_button, owlet_monster_button,
+			host_button, join_button, quit_button]:
 		btn.custom_minimum_size = Vector2(button_w, button_h)
 		btn.add_theme_font_size_override("font_size", int(BASE_FONT_BUTTON * sf))
+
+	# Map cards live in a GridContainer wrapped in a ScrollContainer, sized
+	# per-cell. The scroll viewport is capped so adding more maps doesn't push
+	# the QuitButton off-screen — overflow becomes scrollable instead.
+	var card_w: float = BASE_CARD_W * sf
+	var card_h: float = BASE_CARD_H * sf
+	var grid_sep: int = int(18.0 * sf)
+	map_scroll.custom_minimum_size = Vector2(button_w, BASE_MAP_SCROLL_H * sf)
+	map_cards_grid.add_theme_constant_override("h_separation", grid_sep)
+	map_cards_grid.add_theme_constant_override("v_separation", grid_sep)
+	for card in map_cards_grid.get_children():
+		if card is Control:
+			card.custom_minimum_size = Vector2(card_w, card_h)
+	for lbl in _card_name_labels:
+		lbl.add_theme_font_size_override("font_size", int(BASE_FONT_CARD_NAME * sf))
+	for lbl in _card_desc_labels:
+		lbl.add_theme_font_size_override("font_size", int(BASE_FONT_CARD_DESC * sf))
 
 	room_code_input.custom_minimum_size = Vector2(button_w, button_h * 0.7)
 	server_ip_input.custom_minimum_size = Vector2(button_w, button_h * 0.7)
@@ -125,9 +236,10 @@ func _update_ui_state() -> void:
 		mode_label.visible = false
 		single_player_button.visible = true
 		multiplayer_button.visible = true
-		day_button.visible = false
-		night_button.visible = false
-		forest_button.visible = false
+		map_scroll.visible = false
+		pink_monster_button.visible = false
+		dude_monster_button.visible = false
+		owlet_monster_button.visible = false
 		room_code_input.visible = false
 		server_ip_input.visible = false
 		server_ip_label.visible = false
@@ -141,9 +253,27 @@ func _update_ui_state() -> void:
 		mode_label.text = "SELECT MAP"
 		single_player_button.visible = false
 		multiplayer_button.visible = false
-		day_button.visible = true
-		night_button.visible = true
-		forest_button.visible = true
+		map_scroll.visible = true
+		pink_monster_button.visible = false
+		dude_monster_button.visible = false
+		owlet_monster_button.visible = false
+		room_code_input.visible = false
+		server_ip_input.visible = false
+		server_ip_label.visible = false
+		status_label.visible = false
+		host_button.visible = false
+		join_button.visible = false
+
+	elif _selected_character.is_empty():
+		# ── Screen 3: character selection ─────────────────────────
+		mode_label.visible = true
+		mode_label.text = "SELECT CHARACTER  (" + _selected_mode.to_upper() + ")"
+		single_player_button.visible = false
+		multiplayer_button.visible = false
+		map_scroll.visible = false
+		pink_monster_button.visible = true
+		dude_monster_button.visible = true
+		owlet_monster_button.visible = true
 		room_code_input.visible = false
 		server_ip_input.visible = false
 		server_ip_label.visible = false
@@ -152,14 +282,15 @@ func _update_ui_state() -> void:
 		join_button.visible = false
 
 	else:
-		# ── Screen 3: multiplayer options ─────────────────────────
+		# ── Screen 4: multiplayer options ─────────────────────────
 		mode_label.visible = true
 		mode_label.text = "MULTIPLAYER  (" + _selected_mode.to_upper() + ")"
 		single_player_button.visible = false
 		multiplayer_button.visible = false
-		day_button.visible = false
-		night_button.visible = false
-		forest_button.visible = false
+		map_scroll.visible = false
+		pink_monster_button.visible = false
+		dude_monster_button.visible = false
+		owlet_monster_button.visible = false
 		room_code_input.visible = true
 		server_ip_input.visible = true
 		server_ip_label.visible = true
@@ -184,25 +315,26 @@ func _on_multiplayer_pressed() -> void:
 
 # ─── Map selection ─────────────────────────────────────────────────────────────
 
-func _on_day_pressed() -> void:
-	_selected_mode = "day"
-	_after_map_selected()
-
-
-func _on_night_pressed() -> void:
-	_selected_mode = "night"
-	_after_map_selected()
-
-
-func _on_forest_pressed() -> void:
-	_selected_mode = "forest"
+func _on_map_card_pressed(mode: String) -> void:
+	_selected_mode = mode
 	_after_map_selected()
 
 
 func _after_map_selected() -> void:
+	# Always advance to character select; map choice is locked in.
+	_selected_character = ""
+	_update_ui_state()
+
+
+# ─── Character selection ──────────────────────────────────────────────────────
+
+func _on_character_pressed(character: String) -> void:
+	_selected_character = character
+	MultiplayerManager.selected_character = character
 	if _game_type == "single":
-		single_player_button.disabled = true
-		multiplayer_button.disabled = true
+		pink_monster_button.disabled = true
+		dude_monster_button.disabled = true
+		owlet_monster_button.disabled = true
 		MultiplayerManager.start_single_player(_selected_mode)
 	else:
 		_update_ui_state()
@@ -291,12 +423,7 @@ func _on_room_code_ready(code: String) -> void:
 
 
 func _on_connected_to_game(mode: String) -> void:
-	var scene_path = "res://scenes/level_1.tscn"
-	if mode == "day":
-		scene_path = "res://scenes/level_2.tscn"
-	elif mode == "forest":
-		scene_path = "res://scenes/level_4.tscn"
-	get_tree().change_scene_to_file(scene_path)
+	get_tree().change_scene_to_file(MultiplayerManager.get_map(mode)["scene"])
 
 
 func _on_connection_failed(reason: String) -> void:

@@ -1,10 +1,28 @@
 extends Control
 
-const BASE_JOYSTICK: float = 100.0
-const BASE_HANDLE: float = 50.0
-const BASE_BUTTON: float = 100.0
-const BASE_PADDING: float = 20.0
-const BASE_FONT: int = 24
+const BASE_JOYSTICK: float = 130.0
+const BASE_HANDLE: float = 65.0
+const BASE_BUTTON: float = 130.0
+const BASE_PADDING: float = 24.0
+const BASE_FONT: int = 30
+
+# On real mobile devices we add an extra scale boost based on the physical
+# screen size — small phones (e.g., 720 px wide / ~5") get a noticeably bigger
+# touch target than tablets (1200+ wide / ~10"). Desktop/editor stays at 1.0.
+const MOBILE_BOOST_MIN: float = 1.0
+const MOBILE_BOOST_MAX: float = 1.4
+# Reference physical screen width in pixels at which the boost = 1.0.
+# Below this width, we scale up toward MOBILE_BOOST_MAX. Above, we taper to 1.0.
+const MOBILE_REF_WIDTH: float = 1200.0
+const MOBILE_MIN_WIDTH: float = 600.0
+
+# Brand colors mirrored from docs/design-system/colors_and_type.css. Used to
+# build high-contrast styleboxes so the mobile controls stay visible against
+# the dark cave / night backgrounds.
+const BRASS_RULE := Color(0.78, 0.55, 0.18, 1)
+const BRASS_GLOW := Color(0.85, 0.7, 0.4, 1)
+const PARCHMENT := Color(0.95, 0.9, 0.85, 1)
+const BRASS_DEEP := Color(0.32, 0.18, 0.06, 1)
 
 @onready var joystick_base = $JoystickBase
 @onready var joystick_handle = $JoystickBase/JoystickHandle
@@ -24,16 +42,75 @@ func _ready() -> void:
 		set_process_input(false)
 		return
 
+	_apply_visible_styleboxes()
+
 	ResponsiveUI.scale_changed.connect(_apply_layout)
 	resized.connect(func(): _apply_layout(ResponsiveUI.scale_factor))
 	_apply_layout(ResponsiveUI.scale_factor)
 
 
+# Brand-coloured styleboxes for the touch controls. Default Godot styleboxes
+# disappear against the cave/night backgrounds — these add a brass border and
+# a translucent parchment fill so the controls read on any background.
+func _apply_visible_styleboxes() -> void:
+	# Joystick base — outer ring.
+	var base_style := StyleBoxFlat.new()
+	base_style.bg_color = Color(PARCHMENT.r, PARCHMENT.g, PARCHMENT.b, 0.30)
+	base_style.border_color = BRASS_RULE
+	base_style.border_width_left = 3
+	base_style.border_width_top = 3
+	base_style.border_width_right = 3
+	base_style.border_width_bottom = 3
+	joystick_base.add_theme_stylebox_override("panel", base_style)
+
+	# Joystick handle — solid brass-glow nub.
+	var handle_style := StyleBoxFlat.new()
+	handle_style.bg_color = Color(BRASS_GLOW.r, BRASS_GLOW.g, BRASS_GLOW.b, 0.85)
+	handle_style.border_color = Color(0, 0, 0, 0.4)
+	handle_style.border_width_left = 2
+	handle_style.border_width_top = 2
+	handle_style.border_width_right = 2
+	handle_style.border_width_bottom = 2
+	joystick_handle.add_theme_stylebox_override("panel", handle_style)
+
+	# Jump button normal — parchment fill, brass border.
+	var jump_normal := StyleBoxFlat.new()
+	jump_normal.bg_color = Color(PARCHMENT.r, PARCHMENT.g, PARCHMENT.b, 0.40)
+	jump_normal.border_color = BRASS_RULE
+	jump_normal.border_width_left = 3
+	jump_normal.border_width_top = 3
+	jump_normal.border_width_right = 3
+	jump_normal.border_width_bottom = 3
+	jump_button.add_theme_stylebox_override("normal", jump_normal)
+
+	var jump_hover := jump_normal.duplicate() as StyleBoxFlat
+	jump_hover.bg_color.a = 0.55
+	jump_button.add_theme_stylebox_override("hover", jump_hover)
+
+	# Jump button pressed — inverted: brass fill, parchment border.
+	var jump_pressed := StyleBoxFlat.new()
+	jump_pressed.bg_color = Color(BRASS_RULE.r, BRASS_RULE.g, BRASS_RULE.b, 0.85)
+	jump_pressed.border_color = PARCHMENT
+	jump_pressed.border_width_left = 3
+	jump_pressed.border_width_top = 3
+	jump_pressed.border_width_right = 3
+	jump_pressed.border_width_bottom = 3
+	jump_button.add_theme_stylebox_override("pressed", jump_pressed)
+
+	# Label colors that read on both states.
+	jump_button.add_theme_color_override("font_color", BRASS_DEEP)
+	jump_button.add_theme_color_override("font_hover_color", BRASS_DEEP)
+	jump_button.add_theme_color_override("font_pressed_color", PARCHMENT)
+
+
 func _apply_layout(sf: float) -> void:
-	var jp := BASE_JOYSTICK * sf
-	var hp := BASE_HANDLE * sf
-	var bp := BASE_BUTTON * sf
-	var pp := BASE_PADDING * sf
+	# Combine the design-time responsive factor with a mobile-only boost so
+	# small phones get a chunkier touch target than tablets.
+	var boost: float = _mobile_size_boost()
+	var jp := BASE_JOYSTICK * sf * boost
+	var hp := BASE_HANDLE * sf * boost
+	var bp := BASE_BUTTON * sf * boost
+	var pp := BASE_PADDING * sf * boost
 	var vp := get_viewport_rect().size
 
 	# Size and position joystick base (bottom-right)
@@ -50,7 +127,7 @@ func _apply_layout(sf: float) -> void:
 	jump_button.size = Vector2(bp, bp)
 	jump_button.custom_minimum_size = Vector2(bp, bp)
 	jump_button.position = Vector2(pp, vp.y - bp - pp)
-	jump_button.add_theme_font_size_override("font_size", int(BASE_FONT * sf))
+	jump_button.add_theme_font_size_override("font_size", int(BASE_FONT * sf * boost))
 
 	# Update joystick interaction state
 	_joystick_center = joystick_base.global_position + joystick_base.size / 2.0
@@ -60,6 +137,23 @@ func _apply_layout(sf: float) -> void:
 	_apply_corner_radius(joystick_base, "panel", int(jp / 2.0))
 	_apply_corner_radius(joystick_handle, "panel", int(hp / 2.0))
 	_apply_corner_radius(jump_button, "normal", int(bp / 2.0))
+
+
+# Returns 1.0 on desktop / editor / large devices. Linearly ramps up to
+# MOBILE_BOOST_MAX as the physical screen narrows from MOBILE_REF_WIDTH down
+# to MOBILE_MIN_WIDTH. Below MOBILE_MIN_WIDTH it clamps at the max.
+func _mobile_size_boost() -> float:
+	if not OS.has_feature("mobile"):
+		return 1.0
+	var screen_w: float = float(DisplayServer.screen_get_size().x)
+	if screen_w <= 0.0:
+		return MOBILE_BOOST_MIN
+	if screen_w <= MOBILE_MIN_WIDTH:
+		return MOBILE_BOOST_MAX
+	if screen_w >= MOBILE_REF_WIDTH:
+		return MOBILE_BOOST_MIN
+	var t: float = (MOBILE_REF_WIDTH - screen_w) / (MOBILE_REF_WIDTH - MOBILE_MIN_WIDTH)
+	return lerp(MOBILE_BOOST_MIN, MOBILE_BOOST_MAX, t)
 
 
 func _apply_corner_radius(node: Control, slot: StringName, r: int) -> void:

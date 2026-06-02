@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
 [ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://Assets/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Cinzel-VariableFont_wght.ttf" id="3_cinzel"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Inter-VariableFont.ttf" id="4_inter"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Inter-Italic-VariableFont.ttf" id="5_interi"]
+[ext_resource type="Texture2D" path="res://Assets/PinkMonster/Pink_Monster.png" id="6_pink"]
+[ext_resource type="Texture2D" path="res://Assets/DudeMonster/Dude_Monster.png" id="7_dude"]
+[ext_resource type="Texture2D" path="res://Assets/OwletMonster/Owlet_Monster.png" id="8_owlet"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -52,6 +58,7 @@ theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
 theme_override_colors/font_shadow_color = Color(0.32, 0.18, 0.06, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_cinzel")
 
 [node name="SubtitleLabel" type="Label" parent="TitleContainer"]
 layout_mode = 2
@@ -59,6 +66,7 @@ text = "Whisper me a betrayal"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+theme_override_fonts/font = ExtResource("5_interi")
 
 [node name="TitleBarBottom" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
@@ -98,26 +106,44 @@ text = "MULTIPLAYER"
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
-[node name="DayButton" type="Button" parent="VBox"]
-custom_minimum_size = Vector2(280, 56)
+[node name="MapScroll" type="ScrollContainer" parent="VBox"]
+custom_minimum_size = Vector2(280, 234)
 layout_mode = 2
-text = "DAY"
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(1.0, 0.75, 0.2, 1)
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
 
-[node name="NightButton" type="Button" parent="VBox"]
+[node name="MapCardsGrid" type="GridContainer" parent="VBox/MapScroll"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 18
+
+[node name="PinkMonsterButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
-text = "NIGHT"
+text = "PINK MONSTER"
+icon = ExtResource("6_pink")
+expand_icon = true
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.6, 0.8, 1)
+
+[node name="DudeMonsterButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "DUDE MONSTER"
+icon = ExtResource("7_dude")
+expand_icon = true
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+
+[node name="OwletMonsterButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "OWLET MONSTER"
+icon = ExtResource("8_owlet")
+expand_icon = true
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
-
-[node name="ForestButton" type="Button" parent="VBox"]
-custom_minimum_size = Vector2(280, 56)
-layout_mode = 2
-text = "FOREST (LVL 4)"
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.2, 0.8, 0.4, 1)
 
 [node name="RoomCodeInput" type="LineEdit" parent="VBox"]
 layout_mode = 2
@@ -130,6 +156,7 @@ text = ""
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.55, 0.85, 0.55, 1)
+theme_override_fonts/font = ExtResource("4_inter")
 
 [node name="HostButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
@@ -163,3 +190,4 @@ offset_top = -30.0
 text = "v0.1.0 - Alpha"
 theme_override_font_sizes/font_size = 12
 theme_override_colors/font_color = Color(0.35, 0.55, 0.3, 1)
+theme_override_fonts/font = ExtResource("4_inter")
