@@ -1,16 +1,42 @@
 extends CharacterBody2D
 
-const TEX_IDLE := preload("res://Assets/PinkMonster/Pink_Monster_Idle_4.png")
-const TEX_WALK := preload("res://Assets/PinkMonster/Pink_Monster_Walk_6.png")
-const TEX_JUMP := preload("res://Assets/PinkMonster/Pink_Monster_Jump_8.png")
+## Emitted whenever the player's HP changes (damage, heal, or respawn). HUD
+## listens to this to redraw the heart row.
+signal hp_changed(current_hp: int, max_hp: int)
+
+## Emitted when HP drops to 0. Levels listen to show the death menu.
+signal died
+
+# Pink Monster has full Idle / Walk / Jump sheets.
+const PINK_IDLE := preload("res://Assets/PinkMonster/Pink_Monster_Idle_4.png")
+const PINK_WALK := preload("res://Assets/PinkMonster/Pink_Monster_Walk_6.png")
+const PINK_JUMP := preload("res://Assets/PinkMonster/Pink_Monster_Jump_8.png")
+
+# Dude / Owlet ship idle only; walk and jump reuse the idle sheet (frozen idle while moving).
+const DUDE_IDLE := preload("res://Assets/DudeMonster/Dude_Monster_Idle_4.png")
+const OWLET_IDLE := preload("res://Assets/OwletMonster/Owlet_Monster_Idle_4.png")
 
 enum AnimState { IDLE, WALK, JUMP }
 
-const ANIM_DATA := {
-	AnimState.IDLE: [TEX_IDLE, 4,  6.0],
-	AnimState.WALK: [TEX_WALK, 6,  8.0],
-	AnimState.JUMP: [TEX_JUMP, 8, 10.0],
+const ANIM_BY_CHARACTER := {
+	"pink": {
+		AnimState.IDLE: [PINK_IDLE, 4,  6.0],
+		AnimState.WALK: [PINK_WALK, 6,  8.0],
+		AnimState.JUMP: [PINK_JUMP, 8, 10.0],
+	},
+	"dude": {
+		AnimState.IDLE: [DUDE_IDLE, 4, 6.0],
+		AnimState.WALK: [DUDE_IDLE, 4, 6.0],
+		AnimState.JUMP: [DUDE_IDLE, 4, 6.0],
+	},
+	"owlet": {
+		AnimState.IDLE: [OWLET_IDLE, 4, 6.0],
+		AnimState.WALK: [OWLET_IDLE, 4, 6.0],
+		AnimState.JUMP: [OWLET_IDLE, 4, 6.0],
+	},
 }
+
+var _anim_data: Dictionary = ANIM_BY_CHARACTER["pink"]
 
 const SPEED         := 220.0
 const JUMP_VELOCITY := -380.0
@@ -25,6 +51,23 @@ const REMOTE_LERP_SPEED := 12.0
 var spawn_point: Vector2
 
 @onready var _sprite: Sprite2D = $Sprite2D
+@onready var _camera: Camera2D = $Camera2D
+
+# Per-level camera config — assign on the player instance BEFORE add_child() so
+# _ready() picks it up. Defaults match the side-scroller levels (day/night).
+#   camera_lock_vertical = true  → camera pins Y at spawn, follows X only.
+#   camera_lock_vertical = false → camera follows player on both axes.
+#   camera_offset.y < 0          → view shifts up, player sits below screen
+#                                  center (use for vertical-climb levels).
+#   camera_zoom > 1              → zoomed in, visible world area shrinks.
+#                                  (e.g. 640/480 ≈ 1.333 fits a 640 px tall
+#                                  viewport to a 480 px tall background.)
+var camera_lock_vertical: bool = true
+var camera_offset: Vector2 = Vector2.ZERO
+var camera_zoom: Vector2 = Vector2.ONE
+
+# Y position the camera locks to (only used when camera_lock_vertical is true).
+var _camera_locked_y: float = 0.0
 
 var _walk_timer  := 0.0
 var _anim_state  := AnimState.IDLE
@@ -34,6 +77,18 @@ var _send_timer := 0.0
 var is_local_player := false
 var session_id := ""
 var _spawn_safety_timer := 0.2
+
+# ─── Health system ─────────────────────────────────────────────────────────────
+
+## Max hit points. Player starts full and dies when current_hp reaches 0.
+const MAX_HP: int = 3
+
+## Seconds of damage immunity after taking a hit (also used as the sprite-flash
+## duration). Prevents losing all HP from a single sustained collision.
+const IFRAMES_DURATION: float = 1.0
+
+var current_hp: int = MAX_HP
+var _iframes_timer: float = 0.0
 
 
 # Remote interpolation targets
@@ -45,6 +100,16 @@ var _remote_initialized := false
 func _ready() -> void:
 	spawn_point = global_position
 
+	var character: String = MultiplayerManager.selected_character
+	if not ANIM_BY_CHARACTER.has(character):
+		character = "pink"
+	_anim_data = ANIM_BY_CHARACTER[character]
+
+	var initial: Array = _anim_data[AnimState.IDLE]
+	_sprite.texture = initial[0]
+	_sprite.hframes = initial[1]
+	_sprite.frame = 0
+
 	# Determine if this is the local player
 	if session_id == MultiplayerManager.session_id:
 		is_local_player = true
@@ -55,20 +120,36 @@ func _ready() -> void:
 
 	if not is_local_player:
 		# Disable physics and input for remote players
-		$Camera2D.enabled = false
+		_camera.enabled = false
 		set_physics_process(false)
 		# Listen for state updates from the server
 		MultiplayerManager.player_state_changed.connect(_on_player_state_changed)
 	else:
-		# Local player setup
-		$Camera2D.enabled = true
-		$Camera2D.make_current()
-		$Camera2D.reset_smoothing()
+		# Local player camera setup. Two modes:
+		#   lock_vertical=true  → top_level camera, we drive global_position
+		#     in _process every frame (X tracks player, Y stays fixed).
+		#   lock_vertical=false → camera stays as a child of the player and
+		#     follows naturally on both axes; camera_offset shifts the view.
+		_camera.offset = camera_offset
+		_camera.zoom = camera_zoom
+		if camera_lock_vertical:
+			_camera_locked_y = global_position.y
+			_camera.top_level = true
+			_camera.global_position = Vector2(global_position.x, _camera_locked_y)
+		else:
+			_camera.top_level = false
+		_camera.enabled = true
+		_camera.make_current()
+		_camera.reset_smoothing()
 		print("Camera activated for local player: ", session_id)
 
 
 func _process(delta: float) -> void:
 	if is_local_player:
+		# Horizontal-only camera follow when locked. Otherwise the camera is
+		# a child of the player and tracks both axes via its parent transform.
+		if camera_lock_vertical:
+			_camera.global_position = Vector2(global_position.x, _camera_locked_y)
 		return
 
 	# Smoothly interpolate remote players
@@ -96,6 +177,7 @@ func _physics_process(delta: float) -> void:
 
 	_tick += 1
 	move_and_slide()
+	_process_health(delta)
 	_update_sprite(direction, velocity.y, delta)
 
 	# Throttled movement send
@@ -127,11 +209,11 @@ func _update_sprite(direction: float, vel_y: float, delta: float) -> void:
 		_anim_state   = intended
 		_walk_timer   = 0.0
 		_sprite.frame = 0
-		var anim_data: Array = ANIM_DATA[_anim_state]
+		var anim_data: Array = _anim_data[_anim_state]
 		_sprite.texture = anim_data[0]
 		_sprite.hframes = anim_data[1]
 
-	var data: Array      = ANIM_DATA[_anim_state]
+	var data: Array      = _anim_data[_anim_state]
 	var frame_count: int = data[1]
 	var fps: float       = data[2]
 
@@ -146,6 +228,10 @@ func respawn() -> void:
 	global_position = spawn_point
 	velocity = Vector2.ZERO
 	_spawn_safety_timer = 0.2
+	current_hp = MAX_HP
+	_iframes_timer = 0.0
+	_sprite.modulate.a = 1.0
+	hp_changed.emit(current_hp, MAX_HP)
 	if is_local_player:
 		MultiplayerManager.send_message("move", {
 			"x": global_position.x,
@@ -154,6 +240,60 @@ func respawn() -> void:
 			"vy": 0,
 			"tick": _tick
 		})
+
+
+# ─── Health API ────────────────────────────────────────────────────────────────
+
+## Returns true while the player still has HP > 0.
+func is_alive() -> bool:
+	return current_hp > 0
+
+
+## Apply `amount` damage. No-op during invincibility frames or after death.
+## Emits hp_changed (and `died` if HP hit zero) so HUD + level can react.
+func take_damage(amount: int = 1) -> void:
+	if not is_alive():
+		return
+	if _iframes_timer > 0.0:
+		return
+	current_hp = max(0, current_hp - amount)
+	_iframes_timer = IFRAMES_DURATION
+	hp_changed.emit(current_hp, MAX_HP)
+	if current_hp == 0:
+		_sprite.modulate.a = 1.0
+		died.emit()
+
+
+## Restore `amount` HP up to MAX_HP. No-op after death.
+func heal(amount: int = 1) -> void:
+	if not is_alive():
+		return
+	var new_hp: int = min(MAX_HP, current_hp + amount)
+	if new_hp == current_hp:
+		return
+	current_hp = new_hp
+	hp_changed.emit(current_hp, MAX_HP)
+
+
+# Called from _physics_process for the local player. Walks the slide
+# collisions reported by move_and_slide and applies damage if any of them is
+# in the "enemies" group. Also ticks the i-frame timer and flashes the sprite.
+func _process_health(delta: float) -> void:
+	if _iframes_timer > 0.0:
+		_iframes_timer = max(0.0, _iframes_timer - delta)
+		# Blink ~6 Hz during i-frames so the hit is readable.
+		var blink: float = 0.4 + 0.6 * (int(_iframes_timer * 12.0) % 2)
+		_sprite.modulate.a = blink
+		if _iframes_timer == 0.0:
+			_sprite.modulate.a = 1.0
+
+	if not is_alive():
+		return
+	for i in get_slide_collision_count():
+		var collider := get_slide_collision(i).get_collider()
+		if collider and collider is Node and (collider as Node).is_in_group("enemies"):
+			take_damage(1)
+			break
 
 
 func _on_player_state_changed(state_session_id: String, state: Dictionary) -> void:

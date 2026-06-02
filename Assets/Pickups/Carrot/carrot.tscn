@@ -1,6 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c566vfi6kprxp"]
+[gd_scene load_steps=9 format=3 uid="uid://c566vfi6kprxp"]
 
 [ext_resource type="Texture2D" uid="uid://d17eo8cdjotw1" path="res://Assets/Pickups/Carrot/carrot.png" id="1_f70j6"]
+[ext_resource type="Script" path="res://Assets/Pickups/Carrot/carrot.gd" id="2_script"]
+
+[sub_resource type="RectangleShape2D" id="CarrotShape"]
+size = Vector2(17, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_krv6u"]
 atlas = ExtResource("1_f70j6")
@@ -39,8 +43,12 @@ animations = [{
 }]
 
 [node name="Carrot" type="Area2D"]
+script = ExtResource("2_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_m0f44")
 autoplay = "default"
 frame_progress = 0.0180236
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CarrotShape")
