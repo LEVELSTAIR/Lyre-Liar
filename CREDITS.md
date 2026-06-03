@@ -49,9 +49,8 @@ resolved (replaced or verified) before this repo is made public:
 - **Background music** (`happywalking.ogg`) — source/license unverified.
 - **PixelFantasy Caves** (`asset/World/PixelFantasy_Caves_1/`) — no license file
   found; "personal/commercial use" only (not redistributable). The parallax
-  **backgrounds** have been replaced with CC0 Pixel Adventure backgrounds, but
-  the **tileset** (`mainlev_build.png`) and **props** (`props1/2.png`) are still
-  in use and must be replaced (re-tile levels with a CC0 tileset) before public
-  release.
+  **backgrounds** (`background1/2/3.png`), the **tileset** (`mainlev_build.png`)
+  and the **props** (`props1/2.png`) are all still in use and must be replaced
+  with CC0 equivalents before public release.
 - **World/Assets** tileset (`asset/World/Assets/`) — no license file found;
   verify or replace.
