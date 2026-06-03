@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
-[ext_resource type="CompressedTexture2D" uid="uid://b8lev5m0v3rvd" path="res://asset/Pixel Adventure/Background/Gray.png" id="2_bgtex"]
+[ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://asset/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
 [ext_resource type="FontFile" path="res://asset/Fonts/Cinzel-VariableFont_wght.ttf" id="3_cinzel"]
 [ext_resource type="FontFile" path="res://asset/Fonts/Inter-VariableFont.ttf" id="4_inter"]
 [ext_resource type="FontFile" path="res://asset/Fonts/Inter-Italic-VariableFont.ttf" id="5_interi"]
