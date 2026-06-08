@@ -33,7 +33,8 @@ Selected from the main menu after choosing single-player or multiplayer:
 | ------- | ---------------------- | ------------------------------------------------ |
 | Day     | `scenes/level_2.tscn`  | Bright outdoor platforms over grass/dirt terrain |
 | Night   | `scenes/level_1.tscn`  | Tile-based underground (grass/dirt/stone/fungus) |
-| Forest  | `scenes/level_4.tscn`  | Tall forest map with a vertical camera          |
+| Forest  | `scenes/level_4.tscn`  | Tall forest map with a vertical camera           |
+| Forest  | `scenes/level_3.tscn`  | Developing                                       |
 
 Every map has a `KillZone` Area2D — touching it triggers `player.respawn()` and snaps the player back to spawn.
 
@@ -65,7 +66,7 @@ The server listens on `ws://localhost:2567` by default (override with `PORT=...`
 ### 2. Open the Godot project
 
 1. Open `project.godot` in **Godot 4.6** or later.
-2. Press **F5** to run, or build an APK for Android via *Project → Export* (presets in `export_presets.cfg`; pre-built APKs `0.5.apk` … `0.14.apk` are at the repo root for reference).
+2. Press **F5** to run, or build an APK for Android via *Project → Export* (presets in `export_presets.cfg`).
 
 ### 3. Play
 
@@ -89,7 +90,7 @@ Mobile and PC players can join the same room as long as they can reach the same 
 ## 📂 Project Structure
 
 ```text
-project-werewolf/
+Lyre-Liar/
 ├── colyseus_server/        # Authoritative Node.js server (Colyseus)
 │   └── index.js            #   WerewolfRoom: state, join, move messages
 ├── scripts/
@@ -101,7 +102,7 @@ project-werewolf/
 │   ├── mobile_controls.gd       # Touch joystick + jump button
 │   ├── responsive_ui.gd         # Autoload — viewport-based scaling
 │   ├── level_1.gd, level_2.gd, level_4.gd  # Per-map level scripts
-│   └── bake_level4.gd              # One-shot scene baking helper
+│   └── bake_level3.gd, bake_level4.gd      # One-shot scene baking helper
 ├── scenes/
 │   ├── main.tscn, main_menu.tscn
 │   ├── player.tscn, mobile_controls.tscn
