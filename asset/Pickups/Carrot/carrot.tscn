@@ -1,0 +1,160 @@
+[gd_scene load_steps=22 format=3 uid="uid://c566vfi6kprxp"]
+
+[ext_resource type="Texture2D" uid="uid://icswwyxbe05x" path="res://asset/Pixel Adventure/Items/Fruits/Apple.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://dv5uyq78w42ws" path="res://asset/Pickups/Carrot/carrot.gd" id="2_script"]
+
+[sub_resource type="RectangleShape2D" id="PickupShape"]
+size = Vector2(22, 22)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_0"]
+atlas = ExtResource("1_tex")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_1"]
+atlas = ExtResource("1_tex")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_2"]
+atlas = ExtResource("1_tex")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_3"]
+atlas = ExtResource("1_tex")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_4"]
+atlas = ExtResource("1_tex")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_5"]
+atlas = ExtResource("1_tex")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_6"]
+atlas = ExtResource("1_tex")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_7"]
+atlas = ExtResource("1_tex")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_8"]
+atlas = ExtResource("1_tex")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_9"]
+atlas = ExtResource("1_tex")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_10"]
+atlas = ExtResource("1_tex")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_11"]
+atlas = ExtResource("1_tex")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_12"]
+atlas = ExtResource("1_tex")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_13"]
+atlas = ExtResource("1_tex")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_14"]
+atlas = ExtResource("1_tex")
+region = Rect2(448, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_15"]
+atlas = ExtResource("1_tex")
+region = Rect2(480, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Atlas_apple_16"]
+atlas = ExtResource("1_tex")
+region = Rect2(512, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_apple"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_7")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_8")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_9")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_10")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_11")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_12")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_13")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_14")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_15")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_apple_16")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="Carrot" type="Area2D"]
+script = ExtResource("2_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_apple")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("PickupShape")

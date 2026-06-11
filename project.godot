@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Project Werewolf"
+config/name="Lyre-Liar"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
@@ -27,16 +27,14 @@ window/size/viewport_height=640
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 
-[editor_plugins]
+[gui]
 
-enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
-
-[physics]
-
-3d/physics_engine="Jolt Physics"
+theme/custom="res://asset/Fonts/lyre_liar_theme.tres"
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.8, 0.7, 0.3, 1)

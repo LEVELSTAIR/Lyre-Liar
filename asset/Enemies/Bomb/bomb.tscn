@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2bombenemy0kp"]
+
+[ext_resource type="Texture2D" uid="uid://b531aeo7hqcq6" path="res://asset/Kings and Pigs/Sprites/09-Bomb/Bomb On (52x56).png" id="tex"]
+
+[sub_resource type="AtlasTexture" id="At_bomb_0"]
+atlas = ExtResource("tex")
+region = Rect2(0, 0, 52, 56)
+
+[sub_resource type="AtlasTexture" id="At_bomb_1"]
+atlas = ExtResource("tex")
+region = Rect2(52, 0, 52, 56)
+
+[sub_resource type="AtlasTexture" id="At_bomb_2"]
+atlas = ExtResource("tex")
+region = Rect2(104, 0, 52, 56)
+
+[sub_resource type="AtlasTexture" id="At_bomb_3"]
+atlas = ExtResource("tex")
+region = Rect2(156, 0, 52, 56)
+
+[sub_resource type="SpriteFrames" id="SF_bomb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("At_bomb_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_bomb_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_bomb_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_bomb_3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RS_bomb"]
+size = Vector2(22, 20)
+
+[node name="Bomb" type="CharacterBody2D"]
+collision_layer = 1
+script = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SF_bomb")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("RS_bomb")

@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:24px 32px;display:flex;align-items:center;gap:36px;justify-content:center;}
+  .ph{width:200px;height:360px;background:#181818;border:1px solid #2a2a2a;position:relative;overflow:hidden;border-radius:6px;}
+  .ph .bar{position:absolute;left:0;right:0;background:var(--brass-rule);}
+  .ph .top{top:36px;height:3px;}
+  .ph .bot{top:92px;height:3px;}
+  .ph .title{position:absolute;left:0;right:0;top:46px;text-align:center;font-family:var(--font-display);font-weight:900;font-size:18px;color:var(--parchment);text-shadow:0 1px 0 rgba(82,46,15,0.8);}
+  .ph .sub{position:absolute;left:0;right:0;top:70px;text-align:center;font-family:var(--font-body);font-style:italic;font-size:8px;color:var(--brass-glow);}
+  .ph .btn{position:absolute;left:18px;right:18px;height:22px;background:linear-gradient(180deg,#4F4F4F,#353535);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--label-multi);}
+  .b1{top:160px;}.b2{top:190px;}.b3{top:220px;}.b4{top:250px;}.b5{top:280px;}
+  .ph .v{position:absolute;right:6px;bottom:4px;font-family:var(--font-body);font-size:6px;color:var(--state-version);}
+  .info{font-family:var(--font-mono);font-size:11px;color:var(--state-version);max-width:280px;line-height:1.7;}
+</style></head>
+<body><div class="wrap">
+  <div class="ph">
+    <div class="bar top"></div>
+    <div class="title">LYRE &amp; LIAR</div>
+    <div class="sub">Whisper me a betrayal</div>
+    <div class="bar bot"></div>
+    <div class="btn b1" style="color:var(--label-single);">Single player</div>
+    <div class="btn b2" style="color:var(--label-multi);">Multiplayer</div>
+    <div class="btn b3" style="color:var(--map-day);">Day</div>
+    <div class="btn b4" style="color:var(--map-night);">Night</div>
+    <div class="btn b5" style="color:var(--map-forest);">Forest</div>
+    <div class="v">v0.1.0 - Alpha</div>
+  </div>
+  <div class="info">base viewport <b>360×640</b><br>portrait, keep_height stretch<br>scale 0.7×–2.5× via ResponsiveUI<br>menu: VBox centered 0.5/0.45<br>vbox gap 18 · button 280×56</div>
+</div></body></html>

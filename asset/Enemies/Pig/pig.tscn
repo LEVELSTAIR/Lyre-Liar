@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://b1pigenemy0kp1"]
+
+[ext_resource type="Script" path="res://asset/Enemies/Pig/pig.gd" id="scr"]
+[ext_resource type="Texture2D" uid="uid://cnhmmewv7klc6" path="res://asset/Kings and Pigs/Sprites/03-Pig/Run (34x28).png" id="tex"]
+
+[sub_resource type="AtlasTexture" id="At_pig_0"]
+atlas = ExtResource("tex")
+region = Rect2(0, 0, 34, 28)
+
+[sub_resource type="AtlasTexture" id="At_pig_1"]
+atlas = ExtResource("tex")
+region = Rect2(34, 0, 34, 28)
+
+[sub_resource type="AtlasTexture" id="At_pig_2"]
+atlas = ExtResource("tex")
+region = Rect2(68, 0, 34, 28)
+
+[sub_resource type="AtlasTexture" id="At_pig_3"]
+atlas = ExtResource("tex")
+region = Rect2(102, 0, 34, 28)
+
+[sub_resource type="AtlasTexture" id="At_pig_4"]
+atlas = ExtResource("tex")
+region = Rect2(136, 0, 34, 28)
+
+[sub_resource type="AtlasTexture" id="At_pig_5"]
+atlas = ExtResource("tex")
+region = Rect2(170, 0, 34, 28)
+
+[sub_resource type="SpriteFrames" id="SF_pig"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("At_pig_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_pig_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_pig_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_pig_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_pig_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("At_pig_5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RS_pig"]
+size = Vector2(26, 24)
+
+[node name="Pig" type="CharacterBody2D"]
+collision_layer = 1
+script = ExtResource("scr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SF_pig")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RS_pig")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(20, 0)

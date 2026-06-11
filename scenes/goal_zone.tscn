@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="RectangleShape2D" id="GoalShape"]
+size = Vector2(64, 96)
+
+[node name="GoalZone" type="Area2D"]
+z_index = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("GoalShape")
+
+[node name="Base" type="Polygon2D" parent="."]
+color = Color(0.35, 0.24, 0.13, 1)
+polygon = PackedVector2Array(-16, 40, 16, 40, 14, 48, -14, 48)
+
+[node name="Pole" type="Polygon2D" parent="."]
+color = Color(0.5, 0.35, 0.2, 1)
+polygon = PackedVector2Array(-4, -48, 4, -48, 4, 40, -4, 40)
+
+[node name="Flag" type="Polygon2D" parent="."]
+color = Color(0.95, 0.85, 0.1, 1)
+polygon = PackedVector2Array(4, -48, 52, -36, 44, -22, 52, -8, 4, -16)
+
+[node name="FlagShadow" type="Polygon2D" parent="."]
+color = Color(0.78, 0.55, 0.18, 0.55)
+polygon = PackedVector2Array(4, -16, 44, -22, 52, -8, 4, -8)

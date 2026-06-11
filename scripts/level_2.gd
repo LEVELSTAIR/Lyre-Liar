@@ -1,71 +1,42 @@
 extends Node2D
 
-# ─── Tile type constants ──────────────────────────────────────────────────────
-const EMPTY   := 0
-const GRASS   := 1   # green surface cap + dirt body (walkable top)
-const DIRT    := 2   # dirt body only      (underground fill)
-const STONE   := 3   # stone surface cap + stone body
-const ROCK    := 4   # solid stone body    (deep underground)
-const BEDROCK := 5   # impenetrable base layer
-const FUNGUS  := 6   # fungus-top platform (atmospheric mid-level)
-const GLOW    := 7   # glowing platform    (high / special)
+## Level scene. Terrain, spawn points, and camera bounds come from the scene,
+## not from this script — paint geometry (e.g. with a TileMapLayer) in the
+## editor and add Marker2D children under a `SpawnPoints` node for spawns.
 
-# ─── World geometry ───────────────────────────────────────────────────────────
-const TILE_SIZE := 128   # px per tile
+@export var world_size: Vector2 = Vector2(3840, 1536)
 
-# 60 cols × 1 row — extended flat grass surface.
-const LEVEL: Array = [
-	[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-	[ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ],
-]
-
-# ─── Texture map ──────────────────────────────────────────────────────────────
-const TEX_BASE := "res://asset/terrain/generated/"
-
-const TEX_PATHS := {
-	GRASS:   TEX_BASE + "grass_surface.png",
-	DIRT:    TEX_BASE + "dirt_body.png",
-	STONE:   TEX_BASE + "stone_surface.png",
-	ROCK:    TEX_BASE + "stone_body.png",
-	BEDROCK: TEX_BASE + "bedrock.png",
-	FUNGUS:  TEX_BASE + "fungus_surface.png",
-	GLOW:    TEX_BASE + "glow_surface.png",
-}
-
-# Brightness multiplier per tile type (Z-depth cue for 2.5D)
-const MODULATE := {
-	GRASS:   Color(1.00, 1.00, 1.00, 1),
-	DIRT:    Color(0.88, 0.84, 0.80, 1),
-	STONE:   Color(0.95, 0.95, 1.00, 1),
-	ROCK:    Color(0.72, 0.72, 0.76, 1),
-	BEDROCK: Color(0.55, 0.55, 0.58, 1),
-	FUNGUS:  Color(1.00, 0.95, 0.90, 1),
-	GLOW:    Color(1.00, 1.00, 1.00, 1),
-}
-
-# ─── State ────────────────────────────────────────────────────────────────────
-var _tex: Dictionary = {}
+var _spawn_index := 0
+var _death_menu: CanvasLayer = null
+var _level_complete_menu: CanvasLayer = null
+var _timer_hud: CanvasLayer = null
+var _health_hud: CanvasLayer = null
+var _run_time: float = 0.0
+var _deaths: int = 0
 
 
-# ─── Lifecycle ────────────────────────────────────────────────────────────────
 func _ready() -> void:
-	for tile_type in TEX_PATHS:
-		_tex[tile_type] = load(TEX_PATHS[tile_type])
+	add_child(preload("res://scenes/pause_menu.tscn").instantiate())
+	_death_menu = preload("res://scenes/death_menu.tscn").instantiate()
+	add_child(_death_menu)
+	_level_complete_menu = preload("res://scenes/level_complete_menu.tscn").instantiate()
+	add_child(_level_complete_menu)
+	_timer_hud = preload("res://scenes/timer_hud.tscn").instantiate()
+	add_child(_timer_hud)
+	_health_hud = preload("res://scenes/health_hud.tscn").instantiate()
+	add_child(_health_hud)
 
-	var kill_zone: Area2D = $KillZone
-	kill_zone.body_entered.connect(_on_kill_zone_body_entered)
+	# Tag every enemy in the scene so player.gd recognises them as damage
+	# sources via the "enemies" group during slide-collision checks.
+	_tag_enemies()
 
-	_build_level()
+	$GoalZone.body_entered.connect(_on_goal_body_entered)
+	$KillZone.body_entered.connect(_on_kill_zone_body_entered)
+
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
-
-	# Connect Colyseus signals for future players
 	MultiplayerManager.player_connected.connect(_add_player)
 	MultiplayerManager.player_disconnected.connect(_remove_player)
 
-	# Spawn players that already connected before the scene loaded
 	for pid in MultiplayerManager.active_players:
 		_add_player(pid)
 
@@ -79,113 +50,110 @@ func _ready() -> void:
 func _on_room_code_ready(code: String) -> void:
 	_display_room_code(code)
 
+
 func _on_connection_failed(_reason: String) -> void:
+	if MultiplayerManager.is_single_player:
+		return
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 
-# ─── Level builder ────────────────────────────────────────────────────────────
-func _build_level() -> void:
-	# Add boundary walls
-	_spawn_wall(-20, 1000) # Left wall
-	_spawn_wall(LEVEL[0].size() * TILE_SIZE + 20, 1000) # Right wall
-
-	for row in LEVEL.size():
-		for col in LEVEL[row].size():
-			var tile_type: int = LEVEL[row][col]
-			if tile_type == EMPTY:
-				continue
-			_spawn_tile(col, row, tile_type)
-
-
-func _spawn_tile(col: int, row: int, tile_type: int) -> void:
-	var body := StaticBody2D.new()
-	body.position = Vector2(
-		col * TILE_SIZE + TILE_SIZE * 0.5,
-		row * TILE_SIZE + TILE_SIZE * 0.5
-	)
-
-	var sprite := Sprite2D.new()
-	sprite.texture  = _tex[tile_type]
-	sprite.modulate = MODULATE.get(tile_type, Color.WHITE)
-	body.add_child(sprite)
-
-	var col_shape := CollisionShape2D.new()
-	var rect      := RectangleShape2D.new()
-	rect.size      = Vector2(TILE_SIZE, TILE_SIZE)
-	col_shape.shape = rect
-	body.add_child(col_shape)
-
-	add_child(body)
-
-
-func _spawn_wall(x_pos: float, height: float) -> void:
-	var body := StaticBody2D.new()
-	body.position = Vector2(x_pos, 0)
-	var col_shape := CollisionShape2D.new()
-	var rect := RectangleShape2D.new()
-	rect.size = Vector2(40, height * 2.0)
-	col_shape.shape = rect
-	body.add_child(col_shape)
-	add_child(body)
-
-
-var _spawn_points := [
-	Vector2(512, -100), Vector2(832, -100), Vector2(1152, -100), Vector2(1472, -100),
-	Vector2(512, -180), Vector2(832, -180), Vector2(1152, -180), Vector2(1472, -180)
-]
-var _spawn_index := 0
-
-
-
-
-
+# ─── Players ──────────────────────────────────────────────────────────────────
 func _add_player(id: String) -> void:
-	# With Colyseus, each client spawns their own representation of players
 	if has_node(id):
 		return
-
-	print("Spawning player with session ID '", id, "'")
 	var player = preload("res://scenes/player.tscn").instantiate()
 	player.session_id = id
-	player.name = id # Still set name for scene tree visibility
-
-	player.position = _spawn_points[_spawn_index % _spawn_points.size()]
+	player.name = id
+	player.position = _next_spawn_position()
 	_spawn_index += 1
-
 	add_child(player)
+
+	if player.is_local_player:
+		if _health_hud:
+			player.hp_changed.connect(_health_hud.set_hp)
+			_health_hud.set_hp(player.current_hp, player.MAX_HP)
+		player.died.connect(_on_player_died.bind(player))
+
+	# Camera limits intentionally left at Godot's defaults (±10⁶) so
+	# the camera follows the player anywhere — including into the death pit
+	# below world_size.y — until the goal is reached.
+
+
+func _on_player_died(player: Node2D) -> void:
+	_deaths += 1
+	if _death_menu and _death_menu.has_method("show_death"):
+		_death_menu.show_death(player)
+
+
+func _tag_enemies() -> void:
+	var enemies := get_node_or_null("Enemies")
+	if enemies == null:
+		return
+	for child in enemies.get_children():
+		child.add_to_group("enemies")
 
 
 func _remove_player(id: String) -> void:
-	# With Colyseus, each client removes the player node
 	if has_node(id):
 		get_node(id).queue_free()
 
 
+func _next_spawn_position() -> Vector2:
+	var positions := _spawn_positions()
+	if positions.is_empty():
+		push_warning("Level2: no Marker2D children under 'SpawnPoints'; spawning at (0, 0)")
+		return Vector2.ZERO
+	return positions[_spawn_index % positions.size()]
+
+
+func _spawn_positions() -> Array[Vector2]:
+	var positions: Array[Vector2] = []
+	var holder := get_node_or_null("SpawnPoints")
+	if holder == null:
+		return positions
+	for child in holder.get_children():
+		if child is Node2D:
+			positions.append((child as Node2D).position)
+	return positions
+
+
+func _process(delta: float) -> void:
+	if MultiplayerManager.is_single_player:
+		_run_time += delta
+
+
 func _on_kill_zone_body_entered(body: Node2D) -> void:
-	if body.has_method("respawn"):
-		body.respawn()
+	if not body.has_method("respawn"):
+		return
+	if "is_local_player" in body and body.is_local_player:
+		_deaths += 1
+		if _death_menu and _death_menu.has_method("show_death"):
+			_death_menu.show_death(body)
 
 
+func _on_goal_body_entered(body: Node2D) -> void:
+	if _level_complete_menu == null:
+		return
+	if "is_local_player" in body and body.is_local_player:
+		if _timer_hud and _timer_hud.has_method("stop"):
+			_timer_hud.stop()
+		_level_complete_menu.show_win(body, _run_time, _deaths)
+
+
+# ─── HUD ──────────────────────────────────────────────────────────────────────
 func _display_room_code(custom_code: String = "") -> void:
-	var room_code = custom_code
-
+	var room_code := custom_code
 	if room_code.is_empty():
 		room_code = MultiplayerManager.room_code
-		
-	print("Room code to display: '", room_code, "'")
-
 	if room_code.is_empty():
-		print("WARNING: Room code is empty!")
 		return
 
-	var ui_layer = CanvasLayer.new()
+	var ui_layer := CanvasLayer.new()
 	ui_layer.layer = 100
 	add_child(ui_layer)
 
-	var label = Label.new()
+	var label := Label.new()
 	label.text = "Room: " + room_code
-	label.anchor_left = 0
-	label.anchor_top = 0
 	label.offset_left = 20
 	label.offset_top = 20
 	label.add_theme_font_size_override("font_size", 28)
@@ -194,4 +162,3 @@ func _display_room_code(custom_code: String = "") -> void:
 	label.add_theme_constant_override("shadow_offset_x", 2)
 	label.add_theme_constant_override("shadow_offset_y", 2)
 	ui_layer.add_child(label)
-	print("Room code label created: ", room_code)

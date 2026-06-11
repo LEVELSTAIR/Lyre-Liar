@@ -1,0 +1,15 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:28px 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .map{display:flex;flex-direction:column;gap:8px;}
+  .tag{display:flex;align-items:center;justify-content:center;height:96px;border-radius:4px;font-family:var(--font-ui);font-size:30px;text-transform:uppercase;letter-spacing:0.08em;background:linear-gradient(180deg,#4F4F4F,#353535);text-shadow:0 1px 0 rgba(0,0,0,0.6);}
+  .name{font-family:var(--font-mono);font-size:13px;color:var(--parchment);letter-spacing:0.02em;}
+  .hex{font-family:var(--font-mono);font-size:11px;color:var(--state-version);}
+</style></head>
+<body><div class="wrap">
+  <div class="map"><div class="tag" style="color:var(--map-day);">Day</div><div class="name">map · day</div><div class="hex">#FFBF33 · sun gold</div></div>
+  <div class="map"><div class="tag" style="color:var(--map-night);">Night</div><div class="name">map · night</div><div class="hex">#99BFFF · moon blue</div></div>
+  <div class="map"><div class="tag" style="color:var(--map-forest);">Forest</div><div class="name">map · forest</div><div class="hex">#33CC66 · forest green</div></div>
+</div></body></html>

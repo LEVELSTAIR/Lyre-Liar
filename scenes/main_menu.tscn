@@ -1,6 +1,25 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
+[ext_resource type="CompressedTexture2D" uid="uid://bwqf2w6cvcrj1" path="res://asset/World/PixelFantasy_Caves_1/background1.png" id="2_bgtex"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Cinzel-VariableFont_wght.ttf" id="3_cinzel"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Inter-VariableFont.ttf" id="4_inter"]
+[ext_resource type="FontFile" path="res://asset/Fonts/Inter-Italic-VariableFont.ttf" id="5_interi"]
+[ext_resource type="Texture2D" uid="uid://gwsnw0g1xe7q" path="res://asset/Pixel Adventure/Main Characters/Pink Man/Idle (32x32).png" id="6_pink"]
+[ext_resource type="Texture2D" uid="uid://k72w4vnfkg22" path="res://asset/Pixel Adventure/Main Characters/Mask Dude/Idle (32x32).png" id="7_dude"]
+[ext_resource type="Texture2D" uid="uid://b05qhkgc0qcn4" path="res://asset/Pixel Adventure/Main Characters/Ninja Frog/Idle (32x32).png" id="8_owlet"]
+
+[sub_resource type="AtlasTexture" id="Icon_pink"]
+atlas = ExtResource("6_pink")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Icon_dude"]
+atlas = ExtResource("7_dude")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="Icon_owlet"]
+atlas = ExtResource("8_owlet")
+region = Rect2(0, 0, 32, 32)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -14,7 +33,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.05, 0.04, 0.08, 1)
+color = Color(0.03, 0.06, 0.03, 1)
+
+[node name="BgTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2_bgtex")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.6, 0.85, 0.6, 0.32)
 
 [node name="TitleContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -29,32 +58,34 @@ alignment = 1
 
 [node name="TitleBar" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.8, 0.1, 0.1, 1)
+color = Color(0.78, 0.55, 0.18, 1)
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="TitleContainer"]
 layout_mode = 2
-text = "PROJECT WEREWOLF"
+text = "LYRE & LIAR"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 52
 theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
-theme_override_colors/font_shadow_color = Color(0.8, 0.1, 0.1, 0.6)
+theme_override_colors/font_shadow_color = Color(0.32, 0.18, 0.06, 0.8)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_cinzel")
 
 [node name="SubtitleLabel" type="Label" parent="TitleContainer"]
 layout_mode = 2
-text = "A Game of Deception"
+text = "Whisper me a betrayal"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.6, 0.55, 0.5, 1)
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+theme_override_fonts/font = ExtResource("5_interi")
 
 [node name="TitleBarBottom" type="ColorRect" parent="TitleContainer"]
 custom_minimum_size = Vector2(600, 6)
-color = Color(0.8, 0.1, 0.1, 1)
+color = Color(0.78, 0.55, 0.18, 1)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" name="VBox" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchor_left = 0.5
 anchor_top = 0.45
@@ -68,22 +99,61 @@ alignment = 1
 
 [node name="ModeLabel" type="Label" parent="VBox"]
 layout_mode = 2
-text = "SELECT MODE"
+text = "SELECT MAP"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.6, 0.55, 0.5, 1)
+theme_override_colors/font_color = Color(0.55, 0.78, 0.45, 1)
 
-[node name="DayButton" type="Button" parent="VBox"]
+[node name="SinglePlayerButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
-text = "DAY"
+text = "SINGLE PLAYER"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(1.0, 0.75, 0.2, 1)
+theme_override_colors/font_color = Color(0.85, 0.95, 0.6, 1)
 
-[node name="NightButton" type="Button" parent="VBox"]
+[node name="MultiplayerButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
-text = "NIGHT"
+text = "MULTIPLAYER"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
+
+[node name="MapScroll" type="ScrollContainer" parent="VBox"]
+custom_minimum_size = Vector2(280, 234)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="MapCardsGrid" type="GridContainer" parent="VBox/MapScroll"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 18
+theme_override_constants/v_separation = 18
+
+[node name="PinkMonsterButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "PINK MONSTER"
+icon = SubResource("Icon_pink")
+expand_icon = true
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.6, 0.8, 1)
+
+[node name="DudeMonsterButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "DUDE MONSTER"
+icon = SubResource("Icon_dude")
+expand_icon = true
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.85, 0.7, 0.4, 1)
+
+[node name="OwletMonsterButton" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+text = "OWLET MONSTER"
+icon = SubResource("Icon_owlet")
+expand_icon = true
 theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
 
@@ -97,28 +167,29 @@ layout_mode = 2
 text = ""
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.6, 0.75, 1.0, 1)
+theme_override_colors/font_color = Color(0.55, 0.85, 0.55, 1)
+theme_override_fonts/font = ExtResource("4_inter")
 
 [node name="HostButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "HOST GAME"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="JoinButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "JOIN GAME"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="QuitButton" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(280, 56)
 layout_mode = 2
 text = "QUIT"
 theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 1)
+theme_override_colors/font_color = Color(0.82, 0.95, 0.75, 1)
 
 [node name="VersionLabel" type="Label" parent="."]
 layout_mode = 1
@@ -130,4 +201,5 @@ offset_left = -110.0
 offset_top = -30.0
 text = "v0.1.0 - Alpha"
 theme_override_font_sizes/font_size = 12
-theme_override_colors/font_color = Color(0.4, 0.38, 0.36, 1)
+theme_override_colors/font_color = Color(0.35, 0.55, 0.3, 1)
+theme_override_fonts/font = ExtResource("4_inter")

@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:28px 32px;display:flex;flex-direction:column;gap:16px;align-items:center;}
+  .row{display:flex;gap:14px;align-items:center;}
+  .btn{width:220px;height:48px;border:0;font-family:var(--font-ui);font-size:20px;text-transform:uppercase;letter-spacing:0.06em;background:linear-gradient(180deg,#4F4F4F,#353535);text-shadow:0 1px 0 rgba(0,0,0,0.6);cursor:pointer;}
+  .btn.hov{filter:brightness(1.15);}
+  .btn.press{filter:brightness(0.85);transform:translateY(1px);}
+  .btn.dis{filter:brightness(0.6) grayscale(0.4);}
+  .label{font-family:var(--font-mono);font-size:11px;color:var(--state-version);width:60px;}
+</style></head>
+<body><div class="wrap">
+  <div class="row"><div class="label">default</div><button class="btn" style="color:var(--label-multi);">Host game</button></div>
+  <div class="row"><div class="label">hover</div><button class="btn hov" style="color:var(--label-multi);">Host game</button></div>
+  <div class="row"><div class="label">press</div><button class="btn press" style="color:var(--label-multi);">Host game</button></div>
+  <div class="row"><div class="label">disabled</div><button class="btn dis" style="color:var(--label-multi);">Host game</button></div>
+</div></body></html>

@@ -1,0 +1,109 @@
+name: Bug report
+description: Report a reproducible problem in the game, the client, or the Colyseus server.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please fill out the sections below so we can reproduce it quickly.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: A clear, concise description of the bug.
+      placeholder: e.g. Joining a room from Android disconnects the host after ~5 seconds.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact steps so a maintainer can hit the same bug.
+      placeholder: |
+        1. Run `npm start` in `colyseus_server/`
+        2. Open the Godot project and press F5
+        3. Click "Host" on the Day map
+        4. Join from a second client using the room code
+        5. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you thought would happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened. Include error messages and stack traces from the Godot output panel or the Colyseus server logs.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the project is affected?
+      options:
+        - Client — gameplay / movement
+        - Client — UI / menus / controls
+        - Client — multiplayer (Colyseus client)
+        - Server — Colyseus room / state
+        - Build — Android / export
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: godot-version
+    attributes:
+      label: Godot version
+      placeholder: e.g. 4.6.stable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit / branch
+      description: The commit SHA or branch you reproduced this on.
+      placeholder: e.g. main @ 8d5acbb
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / screenshots
+      description: Paste logs in a code block, or drag images directly into this field.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: I can reproduce this on the latest `main`.
+          required: false

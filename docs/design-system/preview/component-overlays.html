@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:24px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .panel{padding:18px 14px;display:flex;flex-direction:column;gap:12px;align-items:center;border-radius:4px;}
+  .ot{font-family:var(--font-ui);font-size:24px;text-shadow:0 2px 0 rgba(0,0,0,0.8);text-transform:uppercase;letter-spacing:0.06em;}
+  .btn{width:160px;height:36px;background:linear-gradient(180deg,#4F4F4F,#353535);color:var(--label-multi);font-family:var(--font-ui);font-size:15px;text-transform:uppercase;letter-spacing:0.06em;border:0;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 0 rgba(0,0,0,0.6);}
+  .name{font-family:var(--font-mono);font-size:10px;color:var(--state-version);text-align:center;margin-top:6px;}
+</style></head>
+<body><div class="wrap">
+  <div>
+    <div class="panel" style="background:var(--shell-hush);"><div class="ot" style="color:var(--state-paused);">Paused</div><div class="btn">Resume</div><div class="btn">Main menu</div></div>
+    <div class="name">paused · 0,0,0,.6</div>
+  </div>
+  <div>
+    <div class="panel" style="background:var(--shell-bloodshade);"><div class="ot" style="color:var(--state-died);">You died</div><div class="btn">Restart</div><div class="btn">Quit</div></div>
+    <div class="name">died · 64,0,0,.7</div>
+  </div>
+  <div>
+    <div class="panel" style="background:var(--shell-hush-deep);"><div class="ot" style="color:var(--state-timeout);">Too late</div><div class="btn">Restart</div><div class="btn">Quit</div></div>
+    <div class="name">timeout · 0,0,0,.7</div>
+  </div>
+  <div>
+    <div class="panel" style="background:var(--shell-glade);"><div class="ot" style="color:var(--state-complete);font-size:18px;">Level complete</div><div class="btn">Replay</div><div class="btn">Next level</div></div>
+    <div class="name">complete · 0,38,13,.7</div>
+  </div>
+</div></body></html>

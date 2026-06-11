@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#0a0a0a;color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:28px 32px;display:flex;justify-content:space-around;align-items:flex-end;gap:14px;height:240px;}
+  .group{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .lbl{font-family:var(--font-mono);font-size:10px;color:var(--state-version);}
+  /* joystick base */
+  .joybase{width:120px;height:120px;border-radius:60px;background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.4);position:relative;box-sizing:border-box;}
+  .joyhandle{width:60px;height:60px;border-radius:30px;background:rgba(255,255,255,0.65);position:absolute;left:30px;top:30px;box-shadow:0 2px 4px rgba(0,0,0,0.4);}
+  /* jump btn */
+  .jump{width:120px;height:120px;border-radius:60px;background:linear-gradient(180deg,#5a5a5a,#3a3a3a);color:var(--parchment);display:flex;align-items:center;justify-content:center;font-family:var(--font-ui);font-size:28px;text-transform:uppercase;letter-spacing:0.08em;border:2px solid rgba(255,255,255,0.3);box-sizing:border-box;text-shadow:0 1px 0 rgba(0,0,0,0.6);}
+  .jump.held{filter:brightness(0.7);}
+</style></head>
+<body><div class="wrap">
+  <div class="group">
+    <div class="jump">Jump</div>
+    <div class="lbl">jump · 120×120 · pill</div>
+  </div>
+  <div class="group">
+    <div class="joybase"><div class="joyhandle"></div></div>
+    <div class="lbl">joystick · 120/60 · pill</div>
+  </div>
+</div></body></html>

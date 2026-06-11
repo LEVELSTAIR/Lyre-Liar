@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:var(--shell-void);color:var(--parchment);font-family:var(--font-body);width:700px;}
+  .wrap{padding:28px 32px;display:flex;flex-direction:column;gap:14px;align-items:center;}
+  .input{width:280px;height:40px;background:#FFFFFF;border:1px solid #888;color:#111;font-family:var(--font-mono);font-size:18px;letter-spacing:0.18em;text-align:center;outline:none;}
+  .input.ph{color:#888;}
+  .lbl{font-family:var(--font-ui);font-size:14px;color:var(--state-mode);text-transform:uppercase;letter-spacing:0.16em;text-align:center;}
+  .ip{width:280px;height:40px;background:#FFFFFF;border:1px solid #888;color:#111;font-family:var(--font-body);font-size:14px;padding:0 12px;text-align:center;}
+  .status{font-family:var(--font-body);font-size:13px;color:var(--state-status);text-align:center;line-height:1.5;}
+</style></head>
+<body><div class="wrap">
+  <div class="lbl">Server address</div>
+  <div class="ip">192.168.1.10</div>
+  <div class="input ph">ROOM CODE</div>
+  <div class="input">ABCD</div>
+  <div class="status">Room: ABCD · Your IP: 192.168.1.10<br>Waiting for players...</div>
+</div></body></html>
