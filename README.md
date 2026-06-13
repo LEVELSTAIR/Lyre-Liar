@@ -34,7 +34,6 @@ Selected from the main menu after choosing single-player or multiplayer:
 | Day     | `scenes/level_2.tscn`  | Bright outdoor platforms over grass/dirt terrain |
 | Night   | `scenes/level_1.tscn`  | Tile-based underground (grass/dirt/stone/fungus) |
 | Forest  | `scenes/level_4.tscn`  | Tall forest map with a vertical camera           |
-| Forest  | `scenes/level_3.tscn`  | Developing                                       |
 
 Every map has a `KillZone` Area2D — touching it triggers `player.respawn()` and snaps the player back to spawn.
 
@@ -102,7 +101,7 @@ Lyre-Liar/
 │   ├── mobile_controls.gd       # Touch joystick + jump button
 │   ├── responsive_ui.gd         # Autoload — viewport-based scaling
 │   ├── level_1.gd, level_2.gd, level_4.gd  # Per-map level scripts
-│   └── bake_level3.gd, bake_level4.gd      # One-shot scene baking helper
+│   └── bake_level3.gd, bake_level4.gd      # One-shot scene baking helpers
 ├── scenes/
 │   ├── main.tscn, main_menu.tscn
 │   ├── player.tscn, mobile_controls.tscn
