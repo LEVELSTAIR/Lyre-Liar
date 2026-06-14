@@ -1,4 +1,4 @@
-# Project Werewolf
+# Lyre-Liar
 
 **A 2D multiplayer platformer with a hidden imposter — playable on PC and mobile, in the same room.**
 
@@ -23,7 +23,7 @@ The crewmates' job is to survive the map *and* figure out who keeps "happening" 
 [![Networking](https://img.shields.io/badge/Network-Colyseus-9b59b6)](https://colyseus.io)
 ![Platforms](https://img.shields.io/badge/Platforms-PC%20%7C%20Android-2ecc71)
 
-Built with **Godot 4.6** and a **Colyseus** authoritative server. This is the official repository for **Project Werewolf**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/project-werewolf).
+Built with **Godot 4.6** and a **Colyseus** authoritative server. This is the official repository for **Project Lyre-Liar**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/Lyre-Liar).
 
 ## 🗺️ Maps
 
