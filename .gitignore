@@ -12,6 +12,7 @@ export_credentials.cfg
 *.zip
 builds/
 build/
+*.patch
 
 # Node.js (Signaling Server)
 node_modules/
