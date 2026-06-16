@@ -27,9 +27,6 @@ window/size/viewport_height=640
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 
-[dotnet]
-
-project/assembly_name="Lyre-Liar"
 
 [gui]
 
