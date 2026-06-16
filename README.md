@@ -65,7 +65,7 @@ The server listens on `ws://localhost:2567` by default (override with `PORT=...`
 ### 2. Open the Godot project
 
 1. Open `project.godot` in **Godot 4.6** or later.
-2. Press **F5** to run, or build an APK for Android via *Project → Export* (presets in `export_presets.cfg`; pre-built APKs `0.5.apk` … `0.14.apk` are at the repo root for reference).
+2. Press **F5** to run, or build an APK for Android via *Project → Export* (presets in `export_presets.cfg`).
 
 ### 3. Play
 
@@ -89,7 +89,7 @@ Mobile and PC players can join the same room as long as they can reach the same 
 ## 📂 Project Structure
 
 ```text
-project-werewolf/
+Lyre-Liar/
 ├── colyseus_server/        # Authoritative Node.js server (Colyseus)
 │   └── index.js            #   WerewolfRoom: state, join, move messages
 ├── scripts/
@@ -101,7 +101,7 @@ project-werewolf/
 │   ├── mobile_controls.gd       # Touch joystick + jump button
 │   ├── responsive_ui.gd         # Autoload — viewport-based scaling
 │   ├── level_1.gd, level_2.gd, level_4.gd  # Per-map level scripts
-│   └── bake_level4.gd              # One-shot scene baking helper
+│   └── bake_level3.gd, bake_level4.gd              # One-shot scene baking helper
 ├── scenes/
 │   ├── main.tscn, main_menu.tscn
 │   ├── player.tscn, mobile_controls.tscn
@@ -135,6 +135,7 @@ project-werewolf/
 - **Mobile-first viewport**: 360×640 base size, `keep_height` stretch — content scales horizontally but preserves vertical fit.
 - **Adding a map**: drop a new `level_N.tscn` with a `KillZone: Area2D`, write a `level_N.gd` following the pattern in `level_4.gd` (connect `player_connected`/`player_disconnected`, spawn from `MultiplayerManager.active_players`), then wire it up in `main_menu.gd::_on_connected_to_game`.
 - **Server config persistence**: the last server IP is saved to `user://server_config.cfg` so players don't retype it.
+- **Level 3**: Not playable in the current repo — requires the Sunny-land asset pack. To enable: acquire the assets, place in `asset/terrain/Sunny-land-woods-files/`, then run `scripts/bake_level3.gd` in the Godot editor.
 
 ## 🤝 Contributing
 
