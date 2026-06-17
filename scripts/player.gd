@@ -334,7 +334,9 @@ func _on_player_state_changed(state_session_id: String, state: Dictionary) -> vo
 	if state.has("vx") and state.has("vy"):
 		_remote_target_vel = Vector2(state["vx"], state["vy"])
 
-
+# Starts a tween-based camera shake when the player takes damage.
+# Only runs for the local player
+# Kills any existing shake first so hits don't stack on top of each other.
 func _start_camera_shake() -> void:
 	if not is_local_player:
 		return
