@@ -135,6 +135,7 @@ Lyre-Liar/
 - **Mobile-first viewport**: 360×640 base size, `keep_height` stretch — content scales horizontally but preserves vertical fit.
 - **Adding a map**: drop a new `level_N.tscn` with a `KillZone: Area2D`, write a `level_N.gd` following the pattern in `level_4.gd` (connect `player_connected`/`player_disconnected`, spawn from `MultiplayerManager.active_players`), then wire it up in `main_menu.gd::_on_connected_to_game`.
 - **Server config persistence**: the last server IP is saved to `user://server_config.cfg` so players don't retype it.
+- **Level 3**: Not playable in the current repo — requires the Sunny-land asset pack. To enable: acquire the assets, place in `asset/terrain/Sunny-land-woods-files/`, then run `scripts/bake_level3.gd` in the Godot editor.
 
 ## 🤝 Contributing
 

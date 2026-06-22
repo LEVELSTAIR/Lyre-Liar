@@ -96,6 +96,8 @@ const IFRAMES_DURATION: float = 1.0
 
 var current_hp: int = MAX_HP
 var _iframes_timer: float = 0.0
+var _damage_contacts: Dictionary = {}
+var _camera_shake_tween: Tween = null
 
 
 # Remote interpolation targets
@@ -243,7 +245,9 @@ func respawn() -> void:
 	_spawn_safety_timer = 0.2
 	current_hp = MAX_HP
 	_iframes_timer = 0.0
+	_damage_contacts.clear()
 	_sprite.modulate.a = 1.0
+	_stop_camera_shake()
 	hp_changed.emit(current_hp, MAX_HP)
 	if is_local_player:
 		MultiplayerManager.send_message("move", {
@@ -271,6 +275,7 @@ func take_damage(amount: int = 1) -> void:
 		return
 	current_hp = max(0, current_hp - amount)
 	_iframes_timer = IFRAMES_DURATION
+	_start_camera_shake()
 	hp_changed.emit(current_hp, MAX_HP)
 	if current_hp == 0:
 		_sprite.modulate.a = 1.0
@@ -294,6 +299,8 @@ func heal(amount: int = 1) -> bool:
 # collisions reported by move_and_slide and applies damage if any of them is
 # in the "enemies" group. Also ticks the i-frame timer and flashes the sprite.
 func _process_health(delta: float) -> void:
+	var touching_damage_contacts: Dictionary = {}
+
 	if _iframes_timer > 0.0:
 		_iframes_timer = max(0.0, _iframes_timer - delta)
 		# Blink ~6 Hz during i-frames so the hit is readable.
@@ -307,8 +314,12 @@ func _process_health(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var collider := get_slide_collision(i).get_collider()
 		if collider and collider is Node and (collider as Node).is_in_group("enemies"):
-			take_damage(1)
-			break
+			var collider_id: int = (collider as Node).get_instance_id()
+			touching_damage_contacts[collider_id] = true
+			if not _damage_contacts.has(collider_id):
+				take_damage(1)
+
+	_damage_contacts = touching_damage_contacts
 
 
 func _on_player_state_changed(state_session_id: String, state: Dictionary) -> void:
@@ -322,3 +333,38 @@ func _on_player_state_changed(state_session_id: String, state: Dictionary) -> vo
 			_remote_initialized = true
 	if state.has("vx") and state.has("vy"):
 		_remote_target_vel = Vector2(state["vx"], state["vy"])
+
+# Starts a tween-based camera shake when the player takes damage.
+# Only runs for the local player
+# Kills any existing shake first so hits don't stack on top of each other.
+func _start_camera_shake() -> void:
+	if not is_local_player:
+		return
+	if not is_instance_valid(_camera):
+		return
+
+	_stop_camera_shake()
+
+	var original_offset: Vector2 = camera_offset
+	_camera_shake_tween = create_tween()
+	_camera_shake_tween.set_trans(Tween.TRANS_SINE)
+	_camera_shake_tween.set_ease(Tween.EASE_OUT)
+	for i in range(4):
+		var shake_offset := original_offset + Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0))
+		_camera_shake_tween.tween_property(_camera, "offset", shake_offset, 0.04)
+	_camera_shake_tween.tween_property(_camera, "offset", original_offset, 0.04)
+	_camera_shake_tween.finished.connect(_on_camera_shake_finished)
+
+
+func _stop_camera_shake() -> void:
+	if _camera_shake_tween != null:
+		_camera_shake_tween.kill()
+		_camera_shake_tween = null
+	if is_instance_valid(_camera):
+		_camera.offset = camera_offset
+
+
+func _on_camera_shake_finished() -> void:
+	_camera_shake_tween = null
+	if is_instance_valid(_camera):
+		_camera.offset = camera_offset
