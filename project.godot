@@ -27,6 +27,7 @@ window/size/viewport_height=640
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 
+
 [gui]
 
 theme/custom="res://asset/Fonts/lyre_liar_theme.tres"
