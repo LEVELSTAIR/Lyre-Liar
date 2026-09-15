@@ -10,10 +10,11 @@ extends Node2D
 ## report the result when the goal is reached.
 
 const PLAYER_SCENE := preload("res://scenes/player.tscn")
-const PAUSE_MENU_SCENE := preload("res://scenes/pause_menu.tscn")
-const DEATH_MENU_SCENE := preload("res://scenes/death_menu.tscn")
-const COMPLETE_MENU_SCENE := preload("res://scenes/level_complete_menu.tscn")
-const HEALTH_HUD_SCENE := preload("res://scenes/health_hud.tscn")
+const HUD_SCENE := preload("res://scenes/ui/hud.tscn")
+const TOUCH_CONTROLS_SCENE := preload("res://scenes/ui/touch_controls.tscn")
+const PAUSE_MENU_SCENE := preload("res://scenes/ui/pause_menu.tscn")
+const DEATH_MENU_SCENE := preload("res://scenes/ui/death_menu.tscn")
+const COMPLETE_MENU_SCENE := preload("res://scenes/ui/level_complete_menu.tscn")
 
 ## Seconds before a player respawns automatically in multiplayer.
 const MULTIPLAYER_RESPAWN_DELAY := 1.5
@@ -32,9 +33,9 @@ var fruits_total: int = 0
 var _local_player: Player
 var _spawned_count: int = 0
 var _completed: bool = false
-var _death_menu: CanvasLayer
-var _complete_menu: CanvasLayer
-var _health_hud: CanvasLayer
+var _hud: Hud
+var _death_menu: DeathMenu
+var _complete_menu: LevelCompleteMenu
 
 @onready var terrain: TileMapLayer = $Terrain
 @onready var players: Node2D = $Players
@@ -59,6 +60,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not _completed:
 		run_time += delta
+		_hud.set_time(run_time)
 
 
 ## World-space rectangle covered by terrain tiles.
@@ -86,8 +88,6 @@ func _spawn_player(session_id: String) -> void:
 	var limits := terrain_rect().grow_individual(CAMERA_MARGIN.x, CAMERA_MARGIN.y, CAMERA_MARGIN.x, 0)
 	player.camera.apply_limits(limits)
 	player.died.connect(_on_local_player_died)
-	player.hp_changed.connect(_health_hud.set_hp)
-	_health_hud.set_hp(player.current_hp, Player.MAX_HP)
 
 
 func _remove_player(session_id: String) -> void:
@@ -127,22 +127,24 @@ func _on_goal_reached(_player: Player) -> void:
 		return
 	_completed = true
 	var result := LevelResult.new(level_id, run_time, fruits_collected, fruits_total, deaths)
+	var is_new_best := false
 	if MultiplayerManager.is_single_player:
-		GameProgress.record_result(result)
+		is_new_best = GameProgress.record_result(result)
 	Events.level_completed.emit(result)
-	_complete_menu.show_result(result)
+	_complete_menu.show_result(result, is_new_best)
 
 
 # ─── Overlays and networking ──────────────────────────────────────────────────
 
 func _add_overlays() -> void:
+	_hud = HUD_SCENE.instantiate()
+	add_child(_hud)
+	add_child(TOUCH_CONTROLS_SCENE.instantiate())
 	add_child(PAUSE_MENU_SCENE.instantiate())
 	_death_menu = DEATH_MENU_SCENE.instantiate()
 	add_child(_death_menu)
 	_complete_menu = COMPLETE_MENU_SCENE.instantiate()
 	add_child(_complete_menu)
-	_health_hud = HEALTH_HUD_SCENE.instantiate()
-	add_child(_health_hud)
 
 
 func _show_room_code() -> void:
@@ -156,16 +158,8 @@ func _show_room_code() -> void:
 
 
 func _on_room_code_ready(code: String) -> void:
-	var layer := CanvasLayer.new()
-	layer.layer = 100
-	var label := Label.new()
-	label.name = "RoomCodeLabel"
-	label.text = "Room: " + code
-	label.position = Vector2(12, 8)
-	label.add_theme_color_override("font_color", Color(1.0, 0.8, 0.2))
-	label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
-	layer.add_child(label)
-	add_child(layer)
+	var address := MultiplayerManager.local_lan_address() if MultiplayerManager.is_hosting_intent else ""
+	_hud.show_room_code(code, address)
 
 
 func _on_connection_failed(_reason: String) -> void:

@@ -8,6 +8,8 @@ const PLAYER_SCENE := preload("res://scenes/player.tscn")
 const FLOOR_Y := 0.0
 
 var failures: Array[String] = []
+## Number of expectations evaluated, printed by the runner as a sanity check.
+var checks_run: int = 0
 var _tree: SceneTree
 var _arena: Node2D
 ## Whether the double jump was consumed right after it was performed.
@@ -183,6 +185,7 @@ func _physics_frames(count: int) -> void:
 
 
 func _expect(condition: bool, message: String) -> void:
+	checks_run += 1
 	if not condition:
 		failures.append(message)
 

@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://data/ui/lyre_liar_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://scripts/ui/title_screen.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/menu_background.tscn" id="3_background"]
+
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("initial_focus")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+initial_focus = NodePath("Center/Buttons/PlayButton")
+
+[node name="MenuBackground" parent="." instance=ExtResource("3_background")]
+
+[node name="Center" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -165.0
+offset_right = 170.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="RuleTop" type="ColorRect" parent="Center"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.78, 0.55, 0.18, 1)
+
+[node name="Title" type="Label" parent="Center"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "LYRE & LIAR"
+horizontal_alignment = 1
+
+[node name="RuleBottom" type="ColorRect" parent="Center"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+color = Color(0.78, 0.55, 0.18, 1)
+
+[node name="Subtitle" type="Label" parent="Center"]
+layout_mode = 2
+theme_type_variation = &"SubtitleLabel"
+text = "Whisper me a betrayal"
+horizontal_alignment = 1
+
+[node name="Parade" type="HBoxContainer" parent="Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="Buttons" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 6
+
+[node name="PlayButton" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 30)
+layout_mode = 2
+text = "PLAY"
+
+[node name="MultiplayerButton" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 30)
+layout_mode = 2
+text = "MULTIPLAYER"
+
+[node name="SettingsButton" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 30)
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="Center/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 30)
+layout_mode = 2
+text = "QUIT"
+
+[node name="VersionLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_type_variation = &"SmallLabel"
+text = "v0.0"
+horizontal_alignment = 2

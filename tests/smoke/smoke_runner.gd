@@ -11,6 +11,7 @@ const STEP_TIMEOUT_FRAMES := 600
 const EMPTY_SCENE := "res://tests/smoke/empty.tscn"
 const PlayerMovementChecks := preload("res://tests/smoke/player_movement_checks.gd")
 const GameplayObjectChecks := preload("res://tests/smoke/gameplay_object_checks.gd")
+const UiFlowChecks := preload("res://tests/smoke/ui_flow_checks.gd")
 
 var _failures: Array[String] = []
 
@@ -29,9 +30,15 @@ func _run() -> void:
 	var player_checks := PlayerMovementChecks.new()
 	await player_checks.run(get_tree())
 	_failures.append_array(player_checks.failures)
+	print("smoke: player movement checks ran %d expectations" % player_checks.checks_run)
 	var object_checks := GameplayObjectChecks.new()
 	await object_checks.run(get_tree())
 	_failures.append_array(object_checks.failures)
+	print("smoke: gameplay objects checks ran %d expectations" % object_checks.checks_run)
+	var ui_checks := UiFlowChecks.new()
+	await ui_checks.run(get_tree())
+	_failures.append_array(ui_checks.failures)
+	print("smoke: ui flow checks ran %d expectations" % ui_checks.checks_run)
 	GameProgress.reset_progress()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameProgress.save_path))
 	for failure in _failures:

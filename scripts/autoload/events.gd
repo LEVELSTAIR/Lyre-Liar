@@ -14,3 +14,5 @@ signal checkpoint_reached(respawn_position: Vector2)
 signal level_started(level_id: StringName)
 signal level_completed(result: LevelResult)
 signal pause_toggled(is_paused: bool)
+## Raised by on-screen buttons that want the pause menu opened.
+signal pause_requested

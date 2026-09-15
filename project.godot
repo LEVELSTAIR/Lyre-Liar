@@ -11,13 +11,12 @@ config_version=5
 [application]
 
 config/name="Lyre-Liar"
-run/main_scene="res://scenes/main_menu.tscn"
+run/main_scene="res://scenes/ui/title_screen.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-ResponsiveUI="*res://scripts/responsive_ui.gd"
 MultiplayerManager="*res://scripts/multiplayer_manager.gd"
 Events="*res://scripts/autoload/events.gd"
 GameProgress="*res://scripts/autoload/game_progress.gd"
@@ -25,14 +24,16 @@ SceneRouter="*res://scripts/autoload/scene_router.gd"
 
 [display]
 
-window/size/viewport_width=360
-window/size/viewport_height=640
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep_height"
+window/stretch/aspect="expand"
 
 [gui]
 
-theme/custom="res://asset/Fonts/lyre_liar_theme.tres"
+theme/custom="res://data/ui/lyre_liar_theme.tres"
 
 [input]
 
@@ -79,8 +80,10 @@ pause={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
-environment/defaults/default_clear_color=Color(0.8, 0.7, 0.3, 1)
+environment/defaults/default_clear_color=Color(0.03137255, 0.05882353, 0.03137255, 1)
+2d/snap/snap_2d_transforms_to_pixel=true

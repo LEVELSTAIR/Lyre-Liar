@@ -13,6 +13,9 @@ const SAVE_PATH := "user://progress.cfg"
 const LEVELS_SECTION := "levels"
 const SETTINGS_SECTION := "settings"
 
+## Touch controls: shown only on touch screens, always, or never.
+enum TouchControls { AUTO, ALWAYS, NEVER }
+
 const MUSIC_BUS := &"Music"
 const SFX_BUS := &"SFX"
 
@@ -28,6 +31,14 @@ var sfx_volume: float = 0.8:
 	set(value):
 		sfx_volume = clampf(value, 0.0, 1.0)
 		_apply_bus_volume(SFX_BUS, sfx_volume)
+
+var touch_controls: TouchControls = TouchControls.AUTO
+var fullscreen: bool = false:
+	set(value):
+		fullscreen = value
+		_apply_fullscreen()
+## Character id picked last time, preselected in the character screen.
+var last_character: StringName = &"pink"
 
 var _config := ConfigFile.new()
 
@@ -46,11 +57,17 @@ func load_progress() -> void:
 		_config = ConfigFile.new()
 	music_volume = _config.get_value(SETTINGS_SECTION, "music_volume", 0.8)
 	sfx_volume = _config.get_value(SETTINGS_SECTION, "sfx_volume", 0.8)
+	touch_controls = _config.get_value(SETTINGS_SECTION, "touch_controls", TouchControls.AUTO)
+	fullscreen = _config.get_value(SETTINGS_SECTION, "fullscreen", false)
+	last_character = StringName(_config.get_value(SETTINGS_SECTION, "last_character", "pink"))
 
 
 func save_progress() -> void:
 	_config.set_value(SETTINGS_SECTION, "music_volume", music_volume)
 	_config.set_value(SETTINGS_SECTION, "sfx_volume", sfx_volume)
+	_config.set_value(SETTINGS_SECTION, "touch_controls", touch_controls)
+	_config.set_value(SETTINGS_SECTION, "fullscreen", fullscreen)
+	_config.set_value(SETTINGS_SECTION, "last_character", String(last_character))
 	var error := _config.save(save_path)
 	if error != OK:
 		push_error("GameProgress: could not write %s (error %d)" % [save_path, error])
@@ -76,6 +93,11 @@ func best_fruits(level_id: StringName) -> int:
 	return _config.get_value(LEVELS_SECTION, _key(level_id, "best_fruits"), 0)
 
 
+## Fruits available in the level, known once it has been completed (else 0).
+func total_fruits(level_id: StringName) -> int:
+	return _config.get_value(LEVELS_SECTION, _key(level_id, "total_fruits"), 0)
+
+
 ## Stores a finished run. Returns true when it set a new best time.
 func record_result(result: LevelResult) -> bool:
 	var previous_best := best_time(result.level_id)
@@ -83,6 +105,7 @@ func record_result(result: LevelResult) -> bool:
 	_config.set_value(LEVELS_SECTION, _key(result.level_id, "completed"), true)
 	if is_new_best:
 		_config.set_value(LEVELS_SECTION, _key(result.level_id, "best_time"), result.time_seconds)
+	_config.set_value(LEVELS_SECTION, _key(result.level_id, "total_fruits"), result.total_fruits)
 	if result.fruits > best_fruits(result.level_id):
 		_config.set_value(LEVELS_SECTION, _key(result.level_id, "best_fruits"), result.fruits)
 	save_progress()
@@ -97,6 +120,29 @@ func set_volumes(music: float, sfx: float) -> void:
 	settings_changed.emit()
 
 
+## Updates one or more display/input settings and saves them.
+func update_settings(new_touch_controls: TouchControls, new_fullscreen: bool) -> void:
+	touch_controls = new_touch_controls
+	fullscreen = new_fullscreen
+	save_progress()
+	settings_changed.emit()
+
+
+## True when on-screen touch controls should be visible on this device.
+func wants_touch_controls() -> bool:
+	match touch_controls:
+		TouchControls.ALWAYS:
+			return true
+		TouchControls.NEVER:
+			return false
+	return DisplayServer.is_touchscreen_available()
+
+
+func remember_character(character_id: StringName) -> void:
+	last_character = character_id
+	save_progress()
+
+
 func reset_progress() -> void:
 	if _config.has_section(LEVELS_SECTION):
 		_config.erase_section(LEVELS_SECTION)
@@ -106,6 +152,15 @@ func reset_progress() -> void:
 
 func _key(level_id: StringName, field: String) -> String:
 	return "%s/%s" % [level_id, field]
+
+
+func _apply_fullscreen() -> void:
+	# Only desktop windows can switch; tests and headless runs skip it.
+	if not is_inside_tree() or DisplayServer.get_name() == "headless" or OS.has_feature("mobile") or OS.has_feature("web"):
+		return
+	var mode := DisplayServer.WINDOW_MODE_FULLSCREEN if fullscreen else DisplayServer.WINDOW_MODE_WINDOWED
+	if DisplayServer.window_get_mode() != mode:
+		DisplayServer.window_set_mode(mode)
 
 
 func _apply_bus_volume(bus_name: StringName, volume: float) -> void:

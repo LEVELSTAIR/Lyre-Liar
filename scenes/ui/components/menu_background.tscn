@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/scrolling_background.gd" id="1_background"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Background/Green.png" id="2_green"]
+
+[node name="MenuBackground" type="CanvasLayer"]
+layer = -10
+script = ExtResource("1_background")
+texture = ExtResource("2_green")
+scroll_velocity = Vector2(10, 10)
+
+[node name="Tiles" type="TextureRect" parent="."]
+texture_filter = 1
+texture_repeat = 2
+offset_right = 512.0
+offset_bottom = 512.0
+mouse_filter = 2
+texture = ExtResource("2_green")
+stretch_mode = 1
+
+[node name="Tint" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.03, 0.06, 0.03, 0.55)

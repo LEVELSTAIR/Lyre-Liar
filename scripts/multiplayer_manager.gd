@@ -42,6 +42,20 @@ var _server_url: String:
 		return "ws://" + server_ip + ":2567"
 
 
+## Best guess at this machine's LAN address, shown to hosts so friends on
+## the same network can connect to their server.
+static func local_lan_address() -> String:
+	var addresses := IP.get_local_addresses()
+	for address in addresses:
+		if address.begins_with("192.168.") or address.begins_with("10."):
+			return address
+		if address.begins_with("172."):
+			var octet := address.get_slice(".", 1).to_int()
+			if octet >= 16 and octet <= 31:
+				return address
+	return addresses[0] if not addresses.is_empty() else ""
+
+
 func host_game() -> void:
 	is_single_player = false
 	is_hosting_intent = true
