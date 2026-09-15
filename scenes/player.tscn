@@ -1,38 +1,75 @@
 [gd_scene format=3 uid="uid://c8n6u4h7y7n2r"]
 
-[ext_resource type="Script" uid="uid://ke32ci3q6lqt" path="res://scripts/player.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://gwsnw0g1xe7q" path="res://asset/Pixel Adventure/Main Characters/Pink Man/Idle (32x32).png" id="2_texture"]
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/components/health_component.gd" id="3_health"]
+[ext_resource type="Script" path="res://scripts/state_machine/state_machine.gd" id="4_machine"]
+[ext_resource type="Script" path="res://scripts/player/states/idle_state.gd" id="5_idle"]
+[ext_resource type="Script" path="res://scripts/player/states/run_state.gd" id="6_run"]
+[ext_resource type="Script" path="res://scripts/player/states/jump_state.gd" id="7_jump"]
+[ext_resource type="Script" path="res://scripts/player/states/double_jump_state.gd" id="8_double_jump"]
+[ext_resource type="Script" path="res://scripts/player/states/fall_state.gd" id="9_fall"]
+[ext_resource type="Script" path="res://scripts/player/states/wall_slide_state.gd" id="10_wall_slide"]
+[ext_resource type="Script" path="res://scripts/player/states/wall_jump_state.gd" id="11_wall_jump"]
+[ext_resource type="Script" path="res://scripts/player/states/hit_state.gd" id="12_hit"]
+[ext_resource type="Script" path="res://scripts/player/states/dead_state.gd" id="13_dead"]
+[ext_resource type="Script" path="res://scripts/player/player_camera.gd" id="14_camera"]
+[ext_resource type="Script" path="res://scripts/player/player_network_sync.gd" id="15_sync"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(32, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(18, 26)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath("Sprite2D:flip_h")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath("Sprite2D:frame")
-properties/2/spawn = true
-properties/2/replication_mode = 2
+[node name="Player" type="CharacterBody2D"]
+floor_snap_length = 4.0
+script = ExtResource("1_player")
 
-[node name="Player" type="CharacterBody2D" unique_id=861589387]
-script = ExtResource("1_script")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1584061493]
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("2_texture")
-offset = Vector2(0, -24)
-hframes = 11
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
+shape = SubResource("RectangleShape2D_body")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=439100365]
-position = Vector2(0, -40)
-shape = SubResource("RectangleShape2D_1")
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_health")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=793487294]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_machine")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("5_idle")
+
+[node name="Run" type="Node" parent="StateMachine"]
+script = ExtResource("6_run")
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("7_jump")
+
+[node name="DoubleJump" type="Node" parent="StateMachine"]
+script = ExtResource("8_double_jump")
+
+[node name="Fall" type="Node" parent="StateMachine"]
+script = ExtResource("9_fall")
+
+[node name="WallSlide" type="Node" parent="StateMachine"]
+script = ExtResource("10_wall_slide")
+
+[node name="WallJump" type="Node" parent="StateMachine"]
+script = ExtResource("11_wall_jump")
+
+[node name="Hit" type="Node" parent="StateMachine"]
+script = ExtResource("12_hit")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("13_dead")
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+position = Vector2(0, -16)
+enabled = false
 position_smoothing_enabled = true
-position_smoothing_speed = 8.0
+position_smoothing_speed = 7.0
+script = ExtResource("14_camera")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=876382737]
-replication_config = SubResource("SceneReplicationConfig_1")
+[node name="NetworkSync" type="Node" parent="."]
+script = ExtResource("15_sync")
