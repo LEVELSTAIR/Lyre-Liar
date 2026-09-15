@@ -172,6 +172,12 @@ func take_damage(amount: int = 1, source_position: Variant = null) -> void:
 	health.take_damage(amount)
 
 
+## Kills the player instantly (bottomless pits, kill zones).
+func kill() -> void:
+	if is_local_player:
+		health.kill()
+
+
 ## Restores HP. Returns true only when HP actually changed.
 func heal(amount: int = 1) -> bool:
 	return health.heal(amount)

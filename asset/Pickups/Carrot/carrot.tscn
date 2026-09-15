@@ -150,6 +150,7 @@ animations = [{
 }]
 
 [node name="Carrot" type="Area2D"]
+collision_mask = 2
 script = ExtResource("2_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

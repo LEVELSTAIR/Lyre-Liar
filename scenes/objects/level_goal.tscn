@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/level_goal.gd" id="1_goal"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/goal_trophy.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_trophy"]
+size = Vector2(28, 30)
+
+[node name="LevelGoal" type="Area2D"]
+script = ExtResource("1_goal")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -32)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_trophy")

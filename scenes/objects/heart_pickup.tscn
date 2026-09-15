@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/heart_pickup.gd" id="1_heart"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/heart.tres" id="2_frames"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_heart"]
+radius = 7.0
+
+[node name="HeartPickup" type="Area2D"]
+script = ExtResource("1_heart")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_heart")

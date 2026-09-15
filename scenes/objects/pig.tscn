@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/pig.gd" id="1_pig"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/pig.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(18, 16)
+
+[node name="Pig" type="CharacterBody2D"]
+floor_snap_length = 4.0
+script = ExtResource("1_pig")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-2, -13)
+sprite_frames = ExtResource("2_frames")
+animation = &"run"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_body")
+
+[node name="LedgeProbe" type="RayCast2D" parent="."]
+position = Vector2(-10, -4)
+target_position = Vector2(0, 10)
+
+[node name="WallProbe" type="RayCast2D" parent="."]
+position = Vector2(0, -8)
+target_position = Vector2(-12, 0)

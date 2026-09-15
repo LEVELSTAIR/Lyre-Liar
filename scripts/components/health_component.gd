@@ -55,6 +55,15 @@ func heal(amount: int = 1) -> bool:
 	return true
 
 
+## Drops health to zero regardless of invincibility (pits, kill zones).
+func kill() -> void:
+	if not is_alive():
+		return
+	current_health = 0
+	health_changed.emit(current_health, max_health)
+	died.emit()
+
+
 func reset() -> void:
 	current_health = max_health
 	_invincibility_left = 0.0

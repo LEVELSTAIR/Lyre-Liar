@@ -4,6 +4,7 @@
 size = Vector2(64, 96)
 
 [node name="GoalZone" type="Area2D"]
+collision_mask = 2
 z_index = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

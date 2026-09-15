@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/fan.gd" id="1_fan"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/fan.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_column"]
+resource_local_to_scene = true
+size = Vector2(20, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_base"]
+size = Vector2(24, 8)
+
+[node name="Fan" type="StaticBody2D"]
+script = ExtResource("1_fan")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -4)
+sprite_frames = ExtResource("2_frames")
+animation = &"on"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_base")
+
+[node name="Updraft" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Updraft"]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_column")

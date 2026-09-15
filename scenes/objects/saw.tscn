@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/saw.gd" id="1_saw"]
+[ext_resource type="Script" path="res://scripts/objects/hazard.gd" id="2_hazard"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/saw.tres" id="3_frames"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_blade"]
+radius = 16.0
+
+[node name="Saw" type="Node2D"]
+script = ExtResource("1_saw")
+
+[node name="Blade" type="Area2D" parent="."]
+script = ExtResource("2_hazard")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Blade"]
+texture_filter = 1
+sprite_frames = ExtResource("3_frames")
+animation = &"on"
+autoplay = "on"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Blade"]
+shape = SubResource("CircleShape2D_blade")

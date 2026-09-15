@@ -146,6 +146,7 @@ animations = [{
 }]
 
 [node name="Star" type="Area2D"]
+collision_mask = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_straw")
