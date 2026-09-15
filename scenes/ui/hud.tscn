@@ -1,0 +1,112 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://data/ui/lyre_liar_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="2_script"]
+[ext_resource type="Texture2D" path="res://asset/Kings and Pigs/Sprites/12-Live and Coins/Small Heart Idle (18x14).png" id="3_heart_sheet"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Items/Fruits/Apple.png" id="4_apple_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heart"]
+atlas = ExtResource("3_heart_sheet")
+region = Rect2(0, 0, 18, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apple"]
+atlas = ExtResource("4_apple_sheet")
+region = Rect2(0, 0, 32, 32)
+
+[node name="Hud" type="CanvasLayer"]
+layer = 10
+script = ExtResource("2_script")
+heart_texture = SubResource("AtlasTexture_heart")
+
+[node name="Root" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_theme")
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="TopBar" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HeartsPanel" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="Hearts" type="HBoxContainer" parent="Root/TopBar/HeartsPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="FruitPanel" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="Fruit" type="HBoxContainer" parent="Root/TopBar/FruitPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="FruitIcon" type="TextureRect" parent="Root/TopBar/FruitPanel/Fruit"]
+texture_filter = 1
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_apple")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FruitLabel" type="Label" parent="Root/TopBar/FruitPanel/Fruit"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "0/0"
+
+[node name="Spacer" type="Control" parent="Root/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TimerPanel" type="PanelContainer" parent="Root/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="TimerLabel" type="Label" parent="Root/TopBar/TimerPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "00:00"
+
+[node name="PauseButton" type="Button" parent="Root/TopBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+focus_mode = 0
+tooltip_text = "Pause"
+text = "II"
+
+[node name="RoomPanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2
+theme_type_variation = &"HudPanel"
+
+[node name="RoomLabel" type="Label" parent="Root/RoomPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"MonoLabel"
+text = "ROOM ----"

@@ -1,0 +1,79 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Traps/Fire/Hit (16x32).png" id="1_anlpg"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Traps/Fire/Off.png" id="2_vt3gi"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Traps/Fire/On (16x32).png" id="3_5jfd7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3y3mm"]
+atlas = ExtResource("1_anlpg")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ipvk"]
+atlas = ExtResource("1_anlpg")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd7m5"]
+atlas = ExtResource("1_anlpg")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw83e"]
+atlas = ExtResource("1_anlpg")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1ofh"]
+atlas = ExtResource("2_vt3gi")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jseqb"]
+atlas = ExtResource("3_5jfd7")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50sek"]
+atlas = ExtResource("3_5jfd7")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7psi"]
+atlas = ExtResource("3_5jfd7")
+region = Rect2(32, 0, 16, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3y3mm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ipvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd7m5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw83e")
+}],
+"loop": 0,
+"name": &"ignite",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1ofh")
+}],
+"loop": 0,
+"name": &"off",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jseqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50sek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7psi")
+}],
+"loop": 1,
+"name": &"on",
+"speed": 15.0
+}]

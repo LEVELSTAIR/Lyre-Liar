@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level.gd" id="1_level"]
+[ext_resource type="Script" path="res://scripts/levels/scrolling_background.gd" id="2_background"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Background/Blue.png" id="3_blue"]
+[ext_resource type="TileSet" path="res://data/tilesets/pixel_adventure_terrain.tres" id="4_tileset"]
+[ext_resource type="PackedScene" path="res://scenes/objects/level_start.tscn" id="5_start"]
+[ext_resource type="PackedScene" path="res://scenes/objects/level_goal.tscn" id="6_goal"]
+[ext_resource type="PackedScene" path="res://scenes/objects/kill_zone.tscn" id="7_kill_zone"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -10
+script = ExtResource("2_background")
+texture = ExtResource("3_blue")
+
+[node name="Tiles" type="TextureRect" parent="Background"]
+texture_filter = 1
+texture_repeat = 2
+offset_right = 512.0
+offset_bottom = 512.0
+mouse_filter = 2
+texture = ExtResource("3_blue")
+stretch_mode = 1
+
+[node name="Terrain" type="TileMapLayer" parent="."]
+texture_filter = 1
+tile_set = ExtResource("4_tileset")
+
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="LevelStart" parent="." instance=ExtResource("5_start")]
+
+[node name="LevelGoal" parent="." instance=ExtResource("6_goal")]
+
+[node name="KillZone" parent="." instance=ExtResource("7_kill_zone")]
+position = Vector2(0, 480)
+
+[node name="Players" type="Node2D" parent="."]

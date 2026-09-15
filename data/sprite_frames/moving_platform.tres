@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Traps/Platforms/Brown On (32x8).png" id="1_2sp6p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_deflc"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(0, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_652nj"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(32, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p745y"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(64, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kupgp"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(96, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4aa4"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(128, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgsuc"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(160, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q5n7"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(192, 0, 32, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sr4y"]
+atlas = ExtResource("1_2sp6p")
+region = Rect2(224, 0, 32, 8)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_deflc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_652nj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p745y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kupgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4aa4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tgsuc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1q5n7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sr4y")
+}],
+"loop": 1,
+"name": &"on",
+"speed": 15.0
+}]

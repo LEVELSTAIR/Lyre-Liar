@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CharacterCatalog" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/character_data.gd" id="1_x3fbx"]
+[ext_resource type="Resource" path="res://data/characters/pink.tres" id="2_sxmlf"]
+[ext_resource type="Resource" path="res://data/characters/dude.tres" id="3_ka7cf"]
+[ext_resource type="Resource" path="res://data/characters/owlet.tres" id="4_24fwy"]
+[ext_resource type="Resource" path="res://data/characters/virtual.tres" id="5_aw3dj"]
+[ext_resource type="Script" path="res://scripts/data/character_catalog.gd" id="6_qlw35"]
+
+[resource]
+script = ExtResource("6_qlw35")
+characters = Array[ExtResource("1_x3fbx")]([ExtResource("2_sxmlf"), ExtResource("3_ka7cf"), ExtResource("4_24fwy"), ExtResource("5_aw3dj")])

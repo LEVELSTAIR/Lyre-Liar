@@ -1,0 +1,41 @@
+level_id=fortress
+background=Gray
+---
+
+
+
+                                                                                                                                 X         p
+
+                                                                                                                          C            f         E
+                                                        @      @      @                                                BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                                                                                                                       BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB                                                                                               BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB                                                                                 m             BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB          k k                      o       o                h                                  BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB       C                                              C                         ~~~            BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB~~~~~~~~~~~~~~~~~~~~~~~~BBBBBBBBBBBBBB                         m    BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB                              BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB  c BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB                              BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB                     ~~~      BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB      s s s                   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB                              BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB                              BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB c  BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBB   f     g      f             BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                      BB    BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                            BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+       a a                  BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+                            BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+   S         f    f         BBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB                        BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+---
+X1: travel=0,24 speed=40
+f1: start_delay=0.9
+@2: time_offset=1.2
+@3: time_offset=0.4
+f2: start_delay=0.6
+f3: start_delay=1.8
+f5: start_delay=1.4

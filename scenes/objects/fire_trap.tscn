@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/fire_trap.gd" id="1_fire"]
+[ext_resource type="Script" path="res://scripts/objects/hazard.gd" id="2_hazard"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/fire_trap.tres" id="3_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_block"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flame"]
+size = Vector2(12, 14)
+
+[node name="FireTrap" type="StaticBody2D"]
+script = ExtResource("1_fire")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -16)
+sprite_frames = ExtResource("3_frames")
+animation = &"off"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_block")
+
+[node name="Flame" type="Area2D" parent="."]
+script = ExtResource("2_hazard")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Flame"]
+position = Vector2(0, -23)
+shape = SubResource("RectangleShape2D_flame")

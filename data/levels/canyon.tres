@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelInfo" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/level_info.gd" id="1_80rwj"]
+
+[resource]
+script = ExtResource("1_80rwj")
+id = &"canyon"
+title = "CANYON"
+subtitle = "Double jumps and bouncy pads"
+scene_path = "res://scenes/levels/canyon.tscn"
+accent_color = Color(0.95, 0.6, 0.25, 1)

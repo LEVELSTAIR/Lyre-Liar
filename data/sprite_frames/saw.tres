@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Traps/Saw/On (38x38).png" id="1_lnw3h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8cgc"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(0, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxrgf"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(38, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n48xk"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(76, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1erhv"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(114, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq7ix"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(152, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxqjt"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(190, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_noiy0"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(228, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sudhv"]
+atlas = ExtResource("1_lnw3h")
+region = Rect2(266, 0, 38, 38)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8cgc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxrgf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n48xk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1erhv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq7ix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxqjt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_noiy0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sudhv")
+}],
+"loop": 1,
+"name": &"on",
+"speed": 20.0
+}]

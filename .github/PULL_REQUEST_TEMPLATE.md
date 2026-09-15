@@ -23,7 +23,7 @@ Closes #
 
 ## Testing
 <!-- What did you actually run? Be specific — "tested in editor" alone isn't enough. -->
-- [ ] Opened the project in Godot 4.6+ and verified the change in the editor
+- [ ] Opened the project in Godot 4.7+ and verified the change in the editor
 - [ ] If touching networking: both **Host** and **Join** flows verified end-to-end (room code shown, second client joined, players see each other move)
 - [ ] If touching `colyseus_server/`: `npm start` runs cleanly and the room accepts a connection
 - [ ] If touching map / level scripts: respawn (`KillZone`) still fires and the player resets to spawn
