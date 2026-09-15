@@ -8,6 +8,8 @@ extends Node
 ## level-complete screen can advance. Exits with code 1 on failure.
 
 const STEP_TIMEOUT_FRAMES := 600
+const EMPTY_SCENE := "res://tests/smoke/empty.tscn"
+const PlayerMovementChecks := preload("res://tests/smoke/player_movement_checks.gd")
 
 var _failures: Array[String] = []
 
@@ -22,6 +24,10 @@ func _run() -> void:
 	var catalog := LevelCatalog.load_default()
 	for level in catalog.levels:
 		await _check_level(level)
+	await SceneRouter.go_to(EMPTY_SCENE)
+	var player_checks := PlayerMovementChecks.new()
+	await player_checks.run(get_tree())
+	_failures.append_array(player_checks.failures)
 	GameProgress.reset_progress()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameProgress.save_path))
 	for failure in _failures:
