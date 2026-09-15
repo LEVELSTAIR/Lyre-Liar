@@ -38,6 +38,5 @@ func _restart() -> void:
 
 
 func _quit() -> void:
-	get_tree().paused = false
 	MultiplayerManager.leave()
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	SceneRouter.go_to_main_menu()

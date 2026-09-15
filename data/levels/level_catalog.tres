@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelCatalog" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/level_info.gd" id="1_2utja"]
+[ext_resource type="Resource" path="res://data/levels/day.tres" id="2_mb7x6"]
+[ext_resource type="Resource" path="res://data/levels/night.tres" id="3_oluu4"]
+[ext_resource type="Resource" path="res://data/levels/forest.tres" id="4_3axxx"]
+[ext_resource type="Script" path="res://scripts/data/level_catalog.gd" id="5_dgrg0"]
+
+[resource]
+script = ExtResource("5_dgrg0")
+levels = Array[ExtResource("1_2utja")]([ExtResource("2_mb7x6"), ExtResource("3_oluu4"), ExtResource("4_3axxx")])

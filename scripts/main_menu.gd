@@ -116,11 +116,11 @@ func _ready() -> void:
 
 func _build_map_cards() -> void:
 	map_cards_grid.columns = MAP_GRID_COLUMNS
-	for def in MultiplayerManager.MAP_REGISTRY:
+	for level in LevelCatalog.load_default().levels:
 		var card := Button.new()
 		card.custom_minimum_size = Vector2(BASE_CARD_W, BASE_CARD_H)
-		_apply_card_style(card, def["name"], def["desc"], def["mood"])
-		card.pressed.connect(_on_map_card_pressed.bind(def["mode"]))
+		_apply_card_style(card, level.title, level.subtitle, level.accent_color)
+		card.pressed.connect(_on_map_card_pressed.bind(String(level.id)))
 		map_cards_grid.add_child(card)
 
 
@@ -423,7 +423,9 @@ func _on_room_code_ready(code: String) -> void:
 
 
 func _on_connected_to_game(mode: String) -> void:
-	get_tree().change_scene_to_file(MultiplayerManager.get_map(mode)["scene"])
+	var catalog := LevelCatalog.load_default()
+	var level := catalog.get_level(mode)
+	SceneRouter.go_to_level(level if level != null else catalog.first_level())
 
 
 func _on_connection_failed(reason: String) -> void:

@@ -5,6 +5,7 @@ extends CanvasLayer
 ## multiplayer (mirrors timer_hud's pattern).
 
 var _won: bool = false
+var _catalog: LevelCatalog = LevelCatalog.load_default()
 
 @onready var _overlay: ColorRect = $Overlay
 @onready var _stats_label: Label = $Overlay/Panel/StatsLabel
@@ -23,10 +24,8 @@ func _ready() -> void:
 	_next_btn.pressed.connect(_next_level)
 	_menu_btn.pressed.connect(_to_main_menu)
 
-	# On the final map next_mode() wraps back to the first level, so hide
-	# "Next Level" rather than sending the player back to the start.
-	if MultiplayerManager.selected_mode == MultiplayerManager.MAP_REGISTRY[-1]["mode"]:
-		_next_btn.visible = false
+	# The last level has nothing to advance to.
+	_next_btn.visible = _catalog.next_level(MultiplayerManager.selected_mode) != null
 
 
 func show_win(_player: Node, time_seconds: float = -1.0, deaths: int = -1) -> void:
@@ -34,6 +33,7 @@ func show_win(_player: Node, time_seconds: float = -1.0, deaths: int = -1) -> vo
 		return
 	_won = true
 	if time_seconds >= 0.0 and deaths >= 0:
+		GameProgress.record_result(LevelResult.new(MultiplayerManager.selected_mode, time_seconds, 0, 0, deaths))
 		var minutes: int = int(time_seconds) / 60
 		var secs: int = int(time_seconds) % 60
 		_stats_label.text = "Time: %02d:%02d   Deaths: %d" % [minutes, secs, deaths]
@@ -48,18 +48,17 @@ func show_win(_player: Node, time_seconds: float = -1.0, deaths: int = -1) -> vo
 
 
 func _replay() -> void:
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	SceneRouter.reload_current()
 
 
 func _next_level() -> void:
-	get_tree().paused = false
-	var next: String = MultiplayerManager.next_mode(MultiplayerManager.selected_mode)
-	MultiplayerManager.selected_mode = next
-	get_tree().change_scene_to_file(MultiplayerManager.get_map(next)["scene"])
+	var next := _catalog.next_level(MultiplayerManager.selected_mode)
+	if next == null:
+		return
+	MultiplayerManager.selected_mode = next.id
+	SceneRouter.go_to_level(next)
 
 
 func _to_main_menu() -> void:
-	get_tree().paused = false
 	MultiplayerManager.leave()
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	SceneRouter.go_to_main_menu()
