@@ -19,11 +19,11 @@ The crewmates' job is to survive the map *and* figure out who keeps "happening" 
 
 ---
 
-[![Godot Engine](https://img.shields.io/badge/Godot-4.6-blue?logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Godot Engine](https://img.shields.io/badge/Godot-4.7-blue?logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![Networking](https://img.shields.io/badge/Network-Colyseus-9b59b6)](https://colyseus.io)
 ![Platforms](https://img.shields.io/badge/Platforms-PC%20%7C%20Android-2ecc71)
 
-Built with **Godot 4.6** and a **Colyseus** authoritative server. This is the official repository for **Project Lyre-Liar**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/Lyre-Liar).
+Built with **Godot 4.7** and a **Colyseus** authoritative server. This is the official repository for **Project Lyre-Liar**, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/Lyre-Liar).
 
 ## 🗺️ Maps
 
@@ -49,7 +49,7 @@ Every map has a `KillZone` Area2D — touching it triggers `player.respawn()` an
 ## 🛠️ Getting Started
 
 ### Prerequisites
-- **Godot 4.6+** (Mobile preset enabled in `project.godot`)
+- **Godot 4.7+** (Mobile preset enabled in `project.godot`)
 - **Node.js 18+** for the Colyseus server
 
 ### 1. Start the Colyseus server
@@ -64,7 +64,7 @@ The server listens on `ws://localhost:2567` by default (override with `PORT=...`
 
 ### 2. Open the Godot project
 
-1. Open `project.godot` in **Godot 4.6** or later.
+1. Open `project.godot` in **Godot 4.7** or later.
 2. Press **F5** to run, or build an APK for Android via *Project → Export* (presets in `export_presets.cfg`).
 
 ### 3. Play
@@ -113,7 +113,7 @@ Lyre-Liar/
 │   ├── terrain/generated/  # Procedural tile textures (grass, dirt, stone…)
 │   └── charectors/         # Player & monster sprite sheets
 ├── android/                # Android build template
-└── project.godot           # Godot 4.6 Mobile project
+└── project.godot           # Godot 4.7 Mobile project
 ```
 
 ## 🔌 Networking Overview
@@ -146,4 +146,4 @@ Contributions welcome — see [CONTRIBUTING.md](./CONTRIBUTING.md) for workflow 
 Licensed under the terms in [LICENSE.md](./LICENSE.md). Credits in [Dev Credits.md](./Dev%20Credits.md).
 
 ---
-*Built with Godot 4.6 and Colyseus.*
+*Built with Godot 4.7 and Colyseus.*
