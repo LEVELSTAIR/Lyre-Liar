@@ -1,0 +1,23 @@
+level_id=meadow
+background=Green
+---
+
+
+
+
+
+
+
+
+                                                   k                                                               p p
+                                                  ===                                                                       E
+                                             k                      o                                      m     GGGGGGGGGGGGGGGGG
+                                c           ===               o    ===    o           h         s s              GGGGGGGGGGGGGGGGG
+                   b b b                                     ===         ===                             GGGGGGGGGGGGGGGGGGGGGGGGG
+                                        C              ^^                       C           g            GGGGGGGGGGGGGGGGGGGGGGGGG
+        a a a   GGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+   S            GGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG   GGGGGGGGGGGGGGGGGGGGGGGGGG                   GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG

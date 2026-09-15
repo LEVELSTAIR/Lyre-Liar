@@ -26,7 +26,7 @@ var room_code: String = ""
 var is_hosting_intent: bool = false
 var join_intent_code: String = ""
 ## Level id (see data/levels/level_catalog.tres); doubles as the server room mode.
-var selected_mode: String = "day"
+var selected_mode: String = "meadow"
 var selected_character: String = "pink"
 var server_ip: String = "localhost"
 var is_single_player: bool = false

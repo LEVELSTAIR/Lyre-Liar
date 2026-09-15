@@ -30,7 +30,7 @@ class WerewolfRoomState extends Schema {
     super();
     this.players = new MapSchema();
     this.roomCode = "";
-    this.mode = "day";
+    this.mode = "meadow";
     this.hostSessionId = "";
   }
 }
@@ -54,7 +54,8 @@ class WerewolfRoom extends Room {
 
     const state = new WerewolfRoomState();
     state.roomCode = String(options.roomCode).toUpperCase();
-    state.mode = ["night", "day", "forest"].includes(options.mode) ? options.mode : "day";
+    // Must match the level ids in data/levels/level_catalog.tres.
+    state.mode = ["meadow", "canyon", "sky_ruins", "fortress"].includes(options.mode) ? options.mode : "meadow";
     this.setState(state);
 
     this.maxClients = 16;

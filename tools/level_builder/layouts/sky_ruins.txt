@@ -1,0 +1,39 @@
+level_id=sky_ruins
+background=Purple
+---
+
+
+
+
+
+
+
+
+                                                                                m m m   X
+                                                                            --------------- L
+
+                                                                                                                                                      p p
+                                                                                                                         X           X                     E
+                                                       k         k                                                                                PPPPPPPPPPPPPP
+                    b b b                  X                                                            o o                   s                   PPPPPPPPPPPPPP
+                                                           _                                                                                      PPPPPPPPPPPPPP
+        a a                                           _         _                                                                                 PPPPPPPPPPPPPP
+   S           L                      C          _                      C     F                     g           L                     C      F    PPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPP                    PPPPPPPPPPPP                      PPPPPPPPPPPP              PPPPPPPPPPPPPPPP                   PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+---
+X1: travel=-96,0 speed=60
+L1: travel=0,64 trip_seconds=2.0
+X2: travel=0,56 speed=70
+X3: travel=0,56 speed=70 start_progress=0.5
+X4: travel=0,40 speed=40
+L2: travel=272,0 trip_seconds=3.2
+F1: column_height=120
+L3: travel=256,0 trip_seconds=3.5 pause_seconds=0.6
+F2: column_height=88

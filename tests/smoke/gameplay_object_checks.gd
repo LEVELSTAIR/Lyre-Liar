@@ -14,7 +14,7 @@ var _arena: Node2D
 
 func run(tree: SceneTree) -> void:
 	_tree = tree
-	MultiplayerManager.start_single_player(&"day")
+	MultiplayerManager.start_single_player(LevelCatalog.load_default().first_level().id)
 	await _check_spikes()
 	await _check_kill_zone()
 	await _check_fruit()

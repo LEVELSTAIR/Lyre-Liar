@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-## Win-screen overlay shown when the local player touches the level's Goal
-## Area2D. Pauses the tree while open. Single-player only — self-removes in
-## multiplayer (mirrors timer_hud's pattern).
+## Win-screen overlay shown by Level when the local player reaches the goal.
+## Pauses the tree while open. Single-player only; self-removes in
+## multiplayer.
 
 var _won: bool = false
 var _catalog: LevelCatalog = LevelCatalog.load_default()
@@ -28,17 +28,13 @@ func _ready() -> void:
 	_next_btn.visible = _catalog.next_level(MultiplayerManager.selected_mode) != null
 
 
-func show_win(_player: Node, time_seconds: float = -1.0, deaths: int = -1) -> void:
+func show_result(result: LevelResult) -> void:
 	if _won:
 		return
 	_won = true
-	if time_seconds >= 0.0 and deaths >= 0:
-		GameProgress.record_result(LevelResult.new(MultiplayerManager.selected_mode, time_seconds, 0, 0, deaths))
-		var minutes: int = int(time_seconds) / 60
-		var secs: int = int(time_seconds) % 60
-		_stats_label.text = "Time: %02d:%02d   Deaths: %d" % [minutes, secs, deaths]
-	else:
-		_stats_label.text = ""
+	var minutes: int = int(result.time_seconds) / 60
+	var secs: int = int(result.time_seconds) % 60
+	_stats_label.text = "Time: %02d:%02d   Fruits: %d/%d   Deaths: %d" % [minutes, secs, result.fruits, result.total_fruits, result.deaths]
 	_overlay.visible = true
 	_overlay.modulate = Color(1, 1, 1, 0)
 	var tween := create_tween()
