@@ -1,0 +1,29 @@
+level_id=canyon
+background=Brown
+---
+
+
+
+
+
+
+
+
+
+                                                                                                                             p
+
+                                     k k                           m m m                                              p
+                              c c                        b                                                               OOO               r     E
+                     c                                            =======                                                OOO           OOOOOOOOOOOOOOO
+                          g                   C     ^^^                                                                  OOO    OOO    OOOOOOOOOOOOOOO
+                   OOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOO                                h      s             OOO    OOO    OOO    OOOOOOOOOOOOOOO
+                   OOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOO                   g                                 OOO    OOO    OOO    OOOOOOOOOOOOOOO
+                   OOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOO          OOOOOOOOOOOOOO                             OOO    OOO    OOO    OOOOOOOOOOOOOOO
+         o o o     OOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOO          OOOOOOOOOOOOOO   ^^^^   ^^^^   ^^^^  C     OOO    OOO    OOO    OOOOOOOOOOOOOOO
+   S               OOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOO    T     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO       OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO   OOO    OOO    OOO    OOOOOOOOOOOOOOO

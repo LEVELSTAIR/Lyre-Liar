@@ -48,21 +48,32 @@ func _check_level(level: LevelInfo) -> void:
 		_failures.append("%s: scene %s did not load" % [level.id, level.scene_path])
 		return
 
-	var scene := get_tree().current_scene
-	var player := scene.get_node_or_null("local")
+	var scene := get_tree().current_scene as Level
+	if scene == null:
+		_failures.append("%s: scene root is not a Level" % level.id)
+		return
+	if scene.level_id != level.id:
+		_failures.append("%s: scene level_id is '%s'" % [level.id, scene.level_id])
+	if scene.fruits_total == 0:
+		_failures.append("%s: level has no fruits" % level.id)
+	var player := scene.get_node_or_null("Players/local") as Player
 	if player == null:
 		_failures.append("%s: local player was not spawned" % level.id)
 		return
-	await _frames(30)
+
+	# The player must land on solid ground at the start and survive idling.
+	var died := [false]
+	player.died.connect(func() -> void: died[0] = true)
+	await _frames(120)
 	if not is_instance_valid(player):
 		_failures.append("%s: local player was freed after spawning" % level.id)
 		return
+	if not player.is_on_floor():
+		_failures.append("%s: player is not standing on ground at the start (pos %s)" % [level.id, player.global_position])
+	if died[0]:
+		_failures.append("%s: player died while idling at the start" % level.id)
 
-	var goal := scene.get_node_or_null("GoalZone") as Area2D
-	if goal == null:
-		print("smoke: %s has no GoalZone, skipping completion check" % level.id)
-		return
-	player.global_position = goal.global_position
+	player.global_position = scene.level_goal.global_position
 	if not await _wait_until(func() -> bool: return GameProgress.is_completed(level.id)):
 		_failures.append("%s: reaching the goal did not record completion" % level.id)
 		return

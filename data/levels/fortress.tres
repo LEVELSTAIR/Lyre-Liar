@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelInfo" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/level_info.gd" id="1_sxkgv"]
+
+[resource]
+script = ExtResource("1_sxkgv")
+id = &"fortress"
+title = "FORTRESS"
+subtitle = "Wall jumps through fire"
+scene_path = "res://scenes/levels/fortress.tscn"
+accent_color = Color(0.95, 0.35, 0.35, 1)

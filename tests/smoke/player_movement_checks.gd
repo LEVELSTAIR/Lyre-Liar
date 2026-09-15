@@ -16,7 +16,7 @@ var _double_jump_consumed: bool = false
 
 func run(tree: SceneTree) -> void:
 	_tree = tree
-	MultiplayerManager.start_single_player(&"day")
+	MultiplayerManager.start_single_player(LevelCatalog.load_default().first_level().id)
 	await _check_run_and_jump()
 	await _check_double_jump()
 	await _check_wall_slide_and_wall_jump()
