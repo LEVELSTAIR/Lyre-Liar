@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelInfo" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/level_info.gd" id="1_5nigi"]
+
+[resource]
+script = ExtResource("1_5nigi")
+id = &"forest"
+title = "FOREST"
+subtitle = "tall vertical"
+scene_path = "res://scenes/level_4.tscn"
+accent_color = Color(0.2, 0.8, 0.4, 1)

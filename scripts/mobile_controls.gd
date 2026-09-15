@@ -204,7 +204,7 @@ func _on_touch_pressed(touch_position: Vector2, touch_id: int) -> void:
 
 		_jump_touch_id = touch_id
 		jump_button.modulate = Color.GRAY
-		Input.action_press("ui_accept")
+		Input.action_press("jump")
 
 
 func _on_touch_released(touch_id: int) -> void:
@@ -216,14 +216,14 @@ func _on_touch_released(touch_id: int) -> void:
 			(joystick_base.size.x - joystick_handle.size.x) / 2.0,
 			(joystick_base.size.y - joystick_handle.size.y) / 2.0
 		)
-		Input.action_release("ui_left")
-		Input.action_release("ui_right")
+		Input.action_release("move_left")
+		Input.action_release("move_right")
 
 	# Reset jump button
 	if _jump_touch_id == touch_id:
 		_jump_touch_id = -1
 		jump_button.modulate = Color.WHITE
-		Input.action_release("ui_accept")
+		Input.action_release("jump")
 
 
 func _on_touch_dragged(event: InputEvent) -> void:
@@ -267,11 +267,11 @@ func _update_movement_input(offset: Vector2) -> void:
 	var deadzone = 10.0
 
 	if offset.x < -deadzone:
-		Input.action_press("ui_left")
-		Input.action_release("ui_right")
+		Input.action_press("move_left")
+		Input.action_release("move_right")
 	elif offset.x > deadzone:
-		Input.action_press("ui_right")
-		Input.action_release("ui_left")
+		Input.action_press("move_right")
+		Input.action_release("move_left")
 	else:
-		Input.action_release("ui_left")
-		Input.action_release("ui_right")
+		Input.action_release("move_left")
+		Input.action_release("move_right")

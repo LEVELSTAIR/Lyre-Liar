@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-## In-level pause overlay. Triggered by `ui_cancel` (ESC), the Android back
+## In-level pause overlay. Triggered by the `pause` action (Esc / P / Start), the Android back
 ## button, or the small "II" button shown in the top-right corner. Pausing
 ## halts the local scene tree only — in multiplayer the server keeps running
 ## and remote players keep moving when you unpause.
@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("pause"):
 		_toggle()
 		get_viewport().set_input_as_handled()
 
@@ -50,9 +50,8 @@ func _resume() -> void:
 
 
 func _to_main_menu() -> void:
-	get_tree().paused = false
 	MultiplayerManager.leave()
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	SceneRouter.go_to_main_menu()
 
 
 func _quit() -> void:

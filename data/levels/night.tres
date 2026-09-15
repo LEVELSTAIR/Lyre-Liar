@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelInfo" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/level_info.gd" id="1_gqcrn"]
+
+[resource]
+script = ExtResource("1_gqcrn")
+id = &"night"
+title = "NIGHT"
+subtitle = "cave depths"
+scene_path = "res://scenes/level_1.tscn"
+accent_color = Color(0.6, 0.75, 1, 1)
