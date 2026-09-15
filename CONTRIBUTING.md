@@ -14,7 +14,7 @@ Every contribution must start with an **Issue**. Check our [Issue Tracker](https
 ### 2. Fork the Repository
 Standard contributions happen via **Forks**.
 1.  **Fork** this repository to your own GitHub account.
-2.  **Clone** your fork locally and set up the Godot 4.6 development environment.
+2.  **Clone** your fork locally and set up the Godot 4.7 development environment.
 3.  Add the upstream repository as a remote:
     ```bash
     git remote add upstream https://github.com/LEVELSTAIR/project-werewolf.git

@@ -28,7 +28,7 @@ Godot.
 
 ## Sources
 
-- **Codebase**: the user-attached `lyre-liar/` Godot project (Godot 4.6, mobile preset). Mounted via File System Access — local-only.
+- **Codebase**: the user-attached `lyre-liar/` Godot project (Godot 4.7, mobile preset). Mounted via File System Access — local-only.
 - **Origin**: this project is the official continuation of *Project Werewolf*, originally maintained by [LEVELSTAIR](https://github.com/LEVELSTAIR/project-werewolf).
 - **No Figma file was provided.** All visuals were extracted directly from `.tscn` scene files (Godot uses INI-style declarations with literal `Color(r,g,b,a)` values — the colors below are exact reproductions, not interpretations).
 - **No logo, brand book, or marketing site exists yet.** Identity is implied by the menu's typographic treatment ("LYRE & LIAR" with brass rules + cream parchment text + a brass-deep drop shadow) and by the cozy-pixel sprite world.
