@@ -10,6 +10,7 @@ extends Node
 const STEP_TIMEOUT_FRAMES := 600
 const EMPTY_SCENE := "res://tests/smoke/empty.tscn"
 const PlayerMovementChecks := preload("res://tests/smoke/player_movement_checks.gd")
+const GameplayObjectChecks := preload("res://tests/smoke/gameplay_object_checks.gd")
 
 var _failures: Array[String] = []
 
@@ -28,6 +29,9 @@ func _run() -> void:
 	var player_checks := PlayerMovementChecks.new()
 	await player_checks.run(get_tree())
 	_failures.append_array(player_checks.failures)
+	var object_checks := GameplayObjectChecks.new()
+	await object_checks.run(get_tree())
+	_failures.append_array(object_checks.failures)
 	GameProgress.reset_progress()
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(GameProgress.save_path))
 	for failure in _failures:

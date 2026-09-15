@@ -1112,6 +1112,7 @@ offset_bottom = 240.0
 color = Color(1, 0.93, 0.7, 0.35)
 
 [node name="KillZone" type="Area2D" parent="." unique_id=2065684874]
+collision_mask = 2
 position = Vector2(1920, 1700)
 
 [node name="KillShape" type="CollisionShape2D" parent="KillZone" unique_id=603701938]

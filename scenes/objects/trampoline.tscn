@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/trampoline.gd" id="1_tramp"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/trampoline.tres" id="2_frames"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pad"]
+size = Vector2(22, 6)
+
+[node name="Trampoline" type="Area2D"]
+script = ExtResource("1_tramp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -14)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_pad")

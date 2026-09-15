@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/level_start.gd" id="1_start"]
+[ext_resource type="SpriteFrames" path="res://data/sprite_frames/start_marker.tres" id="2_frames"]
+
+[node name="LevelStart" type="Node2D"]
+script = ExtResource("1_start")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -32)
+sprite_frames = ExtResource("2_frames")
+animation = &"idle"
