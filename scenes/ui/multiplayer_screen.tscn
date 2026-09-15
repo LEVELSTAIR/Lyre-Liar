@@ -1,0 +1,142 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://data/ui/lyre_liar_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://scripts/ui/multiplayer_screen.gd" id="2_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/components/menu_background.tscn" id="3_background"]
+[ext_resource type="Texture2D" path="res://asset/Pixel Adventure/Menu/Buttons/Back.png" id="4_back"]
+
+[node name="MultiplayerScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="MenuBackground" parent="." instance=ExtResource("3_background")]
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 14
+
+[node name="Layout" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="Margin/Layout/Header"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+tooltip_text = "Back"
+theme_type_variation = &"IconButton"
+icon = ExtResource("4_back")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Title" type="Label" parent="Margin/Layout/Header"]
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+text = "MULTIPLAYER"
+
+[node name="Server" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="ServerLabel" type="Label" parent="Margin/Layout/Server"]
+layout_mode = 2
+text = "SERVER"
+
+[node name="ServerInput" type="LineEdit" parent="Margin/Layout/Server"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 30)
+layout_mode = 2
+placeholder_text = "e.g. 192.168.1.10"
+
+[node name="Panels" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="HostPanel" type="PanelContainer" parent="Margin/Layout/Panels"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Host" type="VBoxContainer" parent="Margin/Layout/Panels/HostPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HostTitle" type="Label" parent="Margin/Layout/Panels/HostPanel/Host"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "HOST A ROOM"
+horizontal_alignment = 1
+
+[node name="LevelPicker" type="OptionButton" parent="Margin/Layout/Panels/HostPanel/Host"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Margin/Layout/Panels/HostPanel/Host"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HostButton" type="Button" parent="Margin/Layout/Panels/HostPanel/Host"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "HOST"
+
+[node name="JoinPanel" type="PanelContainer" parent="Margin/Layout/Panels"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Join" type="VBoxContainer" parent="Margin/Layout/Panels/JoinPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="JoinTitle" type="Label" parent="Margin/Layout/Panels/JoinPanel/Join"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "JOIN A ROOM"
+horizontal_alignment = 1
+
+[node name="CodeInput" type="LineEdit" parent="Margin/Layout/Panels/JoinPanel/Join"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+placeholder_text = "Room code"
+alignment = 1
+
+[node name="Spacer" type="Control" parent="Margin/Layout/Panels/JoinPanel/Join"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="JoinButton" type="Button" parent="Margin/Layout/Panels/JoinPanel/Join"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "JOIN"
+
+[node name="Status" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "host a room or enter a friend's code"
+horizontal_alignment = 1

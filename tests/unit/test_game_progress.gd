@@ -64,3 +64,21 @@ func test_volume_is_clamped() -> void:
 	progress.sfx_volume = -1.0
 	assert_almost_eq(progress.music_volume, 1.0)
 	assert_almost_eq(progress.sfx_volume, 0.0)
+
+
+func test_settings_persist_to_disk() -> void:
+	progress.update_settings(progress.TouchControls.ALWAYS, false)
+	progress.remember_character(&"virtual")
+	var reloaded: Node = GameProgressScript.new()
+	reloaded.save_path = TEST_SAVE_PATH
+	reloaded.catalog = progress.catalog
+	reloaded.load_progress()
+	assert_eq(reloaded.touch_controls, progress.TouchControls.ALWAYS)
+	assert_eq(reloaded.last_character, &"virtual")
+	assert_true(reloaded.wants_touch_controls(), "ALWAYS shows touch controls")
+	reloaded.free()
+
+
+func test_never_hides_touch_controls() -> void:
+	progress.update_settings(progress.TouchControls.NEVER, false)
+	assert_false(progress.wants_touch_controls())

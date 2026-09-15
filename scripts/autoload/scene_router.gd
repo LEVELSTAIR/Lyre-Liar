@@ -5,7 +5,11 @@ extends CanvasLayer
 
 signal transition_finished
 
-const MAIN_MENU_SCENE := "res://scenes/main_menu.tscn"
+const TITLE_SCENE := "res://scenes/ui/title_screen.tscn"
+const LEVEL_SELECT_SCENE := "res://scenes/ui/level_select.tscn"
+const CHARACTER_SELECT_SCENE := "res://scenes/ui/character_select.tscn"
+const MULTIPLAYER_SCENE := "res://scenes/ui/multiplayer_screen.tscn"
+const SETTINGS_SCENE := "res://scenes/ui/settings_screen.tscn"
 const FADE_SECONDS := 0.25
 
 var is_transitioning: bool = false
@@ -46,7 +50,11 @@ func go_to_level(level: LevelInfo) -> void:
 
 
 func go_to_main_menu() -> void:
-	go_to(MAIN_MENU_SCENE)
+	go_to(TITLE_SCENE)
+
+
+func go_to_level_select() -> void:
+	go_to(LEVEL_SELECT_SCENE)
 
 
 func reload_current() -> void:
