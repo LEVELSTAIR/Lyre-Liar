@@ -1,6 +1,6 @@
-# Contributing to Project Werewolf
+# Contributing to Lyre-Liar
 
-First off, thank you for considering contributing to Project Werewolf! It is community contributions that help us build a better 2D multiplayer platformer.
+First off, thank you for considering contributing to Lyre-Liar! It is community contributions that help us build a better 2D multiplayer platformer.
 
 To ensure high-quality and maintainable code, we follow **professional game studio practices**. By following these guidelines, you help us review and merge your work faster.
 
@@ -9,7 +9,7 @@ To ensure high-quality and maintainable code, we follow **professional game stud
 ## 🚀 How to Get Started
 
 ### 1. Find an Issue
-Every contribution must start with an **Issue**. Check our [Issue Tracker](https://github.com/LEVELSTAIR/project-werewolf/issues) to find something to work on. If you have a new idea, open an issue first to discuss it with the maintainers.
+Every contribution must start with an **Issue**. Check our [Issue Tracker](https://github.com/LEVELSTAIR/Lyre-Liar/issues) to find something to work on. If you have a new idea, open an issue first to discuss it with the maintainers.
 
 ### 2. Fork the Repository
 Standard contributions happen via **Forks**.
@@ -17,7 +17,7 @@ Standard contributions happen via **Forks**.
 2.  **Clone** your fork locally and set up the Godot 4.7 development environment.
 3.  Add the upstream repository as a remote:
     ```bash
-    git remote add upstream https://github.com/LEVELSTAIR/project-werewolf.git
+    git remote add upstream https://github.com/LEVELSTAIR/Lyre-Liar.git
     ```
 
 ### 3. Create a Feature Branch
@@ -235,7 +235,7 @@ If a reviewer asks for changes, it’s not an insult — it’s how teams work.
 
 ## 9. Scope control (this saves the project)
 
-Project Werewolf survives only if scope is controlled.
+Lyre-Liar survives only if scope is controlled.
 
 That means:
 
